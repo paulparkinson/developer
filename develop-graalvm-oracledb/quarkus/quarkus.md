@@ -20,9 +20,9 @@ This lab assumes you have:
 
 1. Clone the repository:
 
-   git clone ...
+   git clone https://github.com/oracle-devrel/microservices-datadriven
 
-2. Create/edit config.
+2. cd to https://github.com/oracle-devrel/microservices-datadriven/tree/main/grabdish/inventory-quarkus
 
 3. `cd ...` and ...
 

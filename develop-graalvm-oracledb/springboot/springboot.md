@@ -20,9 +20,18 @@ This lab assumes you have:
 
    1. Clone the repository:
 
-      git clone ...
+      git clone https://github.com/paulparkinson/react-graphql-springboot-jpa-oracle-ucp-example.git
 
-   2. Create/edit config.
+   2. See https://blogs.oracle.com/developers/post/develop-react-graphql-spring-boot-data-jpa-ucp-oracle
+3. cd spring-data-jpa-graphql-ucp-oracle
+      Modify src/main/resources/application.properties to set values for spring.datasource.url, spring.datasource.username, and spring.datasource.password
+      Run mvn clean install
+      Run java -jar target/spring-data-jpa-graphql-oracle-0.0.1-SNAPSHOT.jar
+      (In a separate terminal/console) cd react-graphql
+      Run yarn add @apollo/client graphql (this is only necessary once for the project)
+      Run npm run build
+      Run npm start
+      A browser window should open to http://localhost:3000/ which is a React app that will use Apollo to make a GraphQL query against a Spring Boot service running on localhost:8080 which in turn uses JPA to query an Oracle database via a connection obtained from UCP.
 
    3. `cd ...` and ...
 
