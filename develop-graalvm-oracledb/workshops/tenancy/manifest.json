@@ -1,0 +1,43 @@
+{
+  "workshoptitle": "Develop with Oracle Database 23ai and GraalVM using Spring Boot, Micronaut, Helidon, and Quarkus",
+  "help": "livelabs-help-devdb-us@oracle.com",
+	"tutorials": [
+      {
+        "title": "Introduction",
+        "filename": "../../intro/intro.md"
+      },
+      {
+        "title": "Get Started",
+        "filename":"https://oracle-livelabs.github.io/common/labs/cloud-login/event-register-free-tier-account.md"
+      },
+      {
+        "title": "Lab 1: Setup",
+        "filename": "../../setup/setup.md"
+      },
+      {
+        "title": "Lab 2: Develop with Oracle Database 23ai and GraalVM using Spring Boot",
+        "filename": "../../springboot/springboot.md"
+      },
+      {
+        "title": "Lab 3: Develop with Oracle Database 23ai and GraalVM using Micronaut",
+        "filename": "../../micronaut/micronaut.md"
+      },
+      {
+        "title": "Lab 4: Develop with Oracle Database 23ai and GraalVM using Helidon",
+        "filename": "../../helidon/helidon.md"
+      },
+      {
+        "title": "Lab 5: Develop with Oracle Database 23ai and GraalVM using Quarkus",
+        "filename": "../../quarkus/quarkus.md"
+      },
+      {
+        "title": "Lab 6: Tear Down",
+        "filename": "../../teardown/teardown.md"
+      },
+      {
+        "title": "Need Help?",
+        "description": "Solutions to Common Problems and Directions for Receiving Live Help",
+        "filename":"https://oracle-livelabs.github.io/common/labs/need-help/need-help-freetier.md"
+      }
+    ]
+}
