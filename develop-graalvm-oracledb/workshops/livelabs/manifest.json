@@ -12,7 +12,7 @@
         {
             "title": "Introduction",
             "description": "The Introduction is always second for LiveLabs. The title and contents menu title match for the Introduction.",
-            "filename": "../../introduction/introduction.md"
+            "filename": "../../intro/intro.md"
         },
         {
             "title": "Lab 1: Setup",

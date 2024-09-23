@@ -4,15 +4,6 @@
 
 This workshop will help you understand Develop with Oracle Database 23ai and GraalVM using Spring Boot, Micronaut, Helidon, and Quarkus
 
-[//]: # (The use cases for demonstrating this functionality are designed around )
-
-[//]: # (the 2030 Agenda for Sustainable Development, adopted by all United Nations Member States)
-
-[//]: # ( More information can be found at https://sdgs.un.org/goals and the 17 goals are shown here:)
-
-[//]: # ()
-[//]: # (![sustainability goals]&#40;./images/un-sustainabilitygoals.png "UN sustainability goals"&#41;)
-
 Estimated Workshop Time: 90 minutes
 
 ### Objectives
