@@ -20,7 +20,7 @@ This lab assumes you have:
 
 1. Clone the repository:
 
-   git clone ...
+   git clone https://github.com/juarezjuniorgithub/micronaut-guide.git
 
 2. Create/edit config.
 
@@ -34,7 +34,7 @@ This lab assumes you have:
 
    The ....
 
-4. Depending on the compute shape you want to use, modify `variables.tf` (instance_shape variable) and setup.sh (parallel_gpu_count). If you have a cluster of n GPUs, the GPU count should also be n.
+4. https://juarezjunior.medium.com/a-java-microservice-with-graalvm-micronaut-data-jdk-21-and-the-oracle-autonomous-database-10f24759f807
 
 
 
