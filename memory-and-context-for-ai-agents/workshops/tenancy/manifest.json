@@ -1,0 +1,45 @@
+{
+  "workshoptitle": "Memory and Context Engineering for AI Agents with Oracle AI Database",
+  "help": "livelabs-help-devdb-us@oracle.com",
+  "tutorials": [
+    {
+      "title": "Introduction",
+      "filename": "../../intro/intro.md"
+    },
+    {
+      "title": "Lab 1: Set Up Oracle AI Database Locally",
+      "description": "Install and configure Oracle Database Free with Docker",
+      "filename": "../../setup-oracle-ai-database/setup-oracle-ai-database.md"
+    },
+    {
+      "title": "Lab 2: Implement Vector Search and Memory Stores",
+      "description": "Create vector stores for different memory types",
+      "filename": "../../vector-search-memory/vector-search-memory.md"
+    },
+    {
+      "title": "Lab 3: Build the Memory Manager",
+      "description": "Implement a comprehensive memory management system",
+      "filename": "../../memory-manager/memory-manager.md"
+    },
+    {
+      "title": "Lab 4: Semantic Tool Discovery and Toolbox",
+      "description": "Create dynamic tool calling with semantic search",
+      "filename": "../../semantic-tool-discovery/semantic-tool-discovery.md"
+    },
+    {
+      "title": "Lab 5: Context Engineering and JIT Retrieval",
+      "description": "Implement context management and summarization",
+      "filename": "../../context-engineering/context-engineering.md"
+    },
+    {
+      "title": "Lab 6: Build the Complete AI Agent",
+      "description": "Integrate all components into a working agent",
+      "filename": "../../agent-implementation/agent-implementation.md"
+    },
+    {
+      "title": "Need Help?",
+      "description": "Solutions to Common Problems and Directions for Receiving Live Help",
+      "filename": "https://oracle-livelabs.github.io/common/labs/need-help/need-help-freetier.md"
+    }
+  ]
+}
