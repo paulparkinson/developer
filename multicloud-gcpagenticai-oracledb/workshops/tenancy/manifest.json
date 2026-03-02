@@ -31,6 +31,7 @@
       "filename": "../../adb-ai/adb-ai.md"
     },
     {
+<<<<<<< HEAD
       "title": "Lab 4: Develop Vertex AI Agents with ADK (code) and Oracle AI Database",
       "filename": "../../vertex-ai-agents-adk/vertex-ai-agents-adk.md"
     },
@@ -44,6 +45,14 @@
     },
     {
       "title": "Lab 7 (Optional): Other topics (Access via ORDS/Rest, Select AI/NL2SQL and ADB MCP, Multi-Agent Systems, Memory, ...",
+=======
+      "title": "Lab 4: Develop Vertex AI Agents with ADK and Oracle AI Database Vector RAG and MCP",
+      "filename": "../../vertex-ai-agents-adk/vertex-ai-agents-adk.md"
+    },
+
+    {
+      "title": "Lab 5 (Optional): Other topics (Access via ORDS/Rest, Select AI/NL2SQL and ADB MCP, Multi-Agent Systems, Memory, ...",
+>>>>>>> upstream/main
       "filename": "../../agentic-advanced-topics/agentic-advanced-topics.md"
     },
     {
