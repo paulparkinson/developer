@@ -1,10 +1,10 @@
-# Lab 3: Build the Memory Manager
+# Lab 3: Memory Engineering and Agent Memory
 
 ## Introduction
 
-In this lab, you will implement a comprehensive **Memory Manager** class that unifies all memory operations for your AI agent. The Memory Manager provides a clean interface for reading and writing to different memory types, hiding the complexity of SQL queries and vector store operations.
+In this lab, you will implement **memory engineering** patterns for AI agents with Oracle AI Database. You'll build a comprehensive **Memory Manager** class that unifies all memory operations, including the **Toolbox** for semantic tool discovery. This lab covers Part 3 of the notebook: "Memory Engineering and Agent Memory."
 
-This is the core abstraction that allows your AI agent to maintain context, learn from interactions, and manage information across sessions.
+Memory engineering is the practice of designing, storing, and retrieving structured information that enables AI agents to maintain context, learn from interactions, and make informed decisions across sessions.
 
 Estimated Time: 40 minutes
 

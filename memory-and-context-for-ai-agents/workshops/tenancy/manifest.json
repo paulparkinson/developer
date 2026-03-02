@@ -7,34 +7,34 @@
       "filename": "../../intro/intro.md"
     },
     {
-      "title": "Lab 1: Set Up Oracle AI Database Locally",
+      "title": "Lab 1: Local Installation of Oracle AI Database via Docker",
       "description": "Install and configure Oracle Database Free with Docker",
       "filename": "../../setup-oracle-ai-database/setup-oracle-ai-database.md"
     },
     {
-      "title": "Lab 2: Implement Vector Search and Memory Stores",
+      "title": "Lab 2: Vector Search With Langchain and Oracle AI Database",
       "description": "Create vector stores for different memory types",
       "filename": "../../vector-search-memory/vector-search-memory.md"
     },
     {
-      "title": "Lab 3: Build the Memory Manager",
-      "description": "Implement a comprehensive memory management system",
-      "filename": "../../memory-manager/memory-manager.md"
+      "title": "Lab 3: Memory Engineering and Agent Memory",
+      "description": "Build Memory Manager and semantic toolbox for agent memory",
+      "filename": "../../memory-engineering-agent-memory/memory-engineering-agent-memory.md"
     },
     {
-      "title": "Lab 4: Semantic Tool Discovery and Toolbox",
-      "description": "Create dynamic tool calling with semantic search",
-      "filename": "../../semantic-tool-discovery/semantic-tool-discovery.md"
-    },
-    {
-      "title": "Lab 5: Context Engineering and JIT Retrieval",
-      "description": "Implement context management and summarization",
+      "title": "Lab 4: Context Engineering Techniques",
+      "description": "Implement context management, JIT retrieval, and summarization",
       "filename": "../../context-engineering/context-engineering.md"
     },
     {
-      "title": "Lab 6: Build the Complete AI Agent",
-      "description": "Integrate all components into a working agent",
-      "filename": "../../agent-implementation/agent-implementation.md"
+      "title": "Lab 5: Web Access with Tavily",
+      "description": "Enable web search and knowledge base persistence",
+      "filename": "../../web-access-tavily/web-access-tavily.md"
+    },
+    {
+      "title": "Lab 6: Agent Execution",
+      "description": "Build the complete agent execution loop",
+      "filename": "../../agent-execution/agent-execution.md"
     },
     {
       "title": "Need Help?",

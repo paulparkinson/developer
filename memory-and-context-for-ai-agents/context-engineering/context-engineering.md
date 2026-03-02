@@ -1,4 +1,4 @@
-# Lab 5: Context Engineering and JIT Retrieval
+# Lab 4: Context Engineering Techniques
 
 ## Introduction
 
@@ -19,7 +19,7 @@ In this lab, you will:
 
 ### Prerequisites
 
-* Completed Lab 4: Semantic Tool Discovery and Toolbox
+* Completed Lab 3: Memory Engineering and Agent Memory
 * Understanding of LLM token limits
 * Familiarity with the Memory Manager
 

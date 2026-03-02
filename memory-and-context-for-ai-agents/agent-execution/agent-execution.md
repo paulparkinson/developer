@@ -1,10 +1,10 @@
-# Lab 6: Build the Complete AI Agent
+# Lab 6: Agent Execution
 
 ## Introduction
 
-In this final lab, you will integrate all the components you've built—Memory Manager, Semantic Toolbox, Context Engineering—into a complete, production-ready AI agent. This agent will have memory, can call tools dynamically, and manages its context window automatically.
+In this final lab, you will implement the **agent execution loop** that brings together all components from previous labs. This lab covers Part 6 of the notebook: "Agent Execution."
 
-You'll see how all the memory engineering, context engineering, and prompt engineering techniques come together to create a sophisticated AI system.
+You'll build the main `call_agent()` function that orchestrates memory loading, context management, tool calling, and result storage. This is where memory engineering, context engineering, and prompt engineering techniques converge into a complete AI agent.
 
 Estimated Time: 40 minutes
 
