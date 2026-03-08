@@ -2,11 +2,11 @@
 
 ## Introduction
 
-In this lab, you will implement **memory engineering** patterns for AI agents with Oracle AI Database. You'll build a comprehensive **Memory Manager** class that unifies all memory operations, including the **Toolbox** for semantic tool discovery. This lab covers Part 3 of the notebook: "Memory Engineering and Agent Memory."
+In this lab, you will implement **memory engineering** patterns for AI agents with Oracle AI Database. You'll build a comprehensive **Memory Manager** class that unifies all memory operations. This lab covers Part 3 of the notebook: "Memory Engineering and Agent Memory."
 
 Memory engineering is the practice of designing, storing, and retrieving structured information that enables AI agents to maintain context, learn from interactions, and make informed decisions across sessions.
 
-Estimated Time: 40 minutes
+Estimated Time: 15 minutes
 
 ### Objectives
 
@@ -26,26 +26,24 @@ In this lab, you will:
 
 ## Task 1: Understanding the Memory Manager Architecture
 
-The Memory Manager handles six types of memory:
+The Memory Manager handles five types of memory:
 
 | Memory Type | Storage | Purpose | Key Methods |
 |-------------|---------|---------|-------------|
 | **Conversational** | SQL Table | Chat history per thread | `read_conversational_memory()`, `write_conversational_memory()` |
 | **Knowledge Base** | Vector Store | Searchable documents | `read_knowledge_base()`, `write_knowledge_base()` |
 | **Workflow** | Vector Store | Action patterns | `read_workflow()`, `write_workflow()` |
-| **Toolbox** | Vector Store | Tool definitions | `read_toolbox()`, `write_toolbox()` |
 | **Entity** | Vector Store | Extracted entities | `read_entity()`, `write_entity()` |
 | **Summary** | Vector Store | Compressed conversations | `read_summary_memory()`, `write_summary()` |
 
 ### Key Design Decisions
 
-**Programmatic vs Agentic Operations:**
+**Programmatic Operations:**
 
 | Operation | Type | Reason |
 |-----------|------|--------|
 | Memory reads | Programmatic | Agent needs context to function—can't know what it doesn't know |
 | Memory writes | Programmatic | Must be reliable—can't trust agent to remember to save |
-| Tool calls | Agentic | Only agent knows what information is needed |
 
 ## Task 2: Create the Conversational Memory Table
 
@@ -147,23 +145,21 @@ Now let's build the complete Memory Manager class.
     class MemoryManager:
         """
         A memory manager for AI agents using Oracle AI Database.
-        
-        Manages 6 types of memory:
+
+        Manages 5 types of memory:
         - Conversational: Chat history per thread (SQL table)
         - Knowledge Base: Searchable documents (Vector store)
         - Workflow: Execution patterns (Vector store)
-        - Toolbox: Available tools (Vector store)
         - Entity: People, places, systems (Vector store)
         - Summary: Compressed context (Vector store)
         """
-        
+
         def __init__(self, conn, conversation_table: str, knowledge_base_vs,
-                     workflow_vs, toolbox_vs, entity_vs, summary_vs):
+                     workflow_vs, entity_vs, summary_vs):
             self.conn = conn
             self.conversation_table = conversation_table
             self.knowledge_base_vs = knowledge_base_vs
             self.workflow_vs = workflow_vs
-            self.toolbox_vs = toolbox_vs
             self.entity_vs = entity_vs
             self.summary_vs = summary_vs
         
@@ -449,13 +445,6 @@ Let's create an instance of the Memory Manager and test its functionality.
         distance_strategy=DistanceStrategy.EUCLIDEAN_DISTANCE,
     )
 
-    toolbox_vs = OracleVS(
-        client=vector_conn,
-        embedding_function=embedding_model,
-        table_name="TOOLBOX_MEMORY",
-        distance_strategy=DistanceStrategy.EUCLIDEAN_DISTANCE,
-    )
-
     entity_vs = OracleVS(
         client=vector_conn,
         embedding_function=embedding_model,
@@ -476,7 +465,6 @@ Let's create an instance of the Memory Manager and test its functionality.
         conversation_table="CONVERSATIONAL_MEMORY",
         knowledge_base_vs=knowledge_base_vs,
         workflow_vs=workflow_vs,
-        toolbox_vs=toolbox_vs,
         entity_vs=entity_vs,
         summary_vs=summary_vs
     )

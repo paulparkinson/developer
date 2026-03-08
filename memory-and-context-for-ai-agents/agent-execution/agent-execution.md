@@ -6,14 +6,13 @@ In this final lab, you will implement the **agent execution loop** that brings t
 
 You'll build the main `call_agent()` function that orchestrates memory loading, context management, tool calling, and result storage. This is where memory engineering, context engineering, and prompt engineering techniques converge into a complete AI agent.
 
-Estimated Time: 40 minutes
+Estimated Time: 10 minutes
 
 ### Objectives
 
 In this lab, you will:
 * Integrate all memory systems into an agent loop
 * Implement automatic context loading and management
-* Build tool calling with semantic discovery
 * Create multi-turn conversation handling
 * Test the complete agent with real queries
 * Demonstrate memory persistence across sessions
@@ -22,7 +21,6 @@ In this lab, you will:
 
 * Completed all previous labs (1-5)
 * All memory systems initialized and tested
-* Tools registered in the semantic toolbox
 * Understanding of the complete architecture
 
 ## Task 1: Understanding the Agent Architecture
@@ -34,12 +32,12 @@ Your agent combines multiple systems:
 │                        AI AGENT                             │
 ├─────────────────────────────────────────────────────────────┤
 │                                                             │
-│  ┌──────────────┐    ┌───────────────┐   ┌──────────────┐ │
-│  │   Memory     │───▶│  LLM Engine   │◀──│   Toolbox    │ │
-│  │   Manager    │    │               │   │   (Tools)    │ │
-│  └──────────────┘    └───────────────┘   └──────────────┘ │
-│        │                    │                    │         │
-│        ▼                    ▼                    ▼         │
+│  ┌──────────────┐    ┌───────────────┐                    │
+│  │   Memory     │───▶│  LLM Engine   │                    │
+│  │   Manager    │    │               │                    │
+│  └──────────────┘    └───────────────┘                    │
+│        │                    │                              │
+│        ▼                    ▼                              │
 │  ┌──────────────────────────────────────────────────────┐ │
 │  │          Oracle AI Database (Vector + SQL)           │ │
 │  └──────────────────────────────────────────────────────┘ │
@@ -58,14 +56,9 @@ Your agent combines multiple systems:
 
 2. **Send to LLM**
    - System prompt + context + user query
-   - LLM decides: answer or call tools
+   - LLM generates response
 
-3. **Execute Tools (Agentic)**
-   - LLM requests tools by name
-   - Agent discovers tools semantically
-   - Execute and return results
-
-4. **Save Results (Programmatic)**
+3. **Save Results (Programmatic)**
    - Store conversation
    - Save workflows
    - Extract and store entities
@@ -87,7 +80,6 @@ Let's build the complete agent with all integrations.
     from langchain_community.embeddings import HuggingFaceEmbeddings
     from langchain_community.vectorstores.utils import DistanceStrategy
     from memory_manager import MemoryManager
-    from semantic_toolbox import Toolbox
     from context_utils import calculate_context_usage
     from summarization import offload_to_summary
 
@@ -119,13 +111,6 @@ Let's build the complete agent with all integrations.
         distance_strategy=DistanceStrategy.EUCLIDEAN_DISTANCE,
     )
 
-    toolbox_vs = OracleVS(
-        client=vector_conn,
-        embedding_function=embedding_model,
-        table_name="TOOLBOX_MEMORY",
-        distance_strategy=DistanceStrategy.EUCLIDEAN_DISTANCE,
-    )
-
     entity_vs = OracleVS(
         client=vector_conn,
         embedding_function=embedding_model,
@@ -146,7 +131,6 @@ Let's build the complete agent with all integrations.
         conversation_table="CONVERSATIONAL_MEMORY",
         knowledge_base_vs=knowledge_base_vs,
         workflow_vs=workflow_vs,
-        toolbox_vs=toolbox_vs,
         entity_vs=entity_vs,
         summary_vs=summary_vs
     )
@@ -158,88 +142,38 @@ Let's build the complete agent with all integrations.
         api_key=HF_TOKEN
     )
 
-    # Initialize Toolbox
-    toolbox = Toolbox(
-        memory_manager=memory_manager,
-        llm_client=client,
-        embedding_model=embedding_model
-    )
-
-    # ==================== REGISTER TOOLS ====================
-
-    # Register tools if not already registered
-    tools_registered = False
-
-    try:
-        # Check if tools exist
-        test_tools = toolbox.find_tools("test", k=1)
-        if len(test_tools) == 0:
-            # Register tools
-            @toolbox.register_tool(augment=False, generate_queries=False)
-            def search_tavily(query: str) -> str:
-                """Search the web using Tavily API. Returns search results."""
-                # Mock implementation
-                result = f"Search results for '{query}':\\n"
-                result += "1. Oracle AI Vector Search - Semantic search in Oracle Database\\n"
-                result += "2. Building AI Agents - Best practices and patterns\\n"
-                result += "3. Memory Systems for AI - How agents remember and learn"
-                return result
-
-            @toolbox.register_tool(augment=False, generate_queries=False)
-            def expand_summary(summary_id: str) -> str:
-                """Retrieve full text of a conversation summary by ID."""
-                return memory_manager.read_summary_memory(summary_id)
-
-            @toolbox.register_tool(augment=False, generate_queries=False)
-            def calculate(expression: str) -> float:
-                """Evaluate a mathematical expression."""
-                try:
-                    result = eval(expression, {"__builtins__": {}}, {})
-                    return float(result)
-                except Exception as e:
-                    return f"Error: {e}"
-
-            tools_registered = True
-    except:
-        pass
-
     # ==================== AGENT IMPLEMENTATION ====================
 
     def call_agent(query: str, thread_id: str = "default",
-                   model: str = "Qwen/Qwen2.5-72B-Instruct",
-                   max_iterations: int = 5):
+                   model: str = "Qwen/Qwen2.5-72B-Instruct"):
         """
-        Main agent loop with memory, tools, and context management.
-        
+        Main agent loop with memory and context management.
+
         Args:
             query: User's question or request
             thread_id: Conversation thread identifier
             model: LLM model to use
-            max_iterations: Maximum tool calling iterations
-            
+
         Returns:
             Final answer from the agent
         """
-        
+
         print(f"\\n{'='*70}")
         print(f"🤖 AI AGENT")
         print(f"{'='*70}")
         print(f"Query: {query}")
         print(f"Thread: {thread_id}")
         print(f"{'='*70}\\n")
-        
+
         # 1. LOAD CONTEXT (Programmatic - always executed)
         print("1️⃣ Loading memory context...")
-        
+
         conversation = memory_manager.read_conversational_memory(thread_id)
         knowledge = memory_manager.read_knowledge_base(query, k=3)
         workflows = memory_manager.read_workflow(query, k=2)
         entities = memory_manager.read_entity(query, k=3)
         summaries = memory_manager.read_summary_context()
-        
-        # Discover relevant tools
-        relevant_tools = toolbox.find_tools(query, k=3)
-        
+
         # Build context
         context = f"""
 CONVERSATIONAL MEMORY (Thread {thread_id}):
@@ -256,27 +190,23 @@ RELEVANT ENTITIES:
 
 SUMMARY MEMORY:
 {summaries}
-
-AVAILABLE TOOLS:
 """
-        for tool in relevant_tools:
-            context += f"\\n- {tool['name']}{tool['signature']}: {tool['description'][:100]}"
-        
+
         # Check context usage
         usage = calculate_context_usage(context, model)
         print(f"   Context size: {usage['tokens']:,} tokens ({usage['percent']}%)")
-        
+
         # Auto-compact if needed
         if usage['percent'] > 80:
             print(f"   ⚠️ Context usage high - compacting...")
             context, summary_ids = offload_to_summary(context, memory_manager, client)
             usage = calculate_context_usage(context, model)
             print(f"   ✅ Compacted to {usage['tokens']:,} tokens ({usage['percent']}%)")
-        
+
         print(f"   ✅ Context loaded\\n")
-        
+
         # 2. BUILD SYSTEM PROMPT
-        system_prompt = """You are an advanced AI assistant with access to memory systems and tools.
+        system_prompt = """You are an advanced AI assistant with access to memory systems.
 
 You have access to:
 - Conversational memory: Previous messages in this thread
@@ -285,118 +215,51 @@ You have access to:
 - Entities: Known people, places, and systems
 - Summary memory: Compressed context from earlier in the conversation
 
-Available tools are listed in your context. Use them when needed by calling functions.
-
-When you see [Summary ID: xxx], you can call expand_summary(xxx) to get the full text.
-
-Provide helpful, accurate responses based on your memory and available tools."""
+Provide helpful, accurate responses based on your memory and context."""
 
         # 3. STORE USER MESSAGE
         memory_manager.write_conversational_memory(query, "user", thread_id)
-        
-        # 4. AGENT LOOP
+
+        # 4. CALL LLM
         messages = [
             {"role": "system", "content": system_prompt},
             {"role": "system", "content": f"CONTEXT:\\n{context}"},
             {"role": "user", "content": query}
         ]
-        
-        steps = []
-        
-        for iteration in range(max_iterations):
-            print(f"2️⃣ Calling LLM (iteration {iteration + 1})...")
-            
-            # Prepare tools for function calling
-            tools_schema = []
-            for tool in relevant_tools:
-                tools_schema.append({
-                    "type": "function",
-                    "function": {
-                        "name": tool["name"],
-                        "description": tool["description"][:100],
-                        "parameters": {
-                            "type": "object",
-                            "properties": {
-                                "query": {"type": "string", "description": "Query parameter"}
-                            }
-                        }
-                    }
-                })
-            
-            # Call LLM
-            response = client.chat.completions.create(
-                model=model,
-                messages=messages,
-                tools=tools_schema if tools_schema else None,
-                temperature=0.7,
-                max_tokens=1000
-            )
-            
-            msg = response.choices[0].message
-            messages.append({"role": "assistant", "content": msg.content, 
-                           "tool_calls": msg.tool_calls})
-            
-            # Check if done
-            if not msg.tool_calls:
-                final_answer = msg.content or ""
-                print(f"   ✅ Got final answer\\n")
-                break
-            
-            # 5. EXECUTE TOOLS (Agentic - LLM decided)
-            print(f"3️⃣ Executing tools...")
-            
-            for tc in msg.tool_calls:
-                tool_name = tc.function.name
-                tool_args = json.loads(tc.function.arguments)
-                
-                print(f"   🛠️  {tool_name}({tool_args})")
-                
-                try:
-                    result = toolbox.execute_tool(tool_name, **tool_args)
-                    steps.append(f"{tool_name}({tool_args}) → success")
-                    
-                    # Store search results in knowledge base
-                    if tool_name == "search_tavily":
-                        memory_manager.write_knowledge_base(
-                            result,
-                            {"source": "web-search", "query": tool_args.get("query", "")}
-                        )
-                except Exception as e:
-                    result = f"Error: {e}"
-                    steps.append(f"{tool_name}({tool_args}) → failed")
-                
-                print(f"   → {str(result)[:100]}...")
-                messages.append({"role": "tool", "tool_call_id": tc.id, "content": str(result)})
-            
-            print()
-        else:
-            final_answer = "Maximum iterations reached."
-        
-        # 6. SAVE RESULTS (Programmatic - always executed)
-        print(f"4️⃣ Saving to memory...")
-        
+
+        print(f"2️⃣ Calling LLM...")
+
+        response = client.chat.completions.create(
+            model=model,
+            messages=messages,
+            temperature=0.7,
+            max_tokens=1000
+        )
+
+        final_answer = response.choices[0].message.content or ""
+        print(f"   ✅ Got answer\\n")
+
+        # 5. SAVE RESULTS (Programmatic - always executed)
+        print(f"3️⃣ Saving to memory...")
+
         # Save conversation
         memory_manager.write_conversational_memory(final_answer, "assistant", thread_id)
-        
-        # Save workflow if tools were used
-        if steps:
-            memory_manager.write_workflow(query, steps, final_answer)
-        
+
         # Extract and save entities
         try:
             memory_manager.write_entity("", "", "", llm_client=client, text=final_answer)
         except:
             pass
-        
+
         print(f"   ✅ Memory updated\\n")
-        
-        # 7. RETURN ANSWER
+
+        # 6. RETURN ANSWER
         print(f"{'='*70}")
         print(f"💬 ANSWER:")
         print(f"{'='*70}")
         print(final_answer)
         print(f"{'='*70}\\n")
-        
+
         return final_answer
 
     print("\\n✅ AI Agent ready!")
@@ -419,7 +282,7 @@ Now let's test the agent with various scenarios.
     print("="*70 + "\\n")
 
     # ==================== TEST 1: Simple Query ====================
-    print("\\nTEST 1: Simple Query (no tools needed)")
+    print("\\nTEST 1: Simple Query")
     print("-" * 70)
 
     call_agent(
@@ -427,38 +290,20 @@ Now let's test the agent with various scenarios.
         thread_id="test-1"
     )
 
-    # ==================== TEST 2: Tool Calling ====================
-    print("\\n\\nTEST 2: Tool Calling (web search)")
+    # ==================== TEST 2: Memory Persistence ====================
+    print("\\n\\nTEST 2: Memory Persistence (follow-up question)")
     print("-" * 70)
 
     call_agent(
-        "Search for information about building AI agents with Oracle Database",
-        thread_id="test-2"
+        "Tell me more about vector search capabilities in Oracle",
+        thread_id="test-1"  # Same thread - tests conversational memory
     )
 
-    # ==================== TEST 3: Memory Persistence ====================
-    print("\\n\\nTEST 3: Memory Persistence (follow-up question)")
+    # ==================== TEST 3: Multi-turn Conversation ====================
+    print("\\n\\nTEST 3: Multi-turn Conversation with Context")
     print("-" * 70)
 
-    call_agent(
-        "Based on what you just found, tell me more about the most relevant result",
-        thread_id="test-2"  # Same thread
-    )
-
-    # ==================== TEST 4: Calculation ====================
-    print("\\n\\nTEST 4: Mathematical Calculation")
-    print("-" * 70)
-
-    call_agent(
-        "What is 42 multiplied by 137?",
-        thread_id="test-3"
-    )
-
-    # ==================== TEST 5: Multi-turn Conversation ====================
-    print("\\n\\nTEST 5: Multi-turn Conversation with Context")
-    print("-" * 70)
-
-    thread_id = "test-5"
+    thread_id = "test-3"
 
     call_agent("My name is Alice and I work at Oracle", thread_id=thread_id)
     call_agent("What company do I work for?", thread_id=thread_id)
@@ -470,9 +315,9 @@ Now let's test the agent with various scenarios.
     print("="*70 + "\\n")
 
     # Check conversational memory
-    print("Conversational Memory (Thread test-5):")
+    print("Conversational Memory (Thread test-3):")
     print("-" * 70)
-    conversation = memory_manager.read_conversational_memory("test-5")
+    conversation = memory_manager.read_conversational_memory("test-3")
     print(conversation)
 
     # Check knowledge base
@@ -521,26 +366,15 @@ Let's analyze what happened in the tests:
 
 **Test 1 - Simple Query:**
 - Agent loaded context (empty on first run of that thread)
-- LLM generated answer without tool calling
+- LLM generated answer using knowledge base
 - Answer stored in conversational memory
 
-**Test 2 - Tool Calling:**
-- Agent discovered `search_tavily` tool semantically
-- LLM decided to call the tool
-- Results stored in knowledge base
-- Workflow pattern saved
+**Test 2 - Memory Persistence:**
+- Agent loaded previous conversation from test-1
+- Agent had context from the first question
+- Answered using stored conversational memory
 
-**Test 3 - Memory Persistence:**
-- Agent loaded previous conversation from test-2
-- Agent retrieved knowledge from previous search
-- Answered using stored context
-
-**Test 4 - Calculation:**
-- Agent discovered `calculate` tool
-- Executed calculation
-- Saved workflow pattern
-
-**Test 5 - Multi-turn:**
+**Test 3 - Multi-turn:**
 - Agent maintained context across turns
 - Extracted entities ("Alice", "Oracle")
 - Answered follow-up questions using memory
@@ -591,10 +425,9 @@ Try these additional scenarios:
 Congratulations! In this lab, you successfully:
 * ✅ Integrated all memory systems into a unified agent
 * ✅ Implemented automatic context loading and management
-* ✅ Built tool calling with semantic discovery
 * ✅ Created multi-turn conversation handling
 * ✅ Demonstrated memory persistence across sessions
-* ✅ Built a production-ready AI agent
+* ✅ Built a memory-aware AI agent
 
 ### What You've Built
 
@@ -602,9 +435,8 @@ You now have a complete AI agent with:
 
 | Capability | Implementation |
 |------------|----------------|
-| **Memory** | 6 types (conversational, knowledge, workflow, toolbox, entity, summary) |
+| **Memory** | 5 types (conversational, knowledge, workflow, entity, summary) |
 | **Context** | Automatic loading, monitoring, and compaction |
-| **Tools** | Semantic discovery and dynamic execution |
 | **Learning** | Workflow patterns and entity extraction |
 | **Efficiency** | JIT retrieval and context summarization |
 
@@ -612,7 +444,7 @@ You now have a complete AI agent with:
 
 1. **Memory Engineering** - Design memory systems that serve specific cognitive functions
 2. **Context Engineering** - Optimize what goes into the LLM's context window
-3. **Programmatic vs Agentic** - Balance automatic operations with LLM decision-making
+3. **Programmatic Memory** - Automatic memory loading and saving for reliable operation
 4. **Vector Search** - Enable semantic similarity across all memory types
 5. **Oracle AI Database** - Unified platform for SQL + vector + AI operations
 

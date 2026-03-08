@@ -6,24 +6,22 @@ In this lab, you will implement **web access** for your AI agent using Tavily, a
 
 This lab demonstrates the **search-and-store pattern**, where external information discovered by the agent is persisted to memory, creating a learning agent that builds its knowledge base over time. This lab covers Part 5 of the notebook: "Web Access with Tavily."
 
-Estimated Time: 25 minutes
+Estimated Time: 10 minutes
 
 ### Objectives
 
 In this lab, you will:
 * Set up the Tavily API client
 * Understand the search-and-store pattern
-* Implement the search_tavily tool with augmentation
-* Register the tool in the semantic toolbox
+* Implement the search_tavily function
 * Test web search and knowledge base persistence
 * Demonstrate multi-turn memory with web results
 
 ### Prerequisites
 
 * Completed Lab 3: Memory Engineering and Agent Memory
-* Completed Lab 4: Context Engineering Techniques  
+* Completed Lab 4: Context Engineering Techniques
 * Tavily API key (free tier available at [app.tavily.com](https://app.tavily.com/))
-* Understanding of the Toolbox class from Lab 3
 
 ## Task 1: Understanding the Search-and-Store Pattern
 
@@ -37,7 +35,6 @@ results = search_web("AI news")
 
 **Search-and-Store Approach:**
 ```python
-@toolbox.register_tool(augment=True)
 def search_tavily(query: str):
     results = tavily_client.search(query)
     # Store each result in knowledge base
@@ -111,11 +108,10 @@ Now let's create the `search_tavily` function that searches the web and stores r
     </copy>
     ```
 
-2. **Create the search_tavily tool with augmentation:**
+2. **Create the search_tavily function with knowledge base persistence:**
 
     ```python
     <copy>
-    @toolbox.register_tool(augment=True)
     def search_tavily(query: str, max_results: int = 5):
         """
         Use this function to search the web and store the results in the knowledge base.
@@ -151,43 +147,12 @@ Now let's create the `search_tavily` function that searches the web and stores r
 
     | Component | Purpose |
     |-----------|---------|
-    | `@toolbox.register_tool(augment=True)` | Registers tool with LLM-enhanced docstring |
     | `tavily_client.search()` | Calls Tavily API for web results |
     | Text extraction | Combines title + content + URL for embedding |
     | Metadata | Stores source info, timestamp, and search query |
     | `write_knowledge_base()` | Persists to Oracle AI Vector Store |
 
-    The `augment=True` parameter tells the toolbox to:
-    - Use an LLM to improve the docstring
-    - Generate synthetic example queries
-    - Store everything with enhanced embeddings
-
-## Task 4: Test Semantic Tool Retrieval
-
-Before using the tool in the agent, verify it can be found via semantic search.
-
-1. **Search for the tool using natural language:**
-
-    ```python
-    <copy>
-    import pprint
-
-    # Find tools relevant to web searching
-    retrieved_tools = memory_manager.read_toolbox("Search the internet", k=1)
-    pprint.pprint(retrieved_tools)
-    </copy>
-    ```
-
-2. **Expected output:**
-
-    You should see the `search_tavily` tool returned with its function schema, showing:
-    - Tool name: `search_tavily`
-    - Augmented description
-    - Parameters: `query` (string), `max_results` (integer)
-    
-    This confirms the tool is semantically discoverable by the agent.
-
-## Task 5: Test Web Search and Knowledge Base Persistence
+## Task 4: Test Web Search and Knowledge Base Persistence
 
 Test the search-and-store pattern with a real query.
 
@@ -227,28 +192,11 @@ Test the search-and-store pattern with a real query.
     ✅ Metadata includes source URL, timestamp, and original query
     ```
 
-## Task 6: Demonstrate Multi-Turn Memory
+## Task 5: Demonstrate Multi-Turn Memory
 
 Show how the agent uses stored web results in subsequent conversations.
 
-1. **Create mock additional tools** (for the agent's toolkit):
-
-    ```python
-    <copy>
-    @toolbox.register_tool()
-    def calculate(expression: str) -> str:
-        """Evaluate a mathematical expression. Use for calculations."""
-        try:
-            result = eval(expression)
-            return f"Result: {result}"
-        except Exception as e:
-            return f"Error: {e}"
-
-    print("✅ Additional tools registered")
-    </copy>
-    ```
-
-2. **Test multi-turn conversation** (if agent loop is implemented):
+1. **Test multi-turn conversation** (if agent loop is implemented):
 
     ```python
     <copy>
@@ -264,7 +212,7 @@ Show how the agent uses stored web results in subsequent conversations.
     </copy>
     ```
 
-3. **Follow-up query using stored results:**
+2. **Follow-up query using stored results:**
 
     ```python
     <copy>
@@ -280,7 +228,7 @@ Show how the agent uses stored web results in subsequent conversations.
     </copy>
     ```
 
-4. **What happens:**
+3. **What happens:**
 
     | Turn | Agent Behavior |
     |------|----------------|
@@ -289,7 +237,7 @@ Show how the agent uses stored web results in subsequent conversations.
 
     The agent **learns** from its web searches. Information discovered in one conversation is available in all future conversations.
 
-## Task 7: Understanding the Memory Flow
+## Task 6: Understanding the Memory Flow
 
 The complete flow demonstrates how Tavily integrates with the agent's memory system:
 
@@ -319,7 +267,7 @@ Agent: Answers using stored knowledge (no new API call)
 
 | Concept | Implementation |
 |---------|----------------|
-| **Agentic Tool** | LLM decides when to call `search_tavily()` |
+| **Search Tool** | `search_tavily()` retrieves current information |
 | **Programmatic Storage** | Every search result is automatically saved |
 | **Memory Persistence** | Oracle AI Vector Store keeps results permanently |
 | **Learning Agent** | Agent builds knowledge base over time |
@@ -329,11 +277,10 @@ Agent: Answers using stored knowledge (no new API call)
 
 In this lab, you implemented web access for your AI agent using Tavily. You learned:
 
-✅ **Search-and-store pattern** - Persist external information to memory  
-✅ **Tavily integration** - AI-optimized search for LLM applications  
-✅ **Knowledge base enrichment** - Automatic storage of search results  
-✅ **Multi-turn memory** - Reuse information across conversations  
-✅ **Agentic behavior** - LLM decides when to search the web
+✅ **Search-and-store pattern** - Persist external information to memory
+✅ **Tavily integration** - AI-optimized search for LLM applications
+✅ **Knowledge base enrichment** - Automatic storage of search results
+✅ **Multi-turn memory** - Reuse information across conversations
 
 The agent now has two critical capabilities:
 1. **Accessing current information** via Tavily search

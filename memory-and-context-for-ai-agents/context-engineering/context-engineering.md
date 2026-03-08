@@ -6,7 +6,7 @@ In this lab, you will implement **Context Engineering** techniques to optimize w
 
 This is crucial for building agents that can handle long conversations without exceeding token limits or degrading performance.
 
-Estimated Time: 30 minutes
+Estimated Time: 10 minutes
 
 ### Objectives
 
@@ -365,13 +365,6 @@ Let's test the complete context engineering system.
         distance_strategy=DistanceStrategy.EUCLIDEAN_DISTANCE,
     )
 
-    toolbox_vs = OracleVS(
-        client=vector_conn,
-        embedding_function=embedding_model,
-        table_name="TOOLBOX_MEMORY",
-        distance_strategy=DistanceStrategy.EUCLIDEAN_DISTANCE,
-    )
-
     entity_vs = OracleVS(
         client=vector_conn,
         embedding_function=embedding_model,
@@ -392,7 +385,6 @@ Let's test the complete context engineering system.
         conversation_table="CONVERSATIONAL_MEMORY",
         knowledge_base_vs=knowledge_base_vs,
         workflow_vs=workflow_vs,
-        toolbox_vs=toolbox_vs,
         entity_vs=entity_vs,
         summary_vs=summary_vs
     )

@@ -18,7 +18,7 @@
     },
     {
       "title": "Lab 3: Memory Engineering and Agent Memory",
-      "description": "Build Memory Manager and semantic toolbox for agent memory",
+      "description": "Build Memory Manager for agent memory",
       "filename": "../../memory-engineering-agent-memory/memory-engineering-agent-memory.md"
     },
     {
@@ -28,7 +28,7 @@
     },
     {
       "title": "Lab 5: Web Access with Tavily",
-      "description": "Enable web search and knowledge base persistence",
+      "description": "Enable web search with knowledge base persistence",
       "filename": "../../web-access-tavily/web-access-tavily.md"
     },
     {

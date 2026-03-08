@@ -4,9 +4,9 @@
 
 In this lab, you will learn how to use **LangChain's Oracle Vector Store (OracleVS)** to store and search documents using semantic similarity. Vector search enables finding documents based on meaning rather than exact keyword matches.
 
-You'll create five separate vector stores—one for each memory type that an AI agent needs: knowledge base, workflows, toolbox, entities, and summaries. Each vector store will be backed by its own Oracle table and will use embeddings for semantic search.
+You'll create four separate vector stores—one for each memory type that an AI agent needs: knowledge base, workflows, entities, and summaries. Each vector store will be backed by its own Oracle table and will use embeddings for semantic search.
 
-Estimated Time: 30 minutes
+Estimated Time: 20 minutes
 
 ### Objectives
 
@@ -348,7 +348,6 @@ Now let's create the five vector stores that our AI agent will use for different
     # Table names for each memory type
     KNOWLEDGE_BASE_TABLE = "KNOWLEDGE_BASE_MEMORY"
     WORKFLOW_TABLE = "WORKFLOW_MEMORY"
-    TOOLBOX_TABLE = "TOOLBOX_MEMORY"
     ENTITY_TABLE = "ENTITY_MEMORY"
     SUMMARY_TABLE = "SUMMARY_MEMORY"
 
@@ -372,16 +371,7 @@ Now let's create the five vector stores that our AI agent will use for different
     )
     print(f"✅ Created {WORKFLOW_TABLE}")
 
-    # 3. Toolbox Memory - stores tool definitions for semantic discovery
-    toolbox_vs = OracleVS(
-        client=vector_conn,
-        embedding_function=embedding_model,
-        table_name=TOOLBOX_TABLE,
-        distance_strategy=DistanceStrategy.EUCLIDEAN_DISTANCE,
-    )
-    print(f"✅ Created {TOOLBOX_TABLE}")
-
-    # 4. Entity Memory - stores extracted entities (people, places, systems)
+    # 3. Entity Memory - stores extracted entities (people, places, systems)
     entity_vs = OracleVS(
         client=vector_conn,
         embedding_function=embedding_model,
@@ -390,7 +380,7 @@ Now let's create the five vector stores that our AI agent will use for different
     )
     print(f"✅ Created {ENTITY_TABLE}")
 
-    # 5. Summary Memory - stores compressed conversation summaries
+    # 4. Summary Memory - stores compressed conversation summaries
     summary_vs = OracleVS(
         client=vector_conn,
         embedding_function=embedding_model,
@@ -403,7 +393,6 @@ Now let's create the five vector stores that our AI agent will use for different
     print("\\nMemory Types:")
     print("  • Knowledge Base: Searchable documents & facts")
     print("  • Workflow: Learned action patterns")
-    print("  • Toolbox: Dynamic tool definitions")
     print("  • Entity: People, places, systems")
     print("  • Summary: Compressed context")
 
@@ -416,7 +405,6 @@ Now let's create the five vector stores that our AI agent will use for different
             WHERE table_name IN (
                 'KNOWLEDGE_BASE_MEMORY',
                 'WORKFLOW_MEMORY',
-                'TOOLBOX_MEMORY',
                 'ENTITY_MEMORY',
                 'SUMMARY_MEMORY'
             )
@@ -510,13 +498,6 @@ Finally, let's create IVF indexes for all memory vector stores to enable fast si
         distance_strategy=DistanceStrategy.EUCLIDEAN_DISTANCE,
     )
 
-    toolbox_vs = OracleVS(
-        client=vector_conn,
-        embedding_function=embedding_model,
-        table_name="TOOLBOX_MEMORY",
-        distance_strategy=DistanceStrategy.EUCLIDEAN_DISTANCE,
-    )
-
     entity_vs = OracleVS(
         client=vector_conn,
         embedding_function=embedding_model,
@@ -539,7 +520,6 @@ Finally, let's create IVF indexes for all memory vector stores to enable fast si
     print("\\n🔧 Creating IVF vector indexes...\\n")
     safe_create_index(vector_conn, knowledge_base_vs, "knowledge_base_vs_ivf")
     safe_create_index(vector_conn, workflow_vs, "workflow_vs_ivf")
-    safe_create_index(vector_conn, toolbox_vs, "toolbox_vs_ivf")
     safe_create_index(vector_conn, entity_vs, "entity_vs_ivf")
     safe_create_index(vector_conn, summary_vs, "summary_vs_ivf")
 
@@ -578,7 +558,7 @@ In this lab, you successfully:
 * ✅ Built IVF indexes for fast similarity search
 * ✅ Added documents with metadata to vector stores
 * ✅ Performed semantic search queries
-* ✅ Created five specialized vector stores for agent memory
+* ✅ Created four specialized vector stores for agent memory
 * ✅ Indexed all memory stores for optimal performance
 
 You now have a complete vector search infrastructure that will serve as the foundation for your AI agent's memory system.

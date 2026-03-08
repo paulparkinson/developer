@@ -4,31 +4,29 @@
 
 This workshop will help you build and understand comprehensive memory and context engineering systems for AI agents using Oracle AI Database, LangChain, and modern LLM technologies.
 
-You will learn how to engineer memory systems that give AI agents the ability to remember, learn, and adapt across conversations. Moving beyond simple RAG (Retrieval-Augmented Generation), you'll implement a complete **Memory Manager** with six distinct memory types—each serving a specific cognitive function.
+You will learn how to engineer memory systems that give AI agents the ability to remember, learn, and adapt across conversations. Moving beyond simple RAG (Retrieval-Augmented Generation), you'll implement a complete **Memory Manager** with five distinct memory types—each serving a specific cognitive function.
 
-In this hands-on workshop, you'll work with Oracle Database Free (running locally in Docker) to build sophisticated AI agents that leverage vector embeddings, semantic search, and multiple memory systems. You'll explore how to implement conversational memory, knowledge bases, workflow patterns, semantic tool discovery, entity extraction, and context summarization.
+In this hands-on workshop, you'll work with Oracle Database Free (running locally in Docker) to build sophisticated AI agents that leverage vector embeddings, semantic search, and multiple memory systems. You'll explore how to implement conversational memory, knowledge bases, workflow patterns, entity extraction, and context summarization.
 
 The workshop showcases the integration between modern LLM technologies and Oracle's AI Database features, enabling you to:
 - Store and query vector embeddings at scale using Oracle AI Vector Search
-- Implement intelligent semantic search for documents and tools
+- Implement intelligent semantic search for documents
 - Build multi-layered memory systems for stateful AI interactions
 - Use LLM-powered entity extraction and recognition
 - Implement context window management and just-in-time retrieval
-- Create dynamic tool calling systems with semantic tool discovery
 - Manage long-term context and conversation summarization
 
-Estimated Workshop Time: 120 minutes
+Estimated Workshop Time: 45 minutes
 
 ### Objectives
 
 * Set up Oracle AI Database Free locally using Docker
 * Understand memory engineering patterns for AI agents
 * Implement vector search with LangChain and Oracle AI Database
-* Build a Memory Manager with six distinct memory types
-* Create semantic tool discovery and dynamic tool calling systems
+* Build a Memory Manager with five distinct memory types
 * Implement entity extraction using LLMs
 * Apply context engineering techniques for optimal LLM performance
-* Build a complete AI agent with memory, tools, and context management
+* Build a complete AI agent with memory and context management
  
 ### Prerequisites
 
@@ -46,7 +44,6 @@ Estimated Workshop Time: 120 minutes
 | **Conversational** | Chat history per thread | SQL Table |
 | **Knowledge Base** | Searchable documents & facts | Vector Store |
 | **Workflow** | Learned action patterns | Vector Store |
-| **Toolbox** | Dynamic tool definitions | Vector Store |
 | **Entity** | People, places, systems extracted from context | Vector Store |
 | **Summary** | Compressed context for long conversations | Vector Store |
 
@@ -56,7 +53,6 @@ Estimated Workshop Time: 120 minutes
 - **Context Engineering**: Techniques for optimizing what goes into the LLM context
 - **Context Window Management**: Monitor usage, auto-summarize at thresholds
 - **Just-in-Time Retrieval**: Compact summaries with on-demand expansion
-- **Dynamic Tool Calling**: Semantic tool discovery and execution
 - **Entity Extraction**: LLM-powered entity recognition and storage
 
 ### Let's Get Started
