@@ -1,0 +1,42 @@
+{
+    "workshoptitle": "Memory and Context Engineering for AI Agents with Oracle AI Database",
+    "help": "livelabs-help-oci_us@oracle.com",
+    "tutorials": [
+        {
+            "title": "Overview and Highlights",
+            "filename": "../../0-overview-and-highlights/overview-and-highlights-tenancy.md"
+        },
+        {
+            "title": "Get Started",
+            "filename": "https://oracle-livelabs.github.io/common/labs/cloud-login/cloud-login.md"
+        },
+        {
+            "title": "Lab 1: Deploy and prepare the database",
+            "filename": "../../1-prepare/prepare-db.md"
+        },
+        {
+            "title": "Lab 2: Vector Search Foundations",
+            "filename": "../../2-vector-search/vector-search-foundations.md"
+        },
+        {
+            "title": "Lab 3: Memory Engineering & Agent Memory",
+            "filename": "../../3-memory-engineering/designing-memory-architecture.md"
+        },
+        {
+            "title": "Lab 4: Memory Manager",
+            "filename": "../../4-memory-manager/memory-manager-and-toolbox.md"
+        },
+        {
+            "title": "Lab 5: Context Engineering and Web",
+            "filename": "../../5-context-engineering/context-engineering-and-web.md"
+        },
+        {
+            "title": "Lab 6: Agent Execution",
+            "filename": "../../6-agent-execution/agent-execution-and-evaluation.md"
+        },
+        {
+            "title": "Need Help?",
+            "filename": "https://oracle-livelabs.github.io/common/labs/need-help/need-help-freetier.md"
+        }
+    ]
+}
