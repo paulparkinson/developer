@@ -2,35 +2,35 @@
 
 ## About this Workshop
 
-This workshop will help you build and understand a comprehensive, multi-cloud agentic AI solution using Google Vertex AI (Gemini) and Oracle AI Database.
+This workshop will help you build and understand a comprehensive, multi-cloud agentic AI solution using Google Cloud Gemini and Oracle AI Database.
 
-You will develop intelligent AI agents that leverage the power of Google's Gemini models combined with Oracle's AI-powered database capabilities including vector search, RAG (Retrieval-Augmented Generation), Select AI, and agentic memory. This integration demonstrates how to create sophisticated multi-agent systems that can reason, learn, and interact with enterprise data.
+You will develop intelligent AI agents that leverage Gemini with Oracle AI Database capabilities including Select AI, A2A, MCP, A2UI, lakehouse data, Deep Data Security, and agent memory. This integration demonstrates how to create governed multi-agent systems that reason over enterprise data without moving authorization or transaction control into the model.
 
-In this hands-on workshop, you'll deploy Oracle AI Database on Google Cloud Platform (GCP) and build AI agents using Vertex AI Agent Builder and the Agent Development Kit (ADK). You'll explore how to implement vector embeddings for semantic search, create RAG pipelines for grounded AI responses, and build digital twin agents that can simulate and interact with real-world scenarios.
+In this hands-on workshop, you'll deploy Oracle AI Database on Google Cloud Platform (GCP), connect to it from Gemini CLI, and publish Oracle-backed agents in Gemini Enterprise. You'll build private A2A connectivity, add portable A2UI and MCP Apps experiences, enrich agents with lakehouse resources, enforce regional data security, and add actor-bound memory.
 
 The workshop showcases the seamless integration between Google's cutting-edge AI models (Gemini) and Oracle's AI Database features, enabling you to:
-- Store and query vector embeddings at scale
-- Implement intelligent semantic search using Oracle AI Vector Search
-- Build RAG applications that ground AI responses in your enterprise data
-- Use Select AI to query databases using natural language
-- Implement agentic memory for stateful, context-aware AI interactions
-- Create multi-agent systems using Vertex AI Agent Builder
+- Access Oracle AI Database from Gemini CLI through SQLcl MCP
+- Use Oracle-backed graph, spatial, Select AI, and action agents in Gemini Enterprise
+- Develop private A2A agents and optionally connect MCP tools
+- Render governed recommendations with A2UI and MCP Apps
+- Add lakehouse context without weakening the operational source of truth
+- Enforce regional access with Oracle Deep Data Security
+- Implement actor-bound, time-bounded agent memory
 
 The following diagram illustrates this reference architecture.
 
   
 
-Estimated Workshop Time: 90 minutes
+Estimated Workshop Time: 3-4 hours
 
 ### Objectives
 
 * Deploy Oracle AI Database and compute resources on Google Cloud Platform
-* Configure Gemini models for embeddings and vector search
-* Implement RAG (Retrieval-Augmented Generation) with Oracle AI Database
-* Explore Vertex AI models and agent capabilities
-* Build multi-agent systems using Vertex AI Agent Builder
-* Create a digital twin agent using the Agent Development Kit (ADK)
-* Leverage Oracle AI Database features: Vector Search, Select AI, and Agentic Memory
+* Access Oracle AI Database from Gemini CLI using SQLcl MCP
+* Register and test Oracle AI Database agents in Gemini Enterprise
+* Build private A2A connectivity and optionally expose MCP tools
+* Develop A2UI and MCP Apps with explicit approval boundaries
+* Add lakehouse data, Deep Data Security, and agent memory
  
 ### Prerequisites
 

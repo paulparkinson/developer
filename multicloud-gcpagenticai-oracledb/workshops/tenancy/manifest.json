@@ -26,18 +26,39 @@
       "filename": "../../adb-provisioning-databases/adb-provisioning-databases.md"
     },
     {
-      "title": "Lab 3: Develop Oracle AI Database Vertex AI/Gemini RAG Notebook and UI",
-      "description": "Build and test the RAG Application",
-      "filename": "../../adb-ai/adb-ai.md"
+      "title": "Lab 3 (Optional): Access Oracle AI Database from Gemini CLI",
+      "description": "Connect Gemini CLI to Oracle AI Database through SQLcl MCP",
+      "filename": "../../gemini-cli/gemini-cli.md"
     },
     {
-      "title": "Lab 4: Develop Vertex AI Agents with ADK and Oracle AI Database Vector RAG and MCP",
-      "filename": "../../vertex-ai-agents-adk/vertex-ai-agents-adk.md"
+      "title": "Lab 4: Setup and Use Oracle AI Database Agent for Gemini Enterprise Apps",
+      "description": "Import and test Oracle AI Database agents in Gemini Enterprise",
+      "filename": "../../gemini-enterprise-agent/gemini-enterprise-agent.md"
     },
-
     {
-      "title": "Lab 5 (Optional): Other topics (Access via ORDS/Rest, Select AI/NL2SQL and ADB MCP, Multi-Agent Systems, Memory, ...",
-      "filename": "../../agentic-advanced-topics/agentic-advanced-topics.md"
+      "title": "Lab 5: Develop A2A Agents that use the Oracle Agent in Gemini Enterprise (and optionally MCP)",
+      "description": "Connect Gemini Enterprise to a private Oracle A2A agent",
+      "filename": "../../a2a-agents/a2a-agents.md"
+    },
+    {
+      "title": "Lab 6: Develop A2UI and MCPApps",
+      "description": "Build a governed review experience for Oracle recommendations",
+      "filename": "../../a2ui-mcpapps/a2ui-mcpapps.md"
+    },
+    {
+      "title": "Lab 7: Add Lakehouse resources",
+      "description": "Add governed analytical context to the Oracle agent",
+      "filename": "../../lakehouse/lakehouse.md"
+    },
+    {
+      "title": "Lab 8: Add Deep Data Security",
+      "description": "Apply region-level authorization in Oracle AI Database",
+      "filename": "../../deep-data-security/deep-data-security.md"
+    },
+    {
+      "title": "Lab 9: Add Agent Memory",
+      "description": "Add actor-bound, time-bounded conversational memory",
+      "filename": "../../agent-memory/agent-memory.md"
     },
     {
       "title": "Need Help?",
