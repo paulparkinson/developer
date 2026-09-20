@@ -27,35 +27,11 @@ High-level steps followed in this lab:
 
     ![Ragdesign](./images/ragdesign.png "Ragdesign")
 
-<<<<<<< HEAD
-### Concepts
-
-- What is a Vector?
-
-    A vector is like a fingerprint for information. Just like every person’s fingerprint is unique and gives us lots of details about them, a vector in AI is a unique set of numbers representing the important semantic features of a piece of information, like a block of text, an image, a sound, or a video.
-
-- What is Similarity Search and Outlier Search?
-
-    A similarity search helps you find semantically similar things, like Google or Bing does. But imagine being able to do that in the database, with text, audio, image, and video files and the full power of SQL and PL/SQL at your disposal. An outlier search does the opposite: it retrieves the most dissimilar results.
-
-- What is a LLM?
-
-    LLMs, or Large Language Models, are AI algorithms that use deep learning techniques and large data sets to understand, summarize, generate, and predict new content. Oracle AI Vector Search works well with any Large Language Model [LLM] and vector embedding model.
-
-- What is RAG?
-
-    Retrieval Augmented Generation (RAG) is a technique that enhances LLMs by integrating Similarity Search. This enables use cases such as a corporate chatbot responding with private company knowledge to make sure it’s giving answers that are up-to-date and tailored to your business.
-=======
->>>>>>> upstream/main
 
 Estimated Time: 50 minutes
 
 ### Objectives
 
-<<<<<<< HEAD
-As a database user, DBA or application developer:
-=======
->>>>>>> upstream/main
 
 1. Implement a RAG chatbot using vector similarity search and Generative AI/LLMs.
 2. Load and parse a FAQ-like text file, integrating it with an Oracle 26ai database.
@@ -67,10 +43,6 @@ As a database user, DBA or application developer:
 
 - A pre-provisioned instance of an Autonomous Database.
 - Google Cloud Compute VM instance.
-<<<<<<< HEAD
-- Downloaded Source pdf file and Jupyter Notebook.
-=======
->>>>>>> upstream/main
 
 ## Task 1: Enable Vertex AI API
 
@@ -88,11 +60,6 @@ In this section, you will be enabling Vertex AI API to be used later in the lab.
 
     ![Gcp Enabled Vertexai](./images/gcp-enabled-vertexai.png "Gcp Enabled Vertexai")
 
-<<<<<<< HEAD
-## Task 2: Launch VSCode
-
-We will use Visual Studio Code (VSCode) to connect to our Google Cloud VM and run our Jupyter Notebook.
-=======
 ## Task 1.5: Authenticate with Google Cloud
 
 Before running the Jupyter notebook, set up Application Default Credentials (ADC) for Vertex AI access.
@@ -130,7 +97,6 @@ Before running the Jupyter notebook, set up Application Default Credentials (ADC
 We will use Visual Studio Code (VSCode) to run our Jupyter Notebook.
 
 **Note:** If your Oracle Autonomous Database has a **public endpoint** and is accessible from your local machine, you can use VSCode locally without SSH. Otherwise, use VSCode's Remote Explorer to connect to the GCP VM.
->>>>>>> upstream/main
 
 Please use VSCode's Remote Explorer function to connect to your remote VM. If you don't know how to do that, please see [this tutorial first](https://code.visualstudio.com/docs/remote/ssh).
 
@@ -160,49 +126,6 @@ Please use VSCode's Remote Explorer function to connect to your remote VM. If yo
     </copy>
     ```
 
-<<<<<<< HEAD
-2. Install `pyenv` on the Compute VM. This is our way to quickly and neatly manage multiple Python versions on the same machine. For this lab, we will use Python 3.12. Run the following commands (for the latest version of this procedure, see [the official pyenv page here](https://github.com/pyenv/pyenv-installer)):
-
-    ```
-    <copy>    
-    sudo apt install -y make build-essential libssl-dev zlib1g-dev libbz2-dev \
-    libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev libncursesw5-dev \
-    xz-utils tk-dev libffi-dev liblzma-dev python3-openssl git
-
-    curl https://pyenv.run | bash
-
-    echo 'export PYENV_ROOT="$HOME/.pyenv"' >> ~/.profile
-    echo 'command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"' >> ~/.profile
-    echo 'eval "$(pyenv init -)"' >> ~/.profile
-
-    echo 'export PYENV_ROOT="$HOME/.pyenv"' >> ~/.bashrc
-    echo 'command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"' >> ~/.bashrc
-    echo 'eval "$(pyenv init -)"' >> ~/.bashrc
-
-    exec "$SHELL"
-    </copy>
-    ```
-
-3. Install Python 3.12 on the VM:
-
-    ```
-    <copy>
-    pyenv install 3.12
-    </copy>
-    ```
-
-4. Create a new folder called `vectors` . Go to the `vectors` folder and make Python 3.12 the active kernel for it:
-
-    ```
-    <copy>
-    mkdir vectors
-    cd vectors
-    pyenv local 3.12
-    </copy>
-    ```
-
-5. Last step in this phase is installing the Python libraries for accessing the Oracle Database and sentence transformers (to convert strings to vectors):
-=======
 2. Install Python 3 and pip (if not already installed):
 
     ```
@@ -253,38 +176,10 @@ Please use VSCode's Remote Explorer function to connect to your remote VM. If yo
     ````
 
 6. Install all Python dependencies (with venv activated):
->>>>>>> upstream/main
 
     ```
     <copy>
     pip install --upgrade pip
-<<<<<<< HEAD
-    pip install oracledb
-    pip install dotenv
-    pip install sentence-transformers
-    pip install PyPDF2
-    pip install langchain
-    pip install langchain_community
-    pip install streamlit
-    pip install oci
-    pip install langchain_huggingface
-    pip install -U langchain-google-vertexai
-    pip install -U langchain-community
-    pip install --upgrade google-cloud-aiplatform
-    </copy>
-    ```
-
-6. The notebook is available at `oracle-ai-database-gcp-vertex-ai/oracle_ai_database_gemini_rag.ipynb`. The notebook will automatically download the Oracle Database 26ai PDF during execution.
-
-    If you need to download the notebook separately:
-
-    ```
-    <copy>
-    cd oracle-ai-database-gcp-vertex-ai
-    # Notebook downloads PDF automatically - no manual download needed
-    </copy>
-    ```
-=======
     pip install -r python/requirements.txt
     </copy>
     ```
@@ -292,7 +187,6 @@ Please use VSCode's Remote Explorer function to connect to your remote VM. If yo
     **Note:** This installs all required packages including oracledb, langchain, streamlit, and Vertex AI libraries. The same venv is used for both the Jupyter notebook and the Python applications.
 
 7. The notebook is available at `oracle-ai-database-gcp-vertex-ai/notebooks/oracle_ai_database_gemini_rag.ipynb`. 
->>>>>>> upstream/main
 
 ## Task 4: Run the RAG application code snippets in Jupyter notebook
 
@@ -300,11 +194,7 @@ Please use VSCode's Remote Explorer function to connect to your remote VM. If yo
 
     ![Vscode Confirm Ssh](./images/vscode-confirm-ssh.png "Vscode Confirm Ssh")
     
-<<<<<<< HEAD
-2. Select the `oracle_ai_database_gemini_rag.ipynb` file present under `oracle-ai-database-gcp-vertex-ai` directory.
-=======
 2. Select the `oracle_ai_database_gemini_rag.ipynb` file located at `oracle-ai-database-gcp-vertex-ai/notebooks/oracle_ai_database_gemini_rag.ipynb`.
->>>>>>> upstream/main
 
     ![Vscode Select File](./images/vscode-select-file.png "Vscode Select File")
 
@@ -316,13 +206,6 @@ Please use VSCode's Remote Explorer function to connect to your remote VM. If yo
 
     ![Python Envs](./images/python-envs.png "Python Envs")
 
-<<<<<<< HEAD
-    Upon installing required Python Kernel, select the Python Envinronment.
-
-    ![Select Python](./images/select-python.png "Select Python")
-
-    Running cells with '3.12.9 (Python 3.12.9)' requires the ipykernel package. Click **Install**.
-=======
     Upon installing required Python Kernel, select the Python Environment (the venv you created).
 
     ![Select Python](./images/select-python.png "Select Python")
@@ -330,7 +213,6 @@ Please use VSCode's Remote Explorer function to connect to your remote VM. If yo
     Running cells with Python requires the ipykernel package. Click **Install** if prompted.
 
     **Important:** When selecting the kernel, choose the Python interpreter from your venv: `oracle-ai-database-gcp-vertex-ai/venv/bin/python`
->>>>>>> upstream/main
 
 4. Run the RAG application code snippets in Jupyter notebook.
 
@@ -393,28 +275,6 @@ Please use VSCode's Remote Explorer function to connect to your remote VM. If yo
     </copy>
     ```
 
-<<<<<<< HEAD
-6. This code connects to Oracle Database 26ai with the credentials and connection string. Select the code snippet and click Run. Update the code with the Username, Password, Connection String (eg. d5kas9zhfydbe31a_high) and Wallet Password.
-
-    ```
-    <copy>
-    import oracledb
-
-    un = "username" # Enter Username
-    pw = "password" # Enter Password
-    dsn = 'connection string' # Enter Connection String
-    wpwd = "wallet password" # Enter Wallet Password
-
-    connection = oracledb.connect(
-        config_dir = '../wallet', 
-        user=un, 
-        password=pw, 
-        dsn=dsn,
-        wallet_location = '../wallet',
-        wallet_password = wpwd)
-    </copy>
-    ```
-=======
 6. This code connects to Oracle Database 26ai using credentials from the `.env` file. The notebook automatically loads these values. Select the code snippet and click Run.
 
     **Note:** The notebook loads credentials from the `.env` file you configured earlier. The code in the notebook looks like this:
@@ -445,7 +305,6 @@ Please use VSCode's Remote Explorer function to connect to your remote VM. If yo
     ````
 
     Simply run the cell - no need to manually edit credentials in the notebook.
->>>>>>> upstream/main
 
 7. Load the Document
 
@@ -575,39 +434,9 @@ Please use VSCode's Remote Explorer function to connect to your remote VM. If yo
     </copy>
     ```
 
-<<<<<<< HEAD
-15. Execute the following in the VSCode Terminal to set up Application Default Credentials (ADC) for your local development environment. Enter **Y** to continue.
-
-    ```
-    <copy>
-    gcloud auth application-default login
-    </copy>
-    ```
-
-    ![Enter Y To Continue](./images/enter-Y-to-continue.png "Enter Y To Continue")
-
-16. Copy the link and paste it in a browser.
-
-    ![Copy Link](./images/copy-link.png "Copy Link")
-
-    The browser will prompt you to login to your Google Cloud Account. Post login allow the application to use your cloud credentials.
-
-    ![Login Page](./images/login-page.png "Login Page")
-    ![Allow Application](./images/allow-application.png "Allow Application")
-
-17. Copy the code and paste it back in the terminal window.
-
-    ![Copy Code](./images/copy-code.png "Copy Code")
-    ![Paste Code](./images/paste-code.png "Paste Code")
-
-18. LLM to generate your response.
-
-    Continue running the code from Jupyter Notebook. We will be using Vertex AI for this lab. From your Google Cloud Console confirm the Project ID and region that you want to use and enter the details. Import the library vertexai and initiate Vertex AI.
-=======
 15. Initialize Vertex AI for LLM response generation.
 
     Continue running the code from Jupyter Notebook. We will be using Vertex AI for this lab. The notebook uses the PROJECT_ID and REGION from your `.env` file. Import the library vertexai and initiate Vertex AI.
->>>>>>> upstream/main
 
     ```
     <copy>
@@ -644,11 +473,7 @@ Please use VSCode's Remote Explorer function to connect to your remote VM. If yo
     </copy>
     ```
 
-<<<<<<< HEAD
-19. The code below sets up the **Vertex AI Service** to use **gemini-2.5-flash**. Click Run to execute the code.
-=======
 16. The code below sets up the **Vertex AI Service** to use **gemini-2.5-flash**. Click Run to execute the code.
->>>>>>> upstream/main
 
     ```
     <copy>
@@ -667,11 +492,7 @@ Please use VSCode's Remote Explorer function to connect to your remote VM. If yo
     </copy>
     ```
 
-<<<<<<< HEAD
-20. The code below builds the prompt template to include both the question and the context, and instantiates the knowledge base class to use the retriever to retrieve context from Oracle Database 26ai. Click Run to execute the code.
-=======
 17. The code below builds the prompt template to include both the question and the context, and instantiates the knowledge base class to use the retriever to retrieve context from Oracle Database 26ai. Click Run to execute the code.
->>>>>>> upstream/main
 
     ```
     <copy>
@@ -686,11 +507,7 @@ Please use VSCode's Remote Explorer function to connect to your remote VM. If yo
     </copy>
     ```
 
-<<<<<<< HEAD
-21. Invoke the chain
-=======
 18. Invoke the chain
->>>>>>> upstream/main
 
     This is the key part of the RAG application. It is the LangChain pipeline that chains all the components together to produce an LLM response with context. The chain will embed the question as a vector. This vector will be used to search for other vectors that are similar. The top similar vectors will be returned as text chunks (context). Together the question and the context will form the prompt to the LLM for processing. And ultimately generating the response.
 
@@ -734,45 +551,11 @@ Please use VSCode's Remote Explorer function to connect to your remote VM. If yo
 
 In this task you will run the RAG application interactively using a simple user interface. You can select and load from several PDF documents, and ask your own question in the prompt. This is the same application with the 7 essential RAG steps as the previous tasks but demonstrates use through a user interface.
 
-<<<<<<< HEAD
-1. From the VSCode terminal, go to directory `oracle-ai-database-gcp-vertex-ai`
-=======
 1. From the VSCode terminal, ensure you're in the `oracle-ai-database-gcp-vertex-ai` directory with the venv activated:
->>>>>>> upstream/main
 
     ```
     <copy>
     cd oracle-ai-database-gcp-vertex-ai
-<<<<<<< HEAD
-    </copy>
-    ```
-
-2. Configure credentials in `.env` file (if not already done). The application reads from the `.env` file:
-
-    ```
-    DB_USERNAME=ADMIN
-    DB_PASSWORD=your_password
-    DB_DSN=your_connection_string
-    DB_WALLET_PASSWORD=your_wallet_password
-    DB_WALLET_DIR=/path/to/wallet
-    GCP_PROJECT_ID=your_project_id
-    GCP_REGION=us-central1
-    ```
-
-3. Run the RAG Streamlit application using the provided script:
-
-    ```
-    <copy>
-    bash run_oracle_ai_database_langchain_streamlit.sh
-    </copy>
-    ```
-    
-    Or run directly:
-    
-    ```
-    <copy>
-    streamlit run oracle_ai_database_langchain_streamlit.py --server.port 8502
-=======
     source venv/bin/activate
     </copy>
     ```
@@ -796,7 +579,6 @@ In this task you will run the RAG application interactively using a simple user 
     ```
     <copy>
     streamlit run python/oracle_ai_database_langchain_streamlit.py --server.port 8502
->>>>>>> upstream/main
     </copy>
     ```
 

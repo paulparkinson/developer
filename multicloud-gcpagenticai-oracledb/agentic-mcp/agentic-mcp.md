@@ -187,12 +187,7 @@ This lab provides a complete implementation that includes:
 ### Implementation Highlights
 
 **tools.yaml Oracle Source Configuration:**
-<<<<<<< HEAD
-```
-yaml
-=======
 ```yaml
->>>>>>> upstream/main
 <copy>
 sources:
   oracle-ai-db:
@@ -204,18 +199,9 @@ sources:
     useOCI: true                  # Required for wallet support
 </copy>
 ```
-<<<<<<< HEAD
-<copy>
-
-**Python Agent with ToolboxClient:**
-</copy>
-```
-python
-=======
 
 **Python Agent with ToolboxClient:**
 ```python
->>>>>>> upstream/main
 <copy>
 from toolbox_core import ToolboxClient
 from google.adk import Agent
@@ -249,35 +235,6 @@ agent = Agent(
 ### For AMD64 Linux or macOS
 
 1. Navigate to the project directory:
-<<<<<<< HEAD
-   ```
-   bash
-   <copy>
-   cd interactive-ai-holograms/oracle-ai-database-gcp-vertex-ai
-   </copy>
-   ```
-
-2. Ensure `.env` file has Oracle credentials:
-   ```
-   bash
-   <copy>
-   DB_USERNAME=ADMIN
-   DB_PASSWORD=your_password
-   DB_DSN=your_db_high
-   DB_WALLET_DIR=/path/to/Wallet_YourDB
-   GCP_PROJECT_ID=your-project
-   GCP_REGION=us-central1
-   </copy>
-   ```
-
-3. Run the agent:
-   ```
-   bash
-   <copy>
-   ./run_oracle_ai_database_adk_mcp_agent.sh
-   </copy>
-   ```
-=======
   ```bash
   <copy>
   cd interactive-ai-holograms/oracle-ai-database-gcp-vertex-ai
@@ -302,7 +259,6 @@ agent = Agent(
   ./run_oracle_ai_database_adk_mcp_agent.sh
   </copy>
   ```
->>>>>>> upstream/main
 
 The script will:
 - Download Toolbox binary or use npx
@@ -313,29 +269,15 @@ The script will:
 ### For ARM64 Linux or Unsupported Platforms
 
 Option 1: Use the non-MCP ADK agent (recommended):
-<<<<<<< HEAD
-```
-bash
-=======
 ```bash
->>>>>>> upstream/main
 <copy>
 ./run_oracle_ai_database_adk_agent.sh
 </copy>
 ```
-<<<<<<< HEAD
-<copy>
-
-Option 2: Deploy MCP Toolbox to Cloud Run (AMD64):
-</copy>
-```
-bash
-=======
 
 Option 2: Deploy MCP Toolbox to Cloud Run (AMD64):
 
 ```bash
->>>>>>> upstream/main
 <copy>
 # Deploy to Cloud Run
 gcloud run deploy mcp-toolbox \
@@ -348,18 +290,10 @@ gcloud run deploy mcp-toolbox \
 export TOOLBOX_URL="https://mcp-toolbox-xxx.run.app"
 </copy>
 ```
-<<<<<<< HEAD
-<copy>
-=======
->>>>>>> upstream/main
 
 ### Testing the Agent
 
 Once running, you'll see:
-<<<<<<< HEAD
-</copy>
-=======
->>>>>>> upstream/main
 ```
 <copy>
 🤖 Oracle AI Database Agent - MCP Toolbox Edition
@@ -377,11 +311,6 @@ JSON Relational Duality is a feature in Oracle Database 23ai that provides
 a unified view of data as both relational tables and JSON documents...
 </copy>
 ```
-<<<<<<< HEAD
-<copy>
-
-=======
->>>>>>> upstream/main
 ## Task 4: Tool Configuration Deep Dive
 
 ### Vector Search Tool
