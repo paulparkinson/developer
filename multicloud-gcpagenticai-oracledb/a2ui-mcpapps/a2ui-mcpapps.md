@@ -1,4 +1,4 @@
-# Develop A2UI and MCPApps
+# Develop A2UI and MCPApps (charts, spatial, graph, ...)
 
 ## Introduction
 
