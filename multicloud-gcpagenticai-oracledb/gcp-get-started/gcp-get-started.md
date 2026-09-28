@@ -1,9 +1,9 @@
 
-# Provisioning Google Cloud resources
+# Setup Google Run compute instance to run A2A agents
 
 ## Introduction
 
-This lab walks you through the prerequisites to get started with Oracle Database@Google Cloud - Autonomous Database. This involves creating a Virtual Private Cloud (VPC) Network in Google Cloud that will be associated with the Autonomous Database and a Compute VM instance that will be used to connect to the Autonomous Database.
+This lab prepares Google Cloud networking and a Compute Engine VM for the workshop A2A agents and their connection to Oracle Database@Google Cloud Autonomous Database.
 
 Estimated Time: 30 minutes
 
@@ -11,9 +11,9 @@ Estimated Time: 30 minutes
 
 As a database user, DBA, or application developer:
 
-1. Create a Virtual Private Cloud (VPC) Network in Google Cloud Portal.
-2. Provision a Compute VM instance in Google Cloud.
-3. Setup the Python environment
+1. Create a Virtual Private Cloud (VPC) Network in Google Cloud.
+2. Provision a Compute Engine VM instance to run the A2A agents.
+3. Set up the Python environment.
 
 ## Task 1: Create a Virtual Private Cloud (VPC)
 

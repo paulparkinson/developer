@@ -13,7 +13,7 @@ Use Gemini CLI as a terminal-based client for Oracle AI Database. You will authe
 
 ### Prerequisites
 
-- Completed Labs 1 and 2.
+- Completed Lab 1.
 - Oracle SQLcl 25.2 or later with the `-mcp` option.
 - Gemini CLI installed and available as `gemini`.
 - A downloaded Autonomous Database wallet and a database user with read-only access to the workshop views.

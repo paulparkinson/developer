@@ -16,7 +16,7 @@ As a database user, DBA or application developer:
 
 ### Required Artifacts
 
-- A Google Cloud account with a pre-configured Virtual Private Cloud (VPC) Network.
+- A Google Cloud account and an existing VPC network to associate with Oracle Database@Google Cloud. If you still need to create the VPC, complete Task 1 of Lab 4 first, then return here.
 
 ## Task 1: Create an ODBG Network
 

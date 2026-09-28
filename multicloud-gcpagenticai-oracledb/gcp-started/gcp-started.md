@@ -81,7 +81,7 @@ In this section, you will perform the steps for Onboarding with Oracle Database@
 
     ![Linking In Progress](./images/linking-in-progress.png "Linking In Progress")
 
-You may now **proceed to the next lab** to provision Google Cloud resources.
+If your Google Cloud project already has a VPC network for Oracle Database@Google Cloud, proceed to Lab 1 to provision Autonomous Database. If you still need a VPC, complete Task 1 of Lab 4 first, then return to Lab 1.
 
 ## Acknowledgements
 - **Authors/Contributors** - Vivek Verma, Master Principal Cloud Architect, North America Cloud Engineering
