@@ -1,4 +1,4 @@
-# Add Lakehouse resources
+# Add Lakehouse resources (optional)
 
 ## Introduction
 
@@ -13,7 +13,7 @@ Extend the Oracle AI Database supply-chain demo with analytical data that remain
 
 ### Prerequisites
 
-- Completed Labs 1 through 6.
+- Completed Labs 1 through 8. Lab 9 is optional; complete it if lakehouse results need region-level filtering.
 - An object-storage bucket containing workshop-approved CSV or Parquet files.
 - Oracle AI Database credentials with least-privileged external-table and query grants.
 - Cloud credentials configured through the supported database credential mechanism.

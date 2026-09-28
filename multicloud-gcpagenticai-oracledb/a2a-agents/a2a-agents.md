@@ -1,4 +1,4 @@
-# Develop A2A Agents that use the Oracle Agent in Gemini Enterprise (and optionally MCP)
+# Develop A2A Agents that use the Oracle Agent in Gemini Enterprise
 
 ## Introduction
 
@@ -7,10 +7,10 @@ This lab builds the private-network pattern for Gemini Enterprise to reach the O
 ### Objectives
 
 - Understand the Gemini Enterprise -> Cloud Run -> Oracle A2A route.
+- Clone the Oracle AI Database and Gemini sample repository.
 - Deploy or inspect the private A2A relay.
 - Register the relay card with OAuth in Gemini Enterprise.
 - Validate authentication, Deep Data Security, and audit behavior.
-- Optionally expose the same read-only capabilities through MCP.
 
 ### Prerequisites
 
@@ -33,9 +33,20 @@ Gemini Enterprise
 
 The relay must not store or log bearer tokens. Oracle remains responsible for database privileges, Select AI object lists, row filtering, and unified auditing.
 
-## Task 2: Configure the relay
+## Task 2: Clone the sample repository
 
-From the workshop source project, use the `private-a2a-proxy/` container as the starting point. Set these deployment-only values through Secret Manager or the deployment environment:
+If you already cloned the repository during Lab 4, reuse that checkout. Otherwise, clone it now:
+
+```bash
+git clone https://github.com/paulparkinson/oracle-ai-database-gcp-gemini.git
+cd oracle-ai-database-gcp-gemini
+```
+
+Use this repository's agent examples and shared SQL assets as references. Keep credentials in an ignored `.env` file or a secret manager; never commit them.
+
+## Task 3: Configure the relay
+
+Use the `private-a2a-proxy/` container from the workshop source project as the starting point. Set these deployment-only values through Secret Manager or the deployment environment:
 
 ```bash
 export GCP_PROJECT="YOUR_GCP_PROJECT"
@@ -54,7 +65,7 @@ tasks/get
 tasks/cancel
 ```
 
-## Task 3: Validate the security contract
+## Task 4: Validate the security contract
 
 Run the following checks against the relay URL:
 
@@ -72,7 +83,7 @@ Expected results:
 - A request without a bearer token returns HTTP 401.
 - An invalid bearer token reaches Oracle and returns an Oracle authentication error rather than a network ACL error.
 
-## Task 4: Register and test in Gemini Enterprise
+## Task 5: Register and test in Gemini Enterprise
 
 1. Register the relay agent card as a custom A2A agent.
 2. Associate the dedicated Oracle OAuth authorization resource.
@@ -86,12 +97,6 @@ Use this prompt:
 Using the Oracle inventory risk data, list the products at risk in my authorized region. Include probability, projected revenue impact, and the warehouse driving the risk.
 ```
 
-## Task 5: Optional MCP extension
-
-The same agent service can consume the official Oracle Database MCP Java Toolkit over authenticated Streamable HTTP. Keep the tool allowlist narrow and make model-visible tools read-only. Approval and rejection must remain application tools, never arbitrary model-selected SQL.
-
-Verify tool discovery, a read-only inventory query, request timeouts, and authentication before enabling any write procedure.
-
 ## Task 6: Verify audit and rollback
 
 1. Query `UNIFIED_AUDIT_TRAIL` as an authorized auditor and confirm A2A activity is recorded.
@@ -100,7 +105,7 @@ Verify tool discovery, a read-only inventory query, request timeouts, and authen
 
 ## Conclusion
 
-A2A makes the agent portable; the relay makes the private network and identity boundary explicit. The next lab adds governed A2UI and MCP Apps experiences without allowing UI payloads or model output to bypass Oracle transaction controls.
+A2A carries messages between Gemini Enterprise and the Oracle agent; the relay makes the private network and identity boundary explicit. The next lab adds governed A2UI and MCP Apps experiences without allowing UI payloads or model output to bypass Oracle transaction controls.
 
 ## Acknowledgements
 

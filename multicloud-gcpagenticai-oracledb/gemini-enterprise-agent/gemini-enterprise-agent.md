@@ -16,9 +16,22 @@ Gemini Enterprise can discover Oracle-backed agents through A2A agent cards. In 
 - Completed Labs 1 and 2.
 - A deployed HTTPS agent host with the four agent-card endpoints.
 - Gemini Enterprise access with permission to add custom agents.
-- Database-side Select AI profile and seeded inventory-risk data.
+- Oracle AI Database credentials and permission to configure the managed agent and sample data.
 
-## Task 1: Identify the agent endpoints
+## Task 1: Prepare the Oracle AI Database agent
+
+Clone the sample repository and enter its directory:
+
+```bash
+git clone https://github.com/paulparkinson/oracle-ai-database-gcp-gemini.git
+cd oracle-ai-database-gcp-gemini
+```
+
+1. Review the [SQL assets README](https://github.com/paulparkinson/oracle-ai-database-gcp-gemini/blob/main/sql/README.md) and select the setup scripts for your database and identity configuration. The manager-schema and regional Deep Data Security configurations are mutually exclusive for the same users.
+2. Connect with SQLcl as the documented database administrator or application schema and execute the required setup scripts from the [`sql/` directory](https://github.com/paulparkinson/oracle-ai-database-gcp-gemini/tree/main/sql) in the order described by the README.
+3. After installing the Oracle AI Database Agent scripts, run `@sql/verify_oracle_ai_database_agent.sql` as the application schema. Confirm the `ORACLE_AI_DATABASE_AGENT` team and its expected tools are listed.
+
+## Task 2: Identify the agent endpoints
 
 Replace `YOUR_PUBLIC_AGENT_HOST` with the HTTPS host supplied for the workshop:
 
@@ -37,7 +50,7 @@ curl -fsS https://YOUR_PUBLIC_AGENT_HOST/agent-card-graph.json | jq .
 
 Confirm that every card advertises an HTTPS URL and a distinct agent name.
 
-## Task 2: Import the agents
+## Task 3: Import the agents
 
 1. In Gemini Enterprise, open **Agents**.
 2. Select **Add agent** and choose the custom A2A import flow.
@@ -45,7 +58,7 @@ Confirm that every card advertises an HTTPS URL and a distinct agent name.
 4. Leave authentication empty only when the workshop endpoint is intentionally public. Private database access is covered in Lab 5.
 5. Open each imported agent in a new chat so the prompt is routed to the intended agent.
 
-## Task 3: Test database-backed analysis
+## Task 4: Test database-backed analysis
 
 Select the graph agent and submit:
 
@@ -71,7 +84,7 @@ Using only the Oracle inventory risk demo tables, list the top products at risk 
 
 Use complete questions instead of conversational follow-ups. The current Select AI path is most reliable when each request contains its own product and business context.
 
-## Task 4: Test the action recommendation
+## Task 5: Test the action recommendation
 
 Select the inventory-action agent and submit:
 
@@ -81,7 +94,7 @@ What inventory action should we take for SKU-500 given the current supply risk? 
 
 Expected result: a recommendation with source, destination, quantity, and an explicit approval requirement. The current VM may report deterministic fallback when its ADC token is stale; this is expected and does not mean the database path failed.
 
-## Task 5: Troubleshoot and clean up
+## Task 6: Troubleshoot and clean up
 
 - A 404 usually means the card URL or runtime path is wrong.
 - A completed response with fallback metadata indicates the action agent could not refresh VM ADC.
@@ -96,3 +109,4 @@ Gemini Enterprise can coordinate several Oracle AI Database agents, but each age
 
 - Gemini Enterprise agent registration documentation
 - Oracle AI Database Gemini Enterprise setup runbook
+- [Oracle AI Database Agent for Gemini Enterprise demo](https://www.youtube.com/watch?v=lU8UAwmBMeQ)

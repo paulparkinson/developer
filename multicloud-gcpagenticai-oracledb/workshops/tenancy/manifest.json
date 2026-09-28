@@ -1,5 +1,5 @@
 {
-  "workshoptitle": "Develop Agentic AI with Google Vertex AI (Gemini) and Oracle AI Database",
+  "workshoptitle": "Develop Agentic AI with Google (Gemini) and Oracle AI Database",
   "help": "livelabs-help-devdb-us@oracle.com",
   "tutorials": [
     {
@@ -36,7 +36,7 @@
       "filename": "../../gemini-enterprise-agent/gemini-enterprise-agent.md"
     },
     {
-      "title": "Lab 5: Develop A2A Agents that use the Oracle Agent in Gemini Enterprise (and optionally MCP)",
+      "title": "Lab 5: Develop A2A Agents that use the Oracle Agent in Gemini Enterprise",
       "description": "Connect Gemini Enterprise to a private Oracle A2A agent",
       "filename": "../../a2a-agents/a2a-agents.md"
     },
@@ -46,19 +46,24 @@
       "filename": "../../a2ui-mcpapps/a2ui-mcpapps.md"
     },
     {
-      "title": "Lab 7: Add Lakehouse resources",
-      "description": "Add governed analytical context to the Oracle agent",
-      "filename": "../../lakehouse/lakehouse.md"
+      "title": "Lab 7: Understand and Develop with various MCP options",
+      "description": "Compare MCP server and application patterns for Oracle AI Database",
+      "filename": "../../mcp-options/mcp-options.md"
     },
     {
-      "title": "Lab 8: Add Deep Data Security",
+      "title": "Lab 8: Add Agent Memory",
+      "description": "Add actor-bound, time-bounded conversational memory",
+      "filename": "../../agent-memory/agent-memory.md"
+    },
+    {
+      "title": "Lab 9: Add Deep Data Security (optional)",
       "description": "Apply region-level authorization in Oracle AI Database",
       "filename": "../../deep-data-security/deep-data-security.md"
     },
     {
-      "title": "Lab 9: Add Agent Memory",
-      "description": "Add actor-bound, time-bounded conversational memory",
-      "filename": "../../agent-memory/agent-memory.md"
+      "title": "Lab 10: Add Lakehouse resources (optional)",
+      "description": "Add governed analytical context to the Oracle agent",
+      "filename": "../../lakehouse/lakehouse.md"
     },
     {
       "title": "Need Help?",

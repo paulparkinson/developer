@@ -1,4 +1,4 @@
-# Add Deep Data Security
+# Add Deep Data Security (optional)
 
 ## Introduction
 
@@ -13,7 +13,7 @@ Apply region-level authorization to the same inventory-risk view. Two database u
 
 ### Prerequisites
 
-- Completed Lab 5 and Lab 7.
+- Completed Labs 1 through 8.
 - Run SQLcl or SQL*Plus as `ADMIN`.
 - Use the source project script `sql/run_inventory_risk_deepsec_regions.sh` as the reference implementation.
 - Use unique passwords supplied interactively or through an ignored environment file.
@@ -60,7 +60,7 @@ Authenticate once as each database user. The prompt is identical; only the datab
 
 ## Conclusion
 
-Deep Data Security makes authorization a database invariant across Gemini CLI, Gemini Enterprise, A2A, MCP, and direct SQL. Lab 9 adds memory without allowing remembered context to override current authorization.
+Deep Data Security makes authorization a database invariant across Gemini CLI, Gemini Enterprise, A2A, MCP, and direct SQL. Apply the same policies to the optional lakehouse lab so analytical results remain within the authenticated user's region.
 
 ## Acknowledgements
 

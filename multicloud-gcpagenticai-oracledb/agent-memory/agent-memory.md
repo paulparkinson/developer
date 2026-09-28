@@ -13,7 +13,7 @@ Add durable conversational context to the Oracle agent while keeping authorizati
 
 ### Prerequisites
 
-- Completed Labs 4 through 8.
+- Completed Labs 4 through 7.
 - An Oracle schema or supported memory store available to the agent service.
 - A stable actor identifier from OAuth; do not use an email supplied only in a prompt.
 - A cleanup plan for workshop memory records.
@@ -63,7 +63,7 @@ Deep Data Security must execute on the current database query even when memory c
 
 ## Conclusion
 
-Memory improves continuity, but current Oracle data and database authorization remain authoritative. The complete workshop now spans local Gemini CLI, Gemini Enterprise agents, private A2A, A2UI/MCP Apps, lakehouse context, Deep Data Security, and governed agent memory.
+Memory improves continuity, but current Oracle data and database authorization remain authoritative. Continue to the optional Deep Data Security and lakehouse labs to add row-level authorization and governed analytical context.
 
 ## Acknowledgements
 

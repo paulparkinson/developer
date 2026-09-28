@@ -69,7 +69,7 @@ Oracle performs the final row locks, current-stock revalidation, audit insert, a
 
 ## Conclusion
 
-A2UI and MCP Apps make the workflow usable without moving authority into the model or browser. Continue to Lab 7 for the lakehouse data path that supplies broader analytical context.
+A2UI and MCP Apps make the workflow usable without moving authority into the model or browser. Continue to Lab 7 to compare MCP server and application options for Oracle AI Database.
 
 ## Acknowledgements
 
