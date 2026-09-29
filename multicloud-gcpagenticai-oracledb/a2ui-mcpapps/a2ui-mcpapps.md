@@ -55,12 +55,13 @@ The visualization is a presentation of Oracle results, not an authority boundary
 
 ## Task 3: Run the MCP App example
 
-The supplied [reference application](https://github.com/oracle-devrel/oracle-ai-for-sustainable-dev/tree/main/a2ui_mcpapps_mcptoolkit) uses a shared Oracle-backed service with separate Gemini Enterprise A2A/A2UI and MCP Apps adapters. Clone it if it is not already available:
+The workshop repository now contains the `a2ui_mcpapps_mcptoolkit` sample. Use the same checkout from the Lab 2 VM; do not clone the unrelated `oracle-ai-for-sustainable-dev` repository:
 
 ```bash
-git clone https://github.com/oracle-devrel/oracle-ai-for-sustainable-dev.git
-cd oracle-ai-for-sustainable-dev/a2ui_mcpapps_mcptoolkit/mcp-app
+cd "$HOME/oracle-ai-database-gcp-gemini/a2ui_mcpapps_mcptoolkit/mcp-app"
 ```
+
+The sample uses a shared Oracle-backed service with separate Gemini Enterprise A2A/A2UI and MCP Apps adapters. If the directory is missing, update the workshop checkout before continuing rather than substituting another repository.
 
 Configure and start the shared service and Oracle Database MCP Java Toolkit by following the reference application's README. Then, from its `mcp-app` directory:
 

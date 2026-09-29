@@ -172,6 +172,14 @@ ORDER BY object_type, object_name;
 
 The scripts are intended to be rerunnable. Review errors and existing-object messages; do not drop objects in a shared database. The source README documents the SQLcl command-line workflow, not a Database Actions SQL Worksheet workflow, so SQLcl on this Lab 2 VM is the clearest and most reproducible option for this private-endpoint setup.
 
+### Alternative: Database Actions SQL Worksheet
+
+You can also run the SQL statements from [Oracle Database Actions](https://docs.oracle.com/en/cloud/paas/autonomous-database/serverless/adbsb/connect-database-actions.html). From the Autonomous Database details page, select **Database actions** and open **SQL**. Database Actions supports SQL statements, queries, and scripts in a browser-based worksheet.
+
+For a private-endpoint database, Database Actions must be accessed from a client in the same VCN. If the OCI Console or your browser is outside the VCN, the worksheet will not provide a route to the database; use the Lab 2 VM or establish approved private connectivity first. Upload or paste the scripts in the worksheet and run them in the same order shown above, using separate `ADMIN` and `FINANCIAL` sessions as appropriate. Review each result before continuing, and do not run `CREATE USER` if `FINANCIAL` already exists.
+
+SQLcl on the VM remains the primary workshop path. It is reproducible for the checked-out scripts, keeps the wallet and credentials with the private client, and the VM will be reused later to host the workshop's A2A agents. Database Actions is included as a useful alternative for users who already have in-VCN browser access.
+
 ## Acknowledgements
 
 *All Done! You may proceed to the next lab.*
