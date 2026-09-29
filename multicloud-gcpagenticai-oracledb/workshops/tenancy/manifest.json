@@ -16,8 +16,8 @@
       "filename": "../../gcp-started/gcp-started.md"
     },
     {
-      "title": "Lab 1: Provisioning Autonomous Database",
-      "description": "Create the Oracle Database@Google Cloud network and Autonomous Database",
+      "title": "Lab 1: Provisioning Autonomous Database and Populate Tables",
+      "description": "Create Autonomous Database and populate the graph and inventory demo tables",
       "filename": "../../adb-provisioning-databases/adb-provisioning-databases.md"
     },
     {

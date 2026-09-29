@@ -7,7 +7,6 @@ This lab builds the private-network pattern for Gemini Enterprise to reach the O
 ### Objectives
 
 - Understand the Gemini Enterprise -> Cloud Run -> Oracle A2A route.
-- Clone the Oracle AI Database and Gemini sample repository.
 - Deploy or inspect the private A2A relay.
 - Register the relay card with OAuth in Gemini Enterprise.
 - Validate authentication, Deep Data Security, and audit behavior.
@@ -33,18 +32,7 @@ Gemini Enterprise
 
 The relay must not store or log bearer tokens. Oracle remains responsible for database privileges, Select AI object lists, row filtering, and unified auditing.
 
-## Task 2: Clone the sample repository
-
-If you already cloned the repository during Lab 4, reuse that checkout. Otherwise, clone it now:
-
-```bash
-git clone https://github.com/paulparkinson/oracle-ai-database-gcp-gemini.git
-cd oracle-ai-database-gcp-gemini
-```
-
-Use this repository's agent examples and shared SQL assets as references. Keep credentials in an ignored `.env` file or a secret manager; never commit them.
-
-## Task 3: Configure the relay
+## Task 2: Configure the relay
 
 Use the `private-a2a-proxy/` container from the workshop source project as the starting point. Set these deployment-only values through Secret Manager or the deployment environment:
 
@@ -65,7 +53,7 @@ tasks/get
 tasks/cancel
 ```
 
-## Task 4: Validate the security contract
+## Task 3: Validate the security contract
 
 Run the following checks against the relay URL:
 
@@ -83,7 +71,7 @@ Expected results:
 - A request without a bearer token returns HTTP 401.
 - An invalid bearer token reaches Oracle and returns an Oracle authentication error rather than a network ACL error.
 
-## Task 5: Register and test in Gemini Enterprise
+## Task 4: Register and test in Gemini Enterprise
 
 1. Register the relay agent card as a custom A2A agent.
 2. Associate the dedicated Oracle OAuth authorization resource.
@@ -97,7 +85,7 @@ Use this prompt:
 Using the Oracle inventory risk data, list the products at risk in my authorized region. Include probability, projected revenue impact, and the warehouse driving the risk.
 ```
 
-## Task 6: Verify audit and rollback
+## Task 5: Verify audit and rollback
 
 1. Query `UNIFIED_AUDIT_TRAIL` as an authorized auditor and confirm A2A activity is recorded.
 2. Confirm the relay never logs bearer tokens.
