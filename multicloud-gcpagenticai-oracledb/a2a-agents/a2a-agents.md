@@ -13,7 +13,7 @@ This lab builds the private-network pattern for Gemini Enterprise to reach the O
 
 ### Prerequisites
 
-- Completed Lab 4.
+- Completed Lab 4 (and the preceding labs).
 - GCP project and region with the Oracle Database@Google Cloud network attached.
 - Cloud Run deployment permissions and a private Oracle A2A endpoint.
 - Dedicated Oracle OAuth client and least-privileged database users.

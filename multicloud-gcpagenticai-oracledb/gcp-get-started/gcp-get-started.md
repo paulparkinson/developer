@@ -1,9 +1,9 @@
 
-# Setup Google Run compute instance to run A2A agents
+# Setup Google Cloud networking and compute instance
 
 ## Introduction
 
-This lab prepares Google Cloud networking and a Compute Engine VM for the workshop A2A agents and their connection to Oracle Database@Google Cloud Autonomous Database.
+This lab prepares Google Cloud networking and a Compute Engine VM for SQLcl access to the private Oracle Database@Google Cloud Autonomous Database endpoint. The same VM can also be used later by the workshop's A2A agents.
 
 Estimated Time: 30 minutes
 
@@ -12,7 +12,7 @@ Estimated Time: 30 minutes
 As a database user, DBA, or application developer:
 
 1. Create a Virtual Private Cloud (VPC) Network in Google Cloud.
-2. Provision a Compute Engine VM instance to run the A2A agents.
+2. Provision a Compute Engine VM instance that can access the private database endpoint.
 3. Set up the Python environment.
 
 ## Task 1: Create a Virtual Private Cloud (VPC)
@@ -111,7 +111,7 @@ In this section, you will create a VPC which will have two subnets:
 
     ![VM instance create](./images/compute-vm-instance.png "VM instance create")
 
-You may now **proceed to the next lab** to provision Autonomous Database.
+Return to **Lab 1** to finish the database setup and populate the sample tables using this VM. After completing Lab 1, proceed to Lab 3.
 
 ## Acknowledgements
 

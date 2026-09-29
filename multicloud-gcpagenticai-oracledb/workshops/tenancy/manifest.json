@@ -21,19 +21,19 @@
       "filename": "../../adb-provisioning-databases/adb-provisioning-databases.md"
     },
     {
-      "title": "Lab 2 (Optional): Access Oracle AI Database from Gemini CLI",
+      "title": "Lab 2: Setup Google Cloud networking and compute instance",
+      "description": "Set up the private network path and compute instance used to access the database",
+      "filename": "../../gcp-get-started/gcp-get-started.md"
+    },
+    {
+      "title": "Lab 3 (Optional): Access Oracle AI Database from Gemini CLI",
       "description": "Connect Gemini CLI to Oracle AI Database through SQLcl MCP",
       "filename": "../../gemini-cli/gemini-cli.md"
     },
     {
-      "title": "Lab 3: Setup and Use Oracle AI Database Agent for Gemini Enterprise Apps",
+      "title": "Lab 4: Setup and Use Oracle AI Database Agent for Gemini Enterprise Apps",
       "description": "Follow the Oracle Developers guide to set up the database agent in Gemini Enterprise",
       "filename": "../../gemini-enterprise-agent/gemini-enterprise-agent.md"
-    },
-    {
-      "title": "Lab 4: Setup Google Run compute instance to run A2A agents",
-      "description": "Set up Google Cloud networking and a compute instance for the A2A agents",
-      "filename": "../../gcp-get-started/gcp-get-started.md"
     },
     {
       "title": "Lab 5: Develop A2A Agents that use the Oracle Agent in Gemini Enterprise",

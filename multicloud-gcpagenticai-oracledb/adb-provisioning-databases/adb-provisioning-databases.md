@@ -17,7 +17,7 @@ As a database user, DBA or application developer:
 
 ### Required Artifacts
 
-- A Google Cloud account and an existing VPC network to associate with Oracle Database@Google Cloud. If you still need to create the VPC, complete Task 1 of Lab 4 first, then return here.
+- A Google Cloud account and an existing VPC network to associate with Oracle Database@Google Cloud. If you still need to create the VPC, complete Task 1 of Lab 2 first, then return here.
 
 ## Task 1: Create an ODBG Network
 
@@ -164,11 +164,11 @@ In this section, you will be provisioning an Autonomous Database using the Googl
     </copy>
     ```
 
-This database uses a private endpoint. If you do not already have a SQLcl client with a route to the database, complete Lab 4 to create the GCP VM, then return here to finish Tasks 4 and 5 before using the database in Labs 2 and 3.
+This database uses a private endpoint. If you do not already have a SQLcl client with a route to the database, complete Lab 2 to create the GCP VM, then return here to finish Tasks 4 and 5 before continuing to Labs 3 and 4.
 
 ## Task 4: Clone the sample repository
 
-Run these commands on the SQLcl machine. For the standard private-endpoint setup, use the GCP VM from Lab 4. If the repository was already cloned on that machine, reuse the existing checkout.
+Run these commands on the SQLcl machine. For the standard private-endpoint setup, use the GCP VM from Lab 2. If the repository was already cloned on that machine, reuse the existing checkout.
 
 ```bash
 git clone https://github.com/paulparkinson/oracle-ai-database-gcp-gemini.git
@@ -225,7 +225,7 @@ WHERE object_name LIKE 'SC_%' OR object_name = 'SUPPLY_CHAIN_GRAPH'
 ORDER BY object_type, object_name;
 ```
 
-The scripts are intended to be rerunnable. Review errors and existing-object messages; do not drop objects in a shared database. The source README documents the SQLcl command-line workflow, not a Database Actions SQL Worksheet workflow, so SQLcl on the Lab 4 VM is the clearest and most reproducible option for this private-endpoint setup.
+The scripts are intended to be rerunnable. Review errors and existing-object messages; do not drop objects in a shared database. The source README documents the SQLcl command-line workflow, not a Database Actions SQL Worksheet workflow, so SQLcl on the Lab 2 VM is the clearest and most reproducible option for this private-endpoint setup.
 
 You may now **proceed to the next lab**.
 
