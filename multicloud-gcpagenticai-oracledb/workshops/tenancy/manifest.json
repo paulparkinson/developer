@@ -16,13 +16,13 @@
       "filename": "../../gcp-started/gcp-started.md"
     },
     {
-      "title": "Lab 1: Provisioning Autonomous Database and Populate Tables",
-      "description": "Create Autonomous Database and populate the graph and inventory demo tables",
+      "title": "Lab 1: Provisioning Autonomous Database",
+      "description": "Create the Autonomous Database used by the workshop",
       "filename": "../../adb-provisioning-databases/adb-provisioning-databases.md"
     },
     {
-      "title": "Lab 2: Setup Google Cloud networking and compute instance",
-      "description": "Set up the private network path and compute instance used to access the database",
+      "title": "Lab 2: GCP networking and VM setup and populate database tables",
+      "description": "Set up private database access and populate the sample tables",
       "filename": "../../gcp-get-started/gcp-get-started.md"
     },
     {

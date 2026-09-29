@@ -1,9 +1,9 @@
 
-# Provisioning Autonomous Database and Populate Tables
+# Provisioning Autonomous Database
 
 ## Introduction
 
-This lab provisions Oracle Database@Google Cloud Autonomous Database and prepares the graph and inventory sample tables used by later labs.
+This lab provisions Oracle Database@Google Cloud Autonomous Database. The sample tables are populated in Lab 2 after the private-network VM is available.
 
 Estimated Time: 10 minutes
 
@@ -13,11 +13,10 @@ As a database user, DBA or application developer:
 
 1. Create an ODBG network.
 2. Provision an Autonomous Transaction Processing database.
-3. Populate the supply-chain graph and inventory-risk sample tables.
 
 ### Required Artifacts
 
-- A Google Cloud account and an existing VPC network to associate with Oracle Database@Google Cloud. If you still need to create the VPC, complete Task 1 of Lab 2 first, then return here.
+- A Google Cloud account and an existing VPC network to associate with Oracle Database@Google Cloud. If you still need to create the VPC, complete Lab 2 first.
 
 ## Task 1: Create an ODBG Network
 
@@ -163,69 +162,6 @@ In this section, you will be provisioning an Autonomous Database using the Googl
     unzip Wallet_db_name.zip
     </copy>
     ```
-
-This database uses a private endpoint. If you do not already have a SQLcl client with a route to the database, complete Lab 2 to create the GCP VM, then return here to finish Tasks 4 and 5 before continuing to Labs 3 and 4.
-
-## Task 4: Clone the sample repository
-
-Run these commands on the SQLcl machine. For the standard private-endpoint setup, use the GCP VM from Lab 2. If the repository was already cloned on that machine, reuse the existing checkout.
-
-```bash
-git clone https://github.com/paulparkinson/oracle-ai-database-gcp-gemini.git
-cd oracle-ai-database-gcp-gemini
-```
-
-## Task 5: Populate the sample tables
-
-The [data tables README](https://github.com/paulparkinson/oracle-ai-database-gcp-gemini/blob/main/sql/DATA_TABLES_README.md) documents SQLcl scripts. SQLcl is the recommended path here because it runs the checked-out files in order and prompts for database passwords. Install it from [Oracle SQLcl Downloads](https://www.oracle.com/database/sqldeveloper/technologies/sqlcl/download/) if it is not already available on the VM. Keep `TNS_ADMIN` set to the directory containing the extracted wallet, then connect using a service alias from the wallet's `tnsnames.ora` file:
-
-```bash
-export TNS_ADMIN="$HOME/wallet"
-sql ADMIN@your_adb_service_alias
-```
-
-Enter the `ADMIN` password when prompted. The README targets a `FINANCIAL` schema but does not create it. Check whether the schema already exists; only if it does not, create it as `ADMIN` and grant the required table privileges:
-
-```sql
-SELECT username FROM all_users WHERE username = 'FINANCIAL';
-
-CREATE USER FINANCIAL IDENTIFIED BY "Replace_With_A_Strong_Password";
-GRANT CREATE SESSION, CREATE TABLE TO FINANCIAL;
-ALTER USER FINANCIAL QUOTA 100M ON DATA;
-```
-
-If the query returns `FINANCIAL`, do not run the `CREATE USER` statement. Confirm that the existing schema can create tables and has quota on `DATA`.
-
-Still connected as `ADMIN`, run the one-time preparation script:
-
-```sql
-@sql/admin_prepare_paulparkdb_demo.sql
-EXIT
-```
-
-Reconnect as `FINANCIAL`, enter its password when prompted, and run these scripts in order:
-
-```bash
-sql FINANCIAL@your_adb_service_alias
-```
-
-```sql
-@sql/setup_supply_chain_graph_schema.sql
-@sql/seed_supply_chain_graph_data.sql
-@sql/setup_inventory_risk_demo_schema.sql
-@sql/seed_inventory_risk_demo_data.sql
-```
-
-Verify the created tables, views, and graph:
-
-```sql
-SELECT object_name, object_type, status
-FROM user_objects
-WHERE object_name LIKE 'SC_%' OR object_name = 'SUPPLY_CHAIN_GRAPH'
-ORDER BY object_type, object_name;
-```
-
-The scripts are intended to be rerunnable. Review errors and existing-object messages; do not drop objects in a shared database. The source README documents the SQLcl command-line workflow, not a Database Actions SQL Worksheet workflow, so SQLcl on the Lab 2 VM is the clearest and most reproducible option for this private-endpoint setup.
 
 You may now **proceed to the next lab**.
 
