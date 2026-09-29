@@ -172,11 +172,9 @@ ORDER BY object_type, object_name;
 
 The scripts are intended to be rerunnable. Review errors and existing-object messages; do not drop objects in a shared database. The source README documents the SQLcl command-line workflow, not a Database Actions SQL Worksheet workflow, so SQLcl on this Lab 2 VM is the clearest and most reproducible option for this private-endpoint setup.
 
-You may now **proceed to Lab 3**.
-
 ## Acknowledgements
 
-*All Done! You have successfully created a VPC Network and Compute VM instance.*
+*All Done! You may proceed to the next lab.*
 
-- **Authors/Contributors** - Vivek Verma, Master Principal Cloud Architect, North America Cloud Engineering
-- **Last Updated By/Date** - Vivek Verma, July 2025
+- **Authors/Contributors** - Paul Parkinson, Architect and Dev Advocate, Oracle AI Database
+- **Last Updated By/Date** - Paul Parkinson, October 2026

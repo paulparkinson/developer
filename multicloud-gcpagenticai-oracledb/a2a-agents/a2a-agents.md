@@ -97,6 +97,7 @@ A2A carries messages between Gemini Enterprise and the Oracle agent; the relay m
 
 ## Acknowledgements
 
-- Gemini Enterprise A2A registration documentation
-- Oracle private-endpoint A2A security documentation
-- Oracle AI Database private A2A runbook
+*All Done! You may proceed to the next lab.*
+
+- **Authors/Contributors** - Paul Parkinson, Architect and Dev Advocate, Oracle AI Database
+- **Last Updated By/Date** - Paul Parkinson, October 2026

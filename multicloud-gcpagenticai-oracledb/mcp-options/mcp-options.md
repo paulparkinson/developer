@@ -86,9 +86,7 @@ MCP standardizes tool access, but it does not make a server or tool safe by itse
 
 ## Acknowledgements
 
-- [Oracle Database MCP Java Toolkit sample](https://github.com/oracle-devrel/oracle-ai-for-sustainable-dev/tree/main/a2ui_mcpapps_mcptoolkit/oracle-db-mcp-toolkit)
-- [Develop A2UI and MCP Apps with Oracle AI Database and the Java MCP Toolkit](https://paul-parkinson.medium.com/develop-a2ui-and-mcp-apps-with-oracle-ai-database-and-the-java-mcp-toolkit-running-in-google-gemini-b495abf9b949)
-- [A2UI and MCP Apps with Oracle Database and the Java MCP Toolkit](https://www.youtube.com/watch?v=FZGAqpYul1A)
-- [Code deep dive: A2UI and MCP Apps](https://www.youtube.com/watch?v=iAASqFO7AKw)
-- [Oracle Database MCP Java Toolkit README](https://github.com/oracle/mcp/blob/main/src/oracle-db-mcp-java-toolkit/README.md)
-- [Google MCP Toolbox for Databases](https://github.com/googleapis/genai-toolbox)
+*All Done! You may proceed to the next lab.*
+
+- **Authors/Contributors** - Paul Parkinson, Architect and Dev Advocate, Oracle AI Database
+- **Last Updated By/Date** - Paul Parkinson, October 2026

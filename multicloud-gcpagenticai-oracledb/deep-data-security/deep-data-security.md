@@ -64,5 +64,7 @@ Deep Data Security makes authorization a database invariant across Gemini CLI, G
 
 ## Acknowledgements
 
-- Oracle Deep Data Security demonstration script
-- Oracle AI Database security and unified auditing documentation
+*All Done! You may proceed to the next lab.*
+
+- **Authors/Contributors** - Paul Parkinson, Architect and Dev Advocate, Oracle AI Database
+- **Last Updated By/Date** - Paul Parkinson, October 2026

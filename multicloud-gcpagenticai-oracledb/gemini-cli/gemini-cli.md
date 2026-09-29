@@ -92,6 +92,7 @@ Gemini CLI provides a fast local validation path for the same Oracle MCP capabil
 
 ## Acknowledgements
 
-- Oracle SQLcl MCP documentation
-- Google Gemini CLI documentation
-- Oracle AI Database workshop source project
+*All Done! You may proceed to the next lab.*
+
+- **Authors/Contributors** - Paul Parkinson, Architect and Dev Advocate, Oracle AI Database
+- **Last Updated By/Date** - Paul Parkinson, October 2026

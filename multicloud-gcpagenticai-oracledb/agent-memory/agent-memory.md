@@ -67,6 +67,7 @@ Memory improves continuity, but current Oracle data and database authorization r
 
 ## Acknowledgements
 
-- Oracle AI Database agent source project
-- Oracle MCP Apps security notes
-- Oracle Deep Data Security and auditing documentation
+*All Done! You may proceed to the next lab.*
+
+- **Authors/Contributors** - Paul Parkinson, Architect and Dev Advocate, Oracle AI Database
+- **Last Updated By/Date** - Paul Parkinson, October 2026

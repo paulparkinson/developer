@@ -163,11 +163,9 @@ In this section, you will be provisioning an Autonomous Database using the Googl
     </copy>
     ```
 
-You may now **proceed to the next lab**.
-
 ## Acknowledgements
 
-*All Done! You have successfully deployed your Autonomous Database instance and is available for use now.*
+*All Done! You may proceed to the next lab.*
 
-- **Authors/Contributors** - Vivek Verma, Master Principal Cloud Architect, North America Cloud Engineering
-- **Last Updated By/Date** - Vivek Verma, July 2025
+- **Authors/Contributors** - Paul Parkinson, Architect and Dev Advocate, Oracle AI Database
+- **Last Updated By/Date** - Paul Parkinson, October 2026

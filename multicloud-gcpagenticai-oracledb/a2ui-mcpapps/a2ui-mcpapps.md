@@ -100,10 +100,7 @@ A2UI and MCP Apps make the workflow usable without moving authority into the mod
 
 ## Acknowledgements
 
-- A2UI v0.9.1 specification
-- MCP Apps extension documentation
-- [Develop A2UI and MCP Apps with Oracle AI Database and the Java MCP Toolkit](https://paul-parkinson.medium.com/develop-a2ui-and-mcp-apps-with-oracle-ai-database-and-the-java-mcp-toolkit-running-in-google-gemini-b495abf9b949)
-- [A2UI and MCP Apps with Oracle Database and the Java MCP Toolkit](https://www.youtube.com/watch?v=FZGAqpYul1A)
-- [Code deep dive: A2UI and MCP Apps](https://www.youtube.com/watch?v=iAASqFO7AKw)
-- [Oracle Database MCP Java Toolkit sample application](https://github.com/oracle-devrel/oracle-ai-for-sustainable-dev/tree/main/a2ui_mcpapps_mcptoolkit)
-- Oracle MCP Toolkit integration plan and security notes
+*All Done! You may proceed to the next lab.*
+
+- **Authors/Contributors** - Paul Parkinson, Architect and Dev Advocate, Oracle AI Database
+- **Last Updated By/Date** - Paul Parkinson, October 2026

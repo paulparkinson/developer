@@ -81,5 +81,7 @@ The lakehouse adds breadth without weakening the operational source of truth. Th
 
 ## Acknowledgements
 
-- Oracle AI Database lakehouse and external-table documentation
-- Oracle AI Database Gemini Enterprise source project
+*All Done! You may proceed to the next lab.*
+
+- **Authors/Contributors** - Paul Parkinson, Architect and Dev Advocate, Oracle AI Database
+- **Last Updated By/Date** - Paul Parkinson, October 2026
