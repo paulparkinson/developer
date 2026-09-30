@@ -2,7 +2,12 @@
 
 ## Introduction
 
-Build a governed review experience for Oracle inventory recommendations. The same Oracle transaction is presented through A2UI to Gemini Enterprise and through an MCP App dashboard to compatible hosts. The model can request a read-only recommendation; only an explicit user action can approve or reject it.
+Build two complementary lanes in the inventory application. MCP Apps provide
+interactive, primarily read-only exploration for spatial hotspots and
+property-graph dependencies. A2UI provides the agent-driven decision lane for
+inventory recommendations, transfer review, and—once the governed write path
+is enabled—explicit approval and execution. These are separate host paths over
+the same Oracle-backed domain; do not force one UI protocol to do both jobs.
 
 The graph example below shows another useful result shape: a property-graph traversal for `SKU-500`, with its supplier-to-warehouse path, a weather alert, and database-derived metrics. Use it as a visual reference when extending the lab's agent experience beyond text and recommendation cards.
 
@@ -14,8 +19,10 @@ The graph example below shows another useful result shape: a property-graph trav
 
 - Understand the relationship between A2A, MCP, A2UI, and MCP Apps.
 - Render an Oracle recommendation with an allowlisted A2UI catalog.
-- Register a `ui://` MCP App resource.
-- Enforce actor-bound, short-lived approval at the service and database layers.
+- Register separate `ui://` MCP App resources for spatial and graph exploration.
+- Keep the transfer MCP App disabled; transfer review belongs to the A2UI lane.
+- Understand the implementation boundary between the current draft flow and a
+  real actor-bound, short-lived approval/write path.
 
 ### Prerequisites
 
@@ -27,11 +34,11 @@ The graph example below shows another useful result shape: a property-graph trav
 ## Task 1: Trace the contracts
 
 ```text
-Gemini Enterprise -- A2A --> agent adapter -- MCP --> Oracle Database MCP Java Toolkit --> Oracle AI Database
-    ^                         |                                                       |
-    +------ A2UI DataParts ---+                                                       +-- governed data and transactions
+Gemini Enterprise -- A2A --> inventory-action coordinator -- Oracle/A2A/MCP --> Oracle AI Database
+    ^                                      |
+    +------------ A2UI review ------------+
 
-MCP-compatible host -- MCP --> MCP server -- ui:// resource --> sandboxed MCP App
+MCP-compatible host -- MCP --> graph/spatial tool -- ui:// resource --> sandboxed MCP App
 ```
 
 Keep the responsibilities distinct:
@@ -41,27 +48,69 @@ Keep the responsibilities distinct:
 - **A2UI** sends a declarative component tree and data model for the host to validate and render with its own approved native components. It is not generated HTML or JavaScript.
 - **MCP Apps** associate an MCP tool with a developer-built `ui://` resource. A compatible host loads that UI in a sandbox and mediates its tool calls through a host bridge.
 
-The supplied code-deep-dive demonstrates separate host adapters over the same governed backend. Gemini Enterprise receives A2UI v0.8 DataParts over A2A v0.3; the standalone browser example uses A2UI v0.9.1 over AG-UI. These are distinct host paths: negotiate the version and component catalog with each host instead of assuming the payloads are interchangeable.
+The supplied code-deep-dive demonstrates separate host adapters over the same governed backend. Gemini Enterprise receives A2UI v0.8 DataParts over A2A v0.3; the MCP Apps host loads developer-built `ui://` resources. These are distinct host paths: negotiate the version, component catalog, and MCP Apps bridge with each host instead of assuming the payloads are interchangeable.
 
 ## Task 2: Render graph, chart, and spatial results
 
-1. In Gemini Enterprise, select the Oracle graph agent and ask: `Use the Oracle Database property graph to show supply-chain dependencies for SKU-500. Include the supplier, plant, port, warehouse, related alert, and product.`
-2. Compare the returned traversal with the graph view above. Verify that the relationships and metrics come from Oracle results, and that the requested SKU is `SKU-500`.
-3. Try the spatial agent with: `Show a map for SKU-500 and highlight warehouse hotspots plus the best relief route.` Then try the chart-capable agent with: `Chart the inventory risk for the top products and label each value with its Oracle source.` Confirm each visualization is backed by structured results rather than invented by the UI.
-4. For A2UI, map structured agent results into the host's advertised catalog and supported component types. Use host-rendered native controls when available; do not put arbitrary markup, scripts, or model-generated component definitions into the surface.
-5. For a graph, map, or chart that needs a custom rendering library or richer interaction, use an MCP App UI resource instead. Keep the visualization in the app and keep data access behind the server's bounded MCP tool contract.
+1. Open the spatial MCP App and select `SKU-500`. Verify that the map shows warehouse hotspots and the suggested relief route from structured Oracle-backed data.
+2. Open the graph MCP App and traverse the supplier → plant → port → warehouse path for `SKU-500`. Verify that the graph data comes from the governed graph/relational service.
+3. Ask the A2A inventory-action agent: `Recommend an inventory action for SKU-500. Gather graph, spatial, and external evidence first, then render the transfer review as A2UI.`
+4. Verify that the agent returns the proposed source, destination, quantity, policy result, and A2UI review controls.
+5. For A2UI, map structured agent results into the host's advertised catalog and supported component types. Use host-rendered native controls; do not put arbitrary markup, scripts, or model-generated component definitions into the surface.
+6. Keep visualization data access behind bounded server contracts. An MCP App is presentation code and must not choose a different product, route, quantity, or database operation than the service returned.
 
 The visualization is a presentation of Oracle results, not an authority boundary. The browser or MCP App must not choose a different product, source, target, or transfer quantity than the governed service returned.
 
-## Task 3: Run the MCP App example
+### What the local toolkit dashboard should show
 
-The workshop repository now contains the `a2ui_mcpapps_mcptoolkit` sample. Use the same checkout from the Lab 2 VM; do not clone the unrelated `oracle-ai-for-sustainable-dev` repository:
+The full-stack toolkit includes a runnable local dashboard that makes the
+surface split visible before a Gemini Enterprise registration. Start it from
+the toolkit repository:
 
 ```bash
-cd "$HOME/oracle-ai-database-gcp-gemini/a2ui_mcpapps_mcptoolkit/mcp-app"
+cd "$HOME/oracle-ai-database-fullstack-toolkit"
+mvn test
+mvn -pl runtime -am spring-boot:run
 ```
 
-The sample uses a shared Oracle-backed service with separate Gemini Enterprise A2A/A2UI and MCP Apps adapters. If the directory is missing, update the workshop checkout before continuing rather than substituting another repository.
+Open `http://localhost:8080`. Confirm these entries:
+
+1. `inventory-spatial-mcpapp` has MCP and MCP APP enabled.
+2. `inventory-graph-mcpapp` has MCP and MCP APP enabled.
+3. `inventory-transfer-a2ui` has A2A and A2UI enabled, while MCP and MCP APP
+   are disabled.
+4. `approve-inventory-transfer`, `reserve-inventory-transfer-id`, and
+   `count-inventory-transfers` are visible as MCP definitions imported from the
+   toolkit catalog. Expose the write tool only through authenticated approval.
+
+![Toolkit dashboard showing the governed approval MCP definition and its PL/SQL contract.](images/toolkit-dashboard-approve-mcp.png)
+
+![Toolkit dashboard showing the spatial MCP App projection.](images/toolkit-spatial-mcpapp.png)
+
+![Toolkit dashboard showing the graph MCP App projection.](images/toolkit-graph-mcpapp.png)
+
+![Toolkit dashboard showing the A2UI transfer projection with MCP App disabled.](images/toolkit-transfer-a2ui-output.png)
+
+The dashboard emits descriptors and example A2UI messages. It does not replace
+the production MCP server, MCP Apps-compatible host, Gemini Enterprise A2A
+registration, or database approval procedure.
+
+## Task 3: Run the MCP App example
+
+The old `a2ui_mcpapps_mcptoolkit/mcp-app` path is not present in the current
+checkout. Clone the toolkit separately and run its descriptor dashboard:
+
+```bash
+git clone https://github.com/paulparkinson/oracle-ai-database-fullstack-toolkit.git "$HOME/oracle-ai-database-fullstack-toolkit"
+cd "$HOME/oracle-ai-database-fullstack-toolkit"
+mvn test
+mvn -pl runtime -am spring-boot:run
+```
+
+For a real MCP App host, use the MCP server/application implementation that
+your host supports and register the graph and spatial `ui://` resources. The
+full-stack toolkit currently supplies transport-neutral descriptors and the
+projection dashboard; it does not ship a complete browser MCP Apps server.
 
 Configure and start the shared service and Oracle Database MCP Java Toolkit by following the reference application's README. Then, from its `mcp-app` directory:
 
@@ -71,17 +120,17 @@ npm run build
 npm run dev
 ```
 
-Register the server resource as a `ui://` MCP App with a compatible host. Invoke the dashboard tool and compare the rendered result with the A2UI surface: both paths should show the same Oracle-backed business result while using different UI contracts. Keep the model-visible recommendation tool read-only. The app-only approve and reject tools must require explicit user interaction and must not be callable by the model.
+Register the graph and spatial resources as `ui://` MCP Apps with a compatible host. Invoke their bounded read-only tools and compare the interactive result with the A2UI transfer-review surface. Keep the model-visible recommendation path read-only. Do not register a transfer MCP App in this architecture: approval and execution belong to the A2UI workflow.
 
 ## Task 4: Keep approval and database authority server-side
 
-1. Request a recommendation and record its ID.
-2. Approve it in the UI without editing product, source, target, or quantity.
-3. Confirm the service binds approval to the authenticated actor and a short-lived, single-use approval handle bound to the exact recommendation.
-4. Attempt to reuse the handle, change the recommendation, or approve as another actor. Each attempt must fail.
-5. Reject a recommendation and confirm no database write is called.
+1. Request a recommendation and record its draft ID.
+2. Review it in A2UI without editing product, source, destination, or quantity.
+3. In the current repository state, confirm that the result remains a draft and no database write is called.
+4. If you implement the write extension, bind approval to the authenticated actor and a short-lived, single-use handle bound to the exact recommendation.
+5. Test replay, expiry, actor mismatch, changed route/quantity, insufficient stock, and rollback; each must fail without a partial write.
 
-The MCP App is untrusted presentation code: its iframe must not receive database credentials, wallet files, or authority to select a new transfer. The service validates the action, and Oracle performs final row locks, current-stock revalidation, audit insert, and reservation in one transaction. This keeps the database, not the model or UI, as the final execution authority.
+The MCP App is untrusted presentation code: its iframe must not receive database credentials, wallet files, or authority to select a transfer. For a future write-enabled A2UI flow, the service must validate the approval and Oracle must perform final row locks, current-stock revalidation, audit insert, and transfer update in one transaction. This keeps the database, not the model or UI, as the final execution authority.
 
 ## Task 5: Test failure and security cases
 
@@ -90,7 +139,7 @@ The MCP App is untrusted presentation code: its iframe must not receive database
 - Confirm the MCP App cannot access the host DOM, cookies, or local storage, and that host communication uses the MCP Apps bridge.
 - Remove the actor identity; approval must fail.
 - Expire the approval token; approval must fail.
-- Attempt a model-visible write; no write-capable model tool should exist.
+- Attempt a model-visible write; no write-capable model tool should exist. The current draft implementation must not claim execution.
 - Inspect logs for bearer tokens, passwords, or wallet paths; none may appear.
 
 Keep the host's A2UI catalog allowlisted and the MCP App's content security policy narrowly scoped. Sandboxing protects the host boundary; it does not replace server authentication, input validation, database authorization, or transaction checks.
@@ -98,6 +147,13 @@ Keep the host's A2UI catalog allowlisted and the MCP App's content security poli
 ## Conclusion
 
 A2UI and MCP Apps make the workflow usable without moving authority into the model or browser. Continue to Lab 7 to compare MCP server and application options for Oracle AI Database.
+
+For reusable implementation guidance, see the
+[`inventory-ui-architecture` agent skill](https://github.com/paulparkinson/oracle-ai-database-gcp-gemini/tree/main/.agents/skills/inventory-ui-architecture)
+and the maintained
+[`INVENTORY_UI_ARCHITECTURE.md`](https://github.com/paulparkinson/oracle-ai-database-gcp-gemini/blob/main/docs/INVENTORY_UI_ARCHITECTURE.md).
+These instructions can be supplied to ChatGPT, Claude, or another coding
+agent when extending the workshop application.
 
 ## Acknowledgements
 

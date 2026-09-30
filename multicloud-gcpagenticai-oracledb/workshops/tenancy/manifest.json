@@ -7,6 +7,11 @@
       "filename": "../../intro/intro.md"
     },
     {
+      "title": "Run the complete workshop",
+      "description": "End-to-end prerequisites, lab order, commands, verification, screenshots, and cleanup",
+      "filename": "../../workshop-runbook/workshop-runbook.md"
+    },
+    {
       "title": "Get Started",
       "filename": "https://livelabs.oracle.com/cdn/common/labs/cloud-login/event-register-free-tier-account.md"
     },

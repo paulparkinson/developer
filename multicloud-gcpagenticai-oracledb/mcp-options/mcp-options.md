@@ -47,7 +47,7 @@ The built-in Oracle AI Database Agent and its A2A endpoint are another option wh
 
 ## Task 3: Design a bounded Oracle toolset
 
-Review the [Oracle Database MCP Java Toolkit sample](https://github.com/oracle-devrel/oracle-ai-for-sustainable-dev/tree/main/a2ui_mcpapps_mcptoolkit/oracle-db-mcp-toolkit) and the [A2UI and MCP Apps walkthrough](https://paul-parkinson.medium.com/develop-a2ui-and-mcp-apps-with-oracle-ai-database-and-the-java-mcp-toolkit-running-in-google-gemini-b495abf9b949).
+Review the [Oracle AI Database Fullstack Toolkit](https://github.com/paulparkinson/oracle-ai-database-fullstack-toolkit), including its checked-in `runtime/src/main/resources/oracle-mcp-tools.yaml` catalog and the [A2UI/MCP Apps lab](../a2ui-mcpapps/a2ui-mcpapps.md). The older `oracle-ai-for-sustainable-dev/a2ui_mcpapps_mcptoolkit` path is not the current workshop source.
 
 For the inventory workflow, use named operations such as:
 
