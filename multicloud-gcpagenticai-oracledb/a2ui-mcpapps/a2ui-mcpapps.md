@@ -19,7 +19,7 @@ The graph example below shows another useful result shape: a property-graph trav
 
 - Understand the relationship between A2A, MCP, A2UI, and MCP Apps.
 - Render an Oracle recommendation with an allowlisted A2UI catalog.
-- Register separate `ui://` MCP App resources for spatial and graph exploration.
+- Extend the existing Oracle Supply-Chain MCP connector with separate `ui://` resources for spatial and graph exploration.
 - Keep the transfer MCP App disabled; transfer review belongs to the A2UI lane.
 - Understand the implementation boundary between the current draft flow and a
   real actor-bound, short-lived approval/write path.
@@ -95,32 +95,35 @@ The dashboard emits descriptors and example A2UI messages. It does not replace
 the production MCP server, MCP Apps-compatible host, Gemini Enterprise A2A
 registration, or database approval procedure.
 
-## Task 3: Run the MCP App example
+## Task 3: Run the existing Oracle Supply-Chain MCP App
 
-The old `a2ui_mcpapps_mcptoolkit/mcp-app` path is not present in the current
-checkout. Clone the toolkit separately and run its descriptor dashboard:
-
-```bash
-git clone https://github.com/paulparkinson/oracle-ai-database-fullstack-toolkit.git "$HOME/oracle-ai-database-fullstack-toolkit"
-cd "$HOME/oracle-ai-database-fullstack-toolkit"
-mvn test
-mvn -pl runtime -am spring-boot:run
-```
-
-For a real MCP App host, use the MCP server/application implementation that
-your host supports and register the graph and spatial `ui://` resources. The
-full-stack toolkit currently supplies transport-neutral descriptors and the
-projection dashboard; it does not ship a complete browser MCP Apps server.
-
-Configure and start the shared service and Oracle Database MCP Java Toolkit by following the reference application's README. Then, from its `mcp-app` directory:
+The working connector implementation is maintained in the existing
+`oracle-ai-for-sustainable-dev/a2ui_mcpapps_mcptoolkit` project. It already
+registers `show-inventory-transfer-dashboard`; the spatial extension adds
+`show-inventory-spatial-hotspots` to that same connector and renders GeoJSON
+with MapLibre GL JS. It is not a second connector.
 
 ```bash
-npm install
+cd "$HOME/oracle-ai-for-sustainable-dev/a2ui_mcpapps_mcptoolkit"
+cd agent-service && ./run.sh
+# In another terminal:
+cd "$HOME/oracle-ai-for-sustainable-dev/a2ui_mcpapps_mcptoolkit/mcp-app"
 npm run build
-npm run dev
+./run.sh
 ```
 
-Register the graph and spatial resources as `ui://` MCP Apps with a compatible host. Invoke their bounded read-only tools and compare the interactive result with the A2UI transfer-review surface. Keep the model-visible recommendation path read-only. Do not register a transfer MCP App in this architecture: approval and execution belong to the A2UI workflow.
+Deploy the MCP App service using the connector's Gemini Enterprise runbook, then
+enable both `show-inventory-transfer-dashboard` and
+`show-inventory-spatial-hotspots` in the existing **Oracle Supply Chain
+Manager** connector. Ask:
+
+```text
+Show the spatial hotspot map for SKU-500.
+```
+
+The MCP tool returns Oracle-backed GeoJSON and the sandboxed MapLibre resource
+renders it. Keep both spatial and transfer tools read-only; approval belongs to
+the A2UI workflow.
 
 ## Task 4: Keep approval and database authority server-side
 

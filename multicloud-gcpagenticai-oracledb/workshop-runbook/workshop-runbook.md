@@ -202,10 +202,25 @@ and production MCP server are still required to render a live ui:// app.
 
 ### Explore with MCP Apps
 
-Register the graph and spatial resources with a compatible MCP Apps host. Ask
-for SKU-500 hotspots and dependency traversal. Confirm the result is read-only,
-uses the returned SKU and route, keeps credentials server-side, and cannot
-invoke the approval procedure.
+The live Oracle Supply-Chain MCP App connector is maintained in the existing
+`oracle-ai-for-sustainable-dev/a2ui_mcpapps_mcptoolkit` project. It owns the
+transfer dashboard and the spatial extension; do not create a second connector.
+Enable these read-only actions in the existing connector:
+
+- `show-inventory-transfer-dashboard`
+- `show-inventory-spatial-hotspots`
+
+Ask:
+
+```text
+Show the spatial hotspot map for SKU-500.
+```
+
+The spatial tool calls the Oracle Database MCP Java Toolkit operation
+`get-inventory-spatial-hotspots`, returns GeoJSON, and renders it with MapLibre
+GL JS. Confirm the map shows source and destination warehouses plus the relief
+route. The MCP App keeps credentials server-side and cannot invoke the
+approval procedure.
 
 ### Decide with A2UI
 

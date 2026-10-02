@@ -47,7 +47,7 @@ The built-in Oracle AI Database Agent and its A2A endpoint are another option wh
 
 ## Task 3: Design a bounded Oracle toolset
 
-Review the [Oracle AI Database Fullstack Toolkit](https://github.com/paulparkinson/oracle-ai-database-fullstack-toolkit), including its checked-in `runtime/src/main/resources/oracle-mcp-tools.yaml` catalog and the [A2UI/MCP Apps lab](../a2ui-mcpapps/a2ui-mcpapps.md). The older `oracle-ai-for-sustainable-dev/a2ui_mcpapps_mcptoolkit` path is not the current workshop source.
+Review the [Oracle AI Database Fullstack Toolkit](https://github.com/paulparkinson/oracle-ai-database-fullstack-toolkit), including its checked-in `runtime/src/main/resources/oracle-mcp-tools.yaml` catalog, and the existing [Oracle Supply-Chain MCP App connector](https://github.com/paulparkinson/oracle-ai-for-sustainable-dev/tree/main/a2ui_mcpapps_mcptoolkit). The connector owns the live transfer dashboard and its MapLibre spatial extension; the full-stack toolkit remains the reusable descriptor/projection foundation.
 
 For the inventory workflow, use named operations such as:
 
