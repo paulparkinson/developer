@@ -188,14 +188,17 @@ SKU-APAC-210 and SKU-APAC-420. Try `Show the spatial hotspot map for SKU-700.`
 Do not use the Toolkit SUPPLY_PRODUCTS transfer recommendations as this catalog.
 
 These are live reads of **seeded Oracle demo tables**, not production inventory
-telemetry or a frontend mock. The catalog and view can change. Discover the
+telemetry or a frontend mock. Both the US and Singapore/Sydney warehouse rows
+belong to this seeded dataset. “Live” describes querying Oracle at request time;
+“seeded” describes how the demonstration data was initially populated.
+The catalog and view can change. Discover the
 current products first; these additional prompts exercise the same bounded
 tools (wording alone does not guarantee Gemini's tool choice):
 
 | Prompt | Expected check |
 | --- | --- |
 | List product IDs and names from the managed Oracle inventory catalog and show its scope. | Catalog action; `FINANCIAL.SC_PRODUCTS`. |
-| Show the spatial hotspot map for SKU-APAC-210. | Singapore/Sydney rather than the US warehouses in the seeded data. |
+| Show the spatial hotspot map for SKU-APAC-210. | Singapore destination and Sydney source, instead of SKU-700's US warehouses. Both SKUs use the same seeded Oracle dataset. |
 | Use Show-inventory-spatial-hotspots for SKU-900 and summarize only the returned roles and scores. | Every row belongs to SKU-900. |
 | Map SKU-APAC-420, then map SKU-APAC-210 for comparison. | Two independent spatial calls, one SKU per result. |
 | Show SKU-700 with maximumRows set to 2. | Display limit; inspect `totalRows`/`truncated`, not a smaller database scope. |
