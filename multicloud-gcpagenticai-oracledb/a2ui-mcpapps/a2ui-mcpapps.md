@@ -95,35 +95,50 @@ The dashboard emits descriptors and example A2UI messages. It does not replace
 the production MCP server, MCP Apps-compatible host, Gemini Enterprise A2A
 registration, or database approval procedure.
 
-## Task 3: Run the existing Oracle Supply-Chain MCP App
+## Task 3: Run the Oracle Supply-Chain MCP App from the correct repository
 
-The working connector implementation is maintained in the existing
-`oracle-ai-for-sustainable-dev/a2ui_mcpapps_mcptoolkit` project. It already
-registers `show-inventory-transfer-dashboard`; the spatial extension adds
-`show-inventory-spatial-hotspots` to that same connector and renders GeoJSON
-with MapLibre GL JS. It is not a second connector.
+The maintained implementation is in
+`oracle-ai-database-gcp-gemini/mcp-app`. It registers both
+`show-inventory-transfer-dashboard` and `show-inventory-spatial-hotspots` on
+the same **Oracle Supply Chain MCP App** connector. It is not a second
+connector.
 
 ```bash
-cd "$HOME/oracle-ai-for-sustainable-dev/a2ui_mcpapps_mcptoolkit"
-cd agent-service && ./run.sh
-# In another terminal:
-cd "$HOME/oracle-ai-for-sustainable-dev/a2ui_mcpapps_mcptoolkit/mcp-app"
+cd "$HOME/src/github.com/paulparkinson/oracle-ai-database-gcp-gemini/mcp-app"
+npm ci --ignore-scripts
 npm run build
-./run.sh
 ```
 
-Deploy the MCP App service using the connector's Gemini Enterprise runbook, then
-enable both `show-inventory-transfer-dashboard` and
-`show-inventory-spatial-hotspots` in the existing **Oracle Supply Chain
-Manager** connector. Ask:
+For the GCP deployment, from the repository root run:
+
+```bash
+./deploy/gcp/deploy-oracle-agent-and-mcp-app.sh
+```
+
+Enable both actions in the existing **Oracle Supply Chain MCP App** connector.
+The spatial path is deliberately:
+
+```text
+MCP tool(sku)
+  -> Java gateway /api/inventory/spatial-hotspots
+  -> private Oracle A2A relay
+  -> managed Oracle AI Database Agent
+  -> validated GeoJSON
+  -> MapLibre MCP App
+```
+
+The tool does not accept model-passed hotspot evidence and does not fall back
+to the MCP Toolkit, static demo rows, or Select AI for spatial reads. Ask:
 
 ```text
 Show the spatial hotspot map for SKU-500.
 ```
 
-The MCP tool returns Oracle-backed GeoJSON and the sandboxed MapLibre resource
-renders it. Keep both spatial and transfer tools read-only; approval belongs to
-the A2UI workflow.
+The MCP tool returns GeoJSON only after the gateway labels the source
+`oracle-ai-database-agent` and validates the returned coordinates. A placeholder
+`[0,0]` route is rejected. Keep both spatial and transfer tools read-only;
+approval belongs to the A2UI workflow, where the MCP Java Toolkit performs the
+write after explicit review.
 
 ## Task 4: Keep approval and database authority server-side
 
