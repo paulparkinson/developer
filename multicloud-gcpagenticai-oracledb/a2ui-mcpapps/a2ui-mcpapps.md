@@ -9,11 +9,16 @@ inventory recommendations, transfer review, and—once the governed write path
 is enabled—explicit approval and execution. These are separate host paths over
 the same Oracle-backed domain; do not force one UI protocol to do both jobs.
 
-The graph example below shows another useful result shape: a property-graph traversal for `SKU-500`, with its supplier-to-warehouse path, a weather alert, and database-derived metrics. Use it as a visual reference when extending the lab's agent experience beyond text and recommendation cards.
+The graph MCP App now renders managed Oracle-agent results with Cytoscape.js:
+typed supplier → plant → port → warehouse → product relationships and optional
+alert → port links. Its query joins the property graph's backing SC_* tables
+through the managed agent; this is not a claim of GRAPH_TABLE execution.
 
-![Oracle property graph result for SKU-500, showing six nodes, five relationship edges, and a traversal summary.](images/oracle-graph-dependency-view.svg)
+![Interactive Cytoscape.js graph from a live managed-agent SKU-700 query, with selected supplier details.](images/managed-agent-graph-sku700.png)
 
-*Example graph view: the Oracle property graph is the source of the traversal; A2UI or an MCP App controls how a compatible host presents it.*
+*Actual October 4, 2026 browser screenshot using the real MCP resource/result
+in a local protocol test host, not a mock graph or a Gemini screenshot. The
+graph is interactive; the screenshot is documentation, not the app's output.*
 
 ### Objectives
 
@@ -57,7 +62,7 @@ The supplied code-deep-dive demonstrates separate host adapters over the same go
 ## Task 2: Render graph, chart, and spatial results
 
 1. Ask `Show the spatial hotspot map for SKU-500` to open the spatial MCP App. Verify warehouse hotspots and the schematic source/destination connection from the managed Oracle agent. This line is not road routing or an approved transfer. Task 3 covers setup if the connector is not ready.
-2. Optional graph extension: if separately implemented/registered, open the graph MCP App and traverse the supplier → plant → port → warehouse path for `SKU-500`. The graph descriptor is not an enabled action on the current catalog/spatial connector. Verify its data against the governed graph/relational service.
+2. Ask `Use Show-supply-chain-graph for SKU-700.` on the same connector. Inspect nodes/edges, drag a node, pan/zoom, search by name or ID and change layouts. The graph uses the managed Oracle agent, not the Toolkit, a host-passed payload or an image generator. See Task 3's graph steps below.
 3. Ask the A2A inventory-action agent: `Recommend an inventory action for SKU-500. Gather graph, spatial, and external evidence first, then render the transfer review as A2UI.`
 4. Verify that the agent returns the proposed source, destination, quantity, policy result, and A2UI review controls.
 5. For A2UI, map structured agent results into the host's advertised catalog and supported component types. Use host-rendered native controls; do not put arbitrary markup, scripts, or model-generated component definitions into the surface.
@@ -103,7 +108,7 @@ registration, or database approval procedure.
 
 The maintained implementation is in
 `oracle-ai-database-gcp-gemini/mcp-app`. In read-only mode it registers
-`list-inventory-items` and `show-inventory-spatial-hotspots` on
+`list-inventory-items`, `show-inventory-spatial-hotspots` and `show-supply-chain-graph` on
 the same **Oracle Supply Chain MCP App** connector. It is not a second
 connector.
 
@@ -124,12 +129,12 @@ references using the linked runbook. From the application repository root run:
 ```
 
 Click **Reload custom actions** on the existing **Oracle Supply Chain MCP App**
-connector, enable the catalog and spatial actions, and start a new conversation.
+connector, enable the catalog, spatial and graph actions, and start a new conversation.
 The Toolkit transfer-dashboard action is no longer offered in read-only mode.
 
-![Existing Oracle Supply-Chain MCP App connector showing List-inventory-items and Show-inventory-spatial-hotspots both enabled.](images/managed-agent-actions-enabled.jpg)
+![Existing Oracle Supply-Chain MCP App connector showing catalog, spatial and graph actions enabled.](images/managed-agent-three-actions.jpg)
 
-*Actual connector configuration, October 4, 2026. Reload actions after schema
+*Actual three-action configuration, October 4, 2026. Reload after tool/schema
 changes, not for each SKU. No second MCP connector is required.*
 
 The spatial path is deliberately:
@@ -160,8 +165,8 @@ Approval belongs to the separate A2UI/Toolkit workflow.
 ### Why the Java gateway is here
 
 The gateway is a bounded adapter in the existing Java/Spring Boot application,
-not another database or a replacement Oracle agent. Its `/api/inventory/catalog`
-and `/api/inventory/spatial-hotspots` endpoints ask the managed agent to execute
+not another database or a replacement Oracle agent. Its `/api/inventory/catalog`,
+`/api/inventory/spatial-hotspots` and `/api/inventory/supply-chain-graph` endpoints ask the managed agent to execute
 fixed read-only queries and validate its returned rows. The spatial query
 retrieves the scoped view; Java filters by per-row product ID. This demo
 rejects results over 1,000 rows rather than silently treating them as complete.
@@ -259,6 +264,77 @@ The [canonical runbook](https://github.com/paulparkinson/oracle-ai-database-gcp-
 contains local startup, deployment prerequisites, raw curl checks, read-only
 SQL comparison, source-code trace and dated task/revision evidence.
 
+### Run and verify the interactive graph
+
+![Actual SKU-700 Cytoscape.js graph inside Gemini Enterprise.](images/gemini-cytoscape-sku700.jpg)
+
+*Verified in Gemini Enterprise on October 4, 2026 with Google Search disabled.
+Clicking DFW Hub returned database ID 4002 and ROUTES_TO/STOCKS relationships.
+The same existing connector was used. Deployed browser tests additionally
+covered SKU-500, SKU-700 and SKU-501 NO_DATA; the application runbook records
+the service revisions, task IDs and verification limits.*
+
+1. Use the same OAuth-configured gateway, MCP server and connector as the map.
+   After deploying, **Reload custom actions** and enable **Show-supply-chain-graph**.
+   No new Oracle consent is normally needed while the existing refresh grant
+   remains valid. No Cytoscape CDN, API key or browser database access is needed.
+2. In a fresh Gemini chat with the connector enabled, try:
+
+   ```text
+   Use Show-supply-chain-graph for SKU-500.
+   Use Show-supply-chain-graph for SKU-700. Explain only its returned relationships.
+   Show the supply-chain dependency graph for SKU-900 using Show-supply-chain-graph.
+   Use Show-supply-chain-graph for SKU-501. Do not substitute another product.
+   ```
+
+   The first three exercise different product paths in the seeded demo dataset.
+   SKU-501 is the dated NO_DATA case. A catalog product can also lack a complete
+   active path; that is not evidence of safety or absence from all tables.
+3. Click a node for its database ID/name/type and adjacent edges. Click an edge
+   for its relationship and endpoints. Drag nodes, pan the background, zoom,
+   select Circle/Dependency/Force layout, find a node, and choose **Fit graph**.
+   These are view operations, not database writes or fresh queries.
+4. Check provenance exactly as above: named MCP action, authenticated server
+   A2A request and task ID, then authorized independent Oracle row/audit
+   comparison. The graph takes a SKU only, not Gemini-supplied nodes/evidence.
+   Requested SQL/task IDs are not signed proof of execution. Google Search or
+   a skill-loading event is not a substitute for the managed-agent call.
+5. Run automated verification from the application repository:
+
+   ```bash
+   cd oracle_agent_java
+   mvn clean test package
+   cd ../mcp-app
+   npm ci --ignore-scripts
+   npm run typecheck
+   npm run build
+   node --import tsx --test test/graph-contract.test.mjs test/concurrent-requests.test.mjs
+   node test/graph-ui.mjs https://YOUR_MCP_SERVICE/mcp SKU-700 /tmp/graph-sku700.png
+   node test/graph-ui.mjs https://YOUR_MCP_SERVICE/mcp SKU-900
+   node test/graph-ui.mjs https://YOUR_MCP_SERVICE/mcp SKU-501 /tmp/graph-no-data.png
+   ```
+
+   The browser test requires Chrome. It fetches actual evidence and the MCP
+   resource, renders in a minimal protocol host under a no-network CSP, and
+   checks pan/zoom/drag/layout/search and node/edge clicks. Java/contract tests
+   use fixtures; neither fixture tests nor the protocol host test alone prove
+   Gemini-host compatibility or independently audited SQL execution.
+
+![Live managed-agent SKU-501 graph response showing explicit no-data instead of invented nodes.](images/managed-agent-graph-no-data.png)
+
+The [graph runbook](https://github.com/paulparkinson/oracle-ai-database-gcp-gemini/blob/main/docs/MCP_APP_ORACLE_AGENT_GRAPH.md)
+contains local startup, the fixed SC_* join scope, node/edge validation, row
+limits, deployment and dated results. Reads remain server-side managed-agent
+calls with **no Toolkit/direct-JDBC/static fallback**. The managed agent uses
+an LLM internally, so its returned text is validated but not a cryptographic
+database receipt. Query/auth/validation failures must be reported as errors,
+not transformed into NO_DATA or a fabricated graph.
+
+The old spatial Java2D/JTS picture generator and bundled GeoJSON basemaps have
+been removed from the application; Git history retains them. The new graph
+action does not call the separate legacy `/graph` A2A image/payload examples.
+Transfers stay in the A2UI/Toolkit lane, with the current draft-only boundary.
+
 ## Task 4: Keep approval and database authority server-side
 
 1. Request a recommendation and record its draft ID.
@@ -298,8 +374,8 @@ Copy this prompt (or supply the files locally if the assistant cannot open URLs)
 
 ```text
 Read https://github.com/paulparkinson/oracle-ai-database-gcp-gemini/blob/main/.agents/skills/inventory-ui-architecture/SKILL.md
-and its linked managed-agent runbook. Help me run and verify the catalog and
-spatial MCP App using a SKU from the catalog. Keep reads on the managed Oracle
+and its linked managed-agent and graph runbooks. Help me run and verify the catalog,
+spatial and Cytoscape.js graph MCP Apps using a SKU from the catalog. Keep reads on the managed Oracle
 AI Database Agent path; do not use model-passed evidence or Toolkit fallback.
 Explain what the observed evidence proves and what remains unverified.
 Keep application changes in oracle-ai-database-gcp-gemini and workshop changes

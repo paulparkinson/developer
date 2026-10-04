@@ -16,7 +16,12 @@ not this documentation repository or `oracle-ai-for-sustainable-dev`.
   copy/paste prompt. Maintain this single canonical skill rather than a divergent
   workshop copy.
 
-Current MCP actions are catalog and spatial reads via the managed Oracle AI
+The [interactive graph runbook](https://github.com/paulparkinson/oracle-ai-database-gcp-gemini/blob/main/docs/MCP_APP_ORACLE_AGENT_GRAPH.md)
+adds Cytoscape.js, dynamic graph prompts, live-result screenshots and browser
+interaction tests. The graph queries SC_* relationship tables through the
+managed agent, not GRAPH_TABLE, and returns an interactive app rather than a PNG.
+
+Current MCP actions are catalog, spatial and graph reads via the managed Oracle AI
 Database Agent, with no Toolkit/static fallback. These are live reads of
 seeded demo data. The separate A2A/A2UI flow currently creates transfer drafts
 and review controls; do not describe it as a verified committed inventory write.
