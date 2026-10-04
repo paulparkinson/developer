@@ -52,7 +52,7 @@ The supplied code-deep-dive demonstrates separate host adapters over the same go
 
 ## Task 2: Render graph, chart, and spatial results
 
-1. Open the spatial MCP App and select `SKU-500`. Verify that the map shows warehouse hotspots and the suggested relief route from structured Oracle-backed data.
+1. Open the spatial MCP App and select `SKU-500`. Verify warehouse hotspots and the schematic source/destination connection from the managed Oracle agent. This line is not road routing or an approved transfer.
 2. Open the graph MCP App and traverse the supplier → plant → port → warehouse path for `SKU-500`. Verify that the graph data comes from the governed graph/relational service.
 3. Ask the A2A inventory-action agent: `Recommend an inventory action for SKU-500. Gather graph, spatial, and external evidence first, then render the transfer review as A2UI.`
 4. Verify that the agent returns the proposed source, destination, quantity, policy result, and A2UI review controls.
@@ -98,8 +98,8 @@ registration, or database approval procedure.
 ## Task 3: Run the Oracle Supply-Chain MCP App from the correct repository
 
 The maintained implementation is in
-`oracle-ai-database-gcp-gemini/mcp-app`. It registers both
-`show-inventory-transfer-dashboard` and `show-inventory-spatial-hotspots` on
+`oracle-ai-database-gcp-gemini/mcp-app`. In read-only mode it registers
+`list-inventory-items` and `show-inventory-spatial-hotspots` on
 the same **Oracle Supply Chain MCP App** connector. It is not a second
 connector.
 
@@ -115,7 +115,9 @@ For the GCP deployment, from the repository root run:
 ./deploy/gcp/deploy-oracle-agent-and-mcp-app.sh
 ```
 
-Enable both actions in the existing **Oracle Supply Chain MCP App** connector.
+Click **Reload custom actions** on the existing **Oracle Supply Chain MCP App**
+connector, enable the catalog and spatial actions, and start a new conversation.
+The Toolkit transfer-dashboard action is no longer offered in read-only mode.
 The spatial path is deliberately:
 
 ```text
@@ -134,11 +136,28 @@ to the MCP Toolkit, static demo rows, or Select AI for spatial reads. Ask:
 Show the spatial hotspot map for SKU-500.
 ```
 
-The MCP tool returns GeoJSON only after the gateway labels the source
-`oracle-ai-database-agent` and validates the returned coordinates. A placeholder
-`[0,0]` route is rejected. Keep both spatial and transfer tools read-only;
-approval belongs to the A2UI workflow, where the MCP Java Toolkit performs the
-write after explicit review.
+The gateway requests database rows containing PRODUCT_ID and WAREHOUSE_ID and
+filters by product before constructing GeoJSON. It rejects conflicting rows,
+invalid coordinates and hotspot scores outside 0–1. Source, destination and
+relay roles stay distinct. Connections are schematic, not road routes.
+Approval belongs to the separate A2UI/Toolkit workflow.
+
+Ask `Use List-inventory-items to list the managed Oracle inventory catalog and its scope.`
+The audited SC_PRODUCTS catalog contains SKU-500, SKU-700, SKU-900,
+SKU-APAC-210 and SKU-APAC-420. Try `Show the spatial hotspot map for SKU-700.`
+Do not use the Toolkit SUPPLY_PRODUCTS transfer recommendations as this catalog.
+
+Test `Show the spatial hotspot map for SKU-501.` A NO_DATA result must say
+risk is **unknown**, not safe/stable, and must not promise monitoring. An error
+must not become an invented diagnosis or trigger a Toolkit fallback.
+HOTSPOT_SCORE is a score, not a stockout probability.
+
+Inspect the returned scope, per-row SKU/warehouse IDs and A2A task ID.
+These establish the server's managed-agent call path; they are not a signed
+database audit record. For independent SQL execution proof, correlate the task
+with Oracle query/audit records rather than trusting Gemini's narration.
+Run the implementation's `mcp-app/test/live-evidence.mjs` against the deployed
+MCP endpoint for read-only catalog, multi-SKU and no-data contract checks.
 
 ## Task 4: Keep approval and database authority server-side
 
