@@ -147,6 +147,11 @@ The audited SC_PRODUCTS catalog contains SKU-500, SKU-700, SKU-900,
 SKU-APAC-210 and SKU-APAC-420. Try `Show the spatial hotspot map for SKU-700.`
 Do not use the Toolkit SUPPLY_PRODUCTS transfer recommendations as this catalog.
 
+![Verified SKU-700 MCP App in Gemini Enterprise: DFW source, Chicago destination, Newark satellite and a schematic source/destination connection.](images/managed-agent-sku700-v6.jpg)
+
+This October 4, 2026 screenshot is from a live managed-agent call, not a UI mock.
+Clicking DFW displayed WH-202, SOURCE_BUFFER and hotspot score 0.36.
+
 Test `Show the spatial hotspot map for SKU-501.` A NO_DATA result must say
 risk is **unknown**, not safe/stable, and must not promise monitoring. An error
 must not become an invented diagnosis or trigger a Toolkit fallback.
