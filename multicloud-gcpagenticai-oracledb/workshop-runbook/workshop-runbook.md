@@ -165,75 +165,56 @@ Register the inventory-system, graph, spatial, and action cards. Test one
 read-only graph request and one action recommendation. The action must remain a
 draft until the governed write path is explicitly enabled.
 
-## 7. Run the full-stack toolkit
+## 7. Prepare the deployed MCP Apps
 
-~~~bash
-cd "$TOOLKIT_REPO"
-mvn test
-mvn -pl runtime -am spring-boot:run
-~~~
+Use the application checkout `oracle-ai-database-gcp-gemini`. Deploy the Java
+gateway and MCP App server to GCP with the existing private A2A relay and
+Secret Manager OAuth references. The
+[managed-read operator runbook](https://github.com/paulparkinson/oracle-ai-database-gcp-gemini/blob/main/docs/MCP_APP_ORACLE_AGENT_SPATIAL.md)
+covers setup and deployment; the
+[graph runbook](https://github.com/paulparkinson/oracle-ai-database-gcp-gemini/blob/main/docs/MCP_APP_ORACLE_AGENT_GRAPH.md)
+covers the property graph and active Select AI profile.
 
-Open http://localhost:8080 and verify:
-
-- inventory-spatial-mcpapp: MCP + MCP App enabled.
-- inventory-graph-mcpapp: MCP + MCP App enabled.
-- inventory-transfer-a2ui: A2A + A2UI enabled; MCP App disabled.
-- approve-inventory-transfer: named PL/SQL operation imported from the MCP
-  catalog, not unrestricted SQL.
-
-Inspect projections:
-
-~~~bash
-curl -s http://localhost:8080/api/tools | jq
-curl -s http://localhost:8080/api/tools/inventory-spatial-mcpapp/mcp-app | jq
-curl -s http://localhost:8080/api/tools/inventory-graph-mcpapp/mcp-app | jq
-curl -s http://localhost:8080/api/tools/inventory-transfer-a2ui/a2ui/example | jq
-curl -s http://localhost:8080/api/tools/approve-inventory-transfer/mcp | jq
-~~~
-
-The toolkit supplies descriptors and A2UI examples. A compatible MCP Apps host
-and production MCP server are still required to render a live ui:// app.
-
-![Toolkit MCP approval projection](../a2ui-mcpapps/images/toolkit-dashboard-approve-mcp.png)
-
-![Toolkit A2UI transfer projection](../a2ui-mcpapps/images/toolkit-transfer-a2ui-output.png)
+In Gemini Enterprise, reload the existing **Oracle Supply-Chain MCP App**
+connector and enable **List-inventory-items**, **Show-supply-chain-graph** and
+**Show-inventory-spatial-hotspots**. Do not enable the old transfer dashboard
+or create a second connector.
 
 ## 8. Verify both UI paths
 
 ### Explore with MCP Apps
 
-The live Oracle Supply-Chain MCP App connector is maintained in the existing
-`oracle-ai-for-sustainable-dev/a2ui_mcpapps_mcptoolkit` project. It owns the
-transfer dashboard and the spatial extension; do not create a second connector.
-Enable these read-only actions in the existing connector:
-
-- `show-inventory-transfer-dashboard`
-- `show-inventory-spatial-hotspots`
-
-Ask:
+Follow [Develop A2UI and MCPApps (graph, spatial, …)](../a2ui-mcpapps/a2ui-mcpapps.md)
+for the GCP-hosted walkthrough, screenshots and verification steps. Ask:
 
 ```text
-Show the spatial hotspot map for SKU-500.
+Use List-inventory-items to list the managed Oracle inventory catalog and its scope.
+Use Show-supply-chain-graph for SKU-700.
+Show the spatial hotspot map for SKU-APAC-210.
 ```
 
-The spatial tool calls the Oracle Database MCP Java Toolkit operation
-`get-inventory-spatial-hotspots`, returns GeoJSON, and renders it with MapLibre
-GL JS. Confirm the map shows source and destination warehouses plus the relief
-route. The MCP App keeps credentials server-side and cannot invoke the
-approval procedure.
+Both visualizations fetch evidence server-side through the managed Oracle AI
+Database Agent. The graph uses `GRAPH_TABLE`/`MATCH` on the Oracle property
+graph and Cytoscape.js; the map uses validated warehouse rows and MapLibre.
+Neither read path accepts model-passed evidence or falls back to the Toolkit.
+The toolkit dashboard is not part of this deployed visualization lab.
 
 ### Decide with A2UI
 
-In Gemini Enterprise ask:
+In Gemini Enterprise select **Agents → Oracle Supply-Chain A2UI**, then ask:
 
 ~~~text
-Recommend an inventory action for SKU-500. Gather graph, spatial, and external evidence first, then render the transfer review as A2UI.
+Show inventory transfers with a minimum stockout risk of 70, limited to 3 recommendations. Review only; do not approve or execute a transfer.
 ~~~
 
-Confirm the A2UI surface shows evidence, source, destination, quantity, policy,
-draft ID, and approval state. The current repository workflow stops at draft;
-the database write requires authenticated approval bound to the exact governed
-recommendation and the named approval procedure.
+Confirm the native A2UI cards show the exact SKU, route, quantity and risk.
+This is the existing GCP Toolkit-backed review service, not the older VM
+inventory-action coordinator. It queries its own governed recommendation
+dataset; the preceding map/graph conversation is not automatically forwarded.
+Choose **Cancel review without writing** for a read-only demonstration. Only
+when an actual inventory change is intended, review the exact transfer and
+click **Approve this exact transfer**. The October 4 verification tested
+recommendation rendering, not a database write.
 
 ## 9. Optional labs
 
