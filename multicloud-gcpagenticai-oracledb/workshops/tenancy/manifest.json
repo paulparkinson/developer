@@ -12,11 +12,11 @@
       "filename": "../../workshop-runbook/workshop-runbook.md"
     },
     {
-      "title": "Get Started",
+      "title": "Get Started: Oracle Cloud account",
       "filename": "https://livelabs.oracle.com/cdn/common/labs/cloud-login/event-register-free-tier-account.md"
     },
     {
-      "title": "Get Started",
+      "title": "Get Started: Oracle Database@Google Cloud",
       "description": "Get Started - Oracle Database@Google - Autonomous Database",
       "filename": "../../gcp-started/gcp-started.md"
     },
@@ -41,34 +41,14 @@
       "filename": "../../gemini-enterprise-agent/gemini-enterprise-agent.md"
     },
     {
-      "title": "Lab 5: Develop A2A Agents that use the Oracle Agent in Gemini Enterprise",
-      "description": "Connect Gemini Enterprise to a private Oracle A2A agent",
+      "title": "Lab 5: Develop and deploy A2A, A2UI, MCP Server, and MCPApps (graph, spatial, form actions, ...)",
+      "description": "Prepare the private A2A relay, managed-agent gateway, MCP server and separate A2UI review service in GCP",
       "filename": "../../a2a-agents/a2a-agents.md"
     },
     {
-      "title": "Lab 6: Develop A2UI and MCPApps (graph, spatial, …)",
-      "description": "Build a governed review experience for Oracle recommendations",
+      "title": "Lab 6: Test A2A, A2UI, MCP Server, and MCPApps (graph, spatial, form actions, ...)",
+      "description": "Test plain risk reads, interactive graph and spatial apps, provenance and explicit transfer review in Gemini Enterprise",
       "filename": "../../a2ui-mcpapps/a2ui-mcpapps.md"
-    },
-    {
-      "title": "Lab 7: Understand and Develop with various MCP options",
-      "description": "Compare MCP server and application patterns for Oracle AI Database",
-      "filename": "../../mcp-options/mcp-options.md"
-    },
-    {
-      "title": "Lab 8: Add Agent Memory",
-      "description": "Add actor-bound, time-bounded conversational memory",
-      "filename": "../../agent-memory/agent-memory.md"
-    },
-    {
-      "title": "Lab 9: Add Deep Data Security (optional)",
-      "description": "Apply region-level authorization in Oracle AI Database",
-      "filename": "../../deep-data-security/deep-data-security.md"
-    },
-    {
-      "title": "Lab 10: Add Lakehouse resources (optional)",
-      "description": "Add governed analytical context to the Oracle agent",
-      "filename": "../../lakehouse/lakehouse.md"
     },
     {
       "title": "Need Help?",

@@ -75,7 +75,9 @@ Do not put API keys, wallet files, passwords, or installer credentials in the wo
 
 ## Conclusion
 
-The Oracle AI Database Agent is now configured in the database and connected to Gemini Enterprise. Continue to Lab 5 to build the private A2A pattern.
+The Oracle AI Database Agent is now configured in the database and connected
+to Gemini Enterprise. Continue to [Lab 5](../a2a-agents/a2a-agents.md) to
+prepare A2A connectivity, the MCP server, MCP Apps and the separate A2UI service.
 
 ## Acknowledgements
 

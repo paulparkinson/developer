@@ -9,7 +9,8 @@ points, screenshots, and cleanup explicit.
 
 ~~~text
 Google Cloud project
-├── VPC + VM (SQLcl, Java agents, optional MCP host)
+├── VPC + VM (SQLcl, source checkout and deployment tools)
+├── Cloud Run (private A2A relay, Java gateway, MCP server, A2UI service)
 └── Oracle Database@Google Cloud Autonomous Database
     ├── FINANCIAL inventory/risk/graph/spatial data
     ├── Oracle AI Database Agent and A2A endpoint
@@ -17,14 +18,16 @@ Google Cloud project
 
 Gemini Enterprise
 ├── Marketplace Oracle AI Database Agent
-├── custom A2A graph/spatial/action agents
-└── optional MCP/MCP App integration
+├── Oracle Supply-Chain MCP App connector (catalog, risk list, graph, map)
+└── Oracle Supply-Chain A2UI agent (recommendation review and explicit approval)
 ~~~
 
-Use three separate checkouts:
+Run deployment commands from the GCP workshop VM. Use three separate
+checkouts; the workshop is a directory inside the `developer` repository:
 
 ~~~bash
-export WORKSHOP_REPO="$HOME/multicloud-gcpagenticai-oracledb"
+export DOCS_REPO="$HOME/developer"
+export WORKSHOP_REPO="$DOCS_REPO/multicloud-gcpagenticai-oracledb"
 export APP_REPO="$HOME/oracle-ai-database-gcp-gemini"
 export TOOLKIT_REPO="$HOME/oracle-ai-database-fullstack-toolkit"
 ~~~
@@ -36,34 +39,30 @@ generated build output.
 
 You need Google Cloud billing and Oracle Database@Google Cloud access, an OCI
 tenancy linked to the Marketplace offer, Gemini Enterprise permissions, and
-git, gcloud, ssh, scp, Java 17+, Maven, Python 3, SQLcl, jq, and Node.js 20+
-if using an MCP Apps host.
+git, gcloud, ssh, scp, Java 21, Maven, Python 3, SQLcl, jq, and Node.js
+20.19+ or 22.12+ for the MCP Apps build.
 
 ~~~bash
 gcloud auth login
 gcloud auth application-default login
 gcloud config set project YOUR_GCP_PROJECT
 
-git clone https://github.com/paulparkinson/multicloud-gcpagenticai-oracledb.git "$WORKSHOP_REPO"
+git clone https://github.com/paulparkinson/developer.git "$DOCS_REPO"
 git clone https://github.com/paulparkinson/oracle-ai-database-gcp-gemini.git "$APP_REPO"
 git clone https://github.com/paulparkinson/oracle-ai-database-fullstack-toolkit.git "$TOOLKIT_REPO"
 ~~~
 
 ## 2. Lab order
 
-| Order | Lab | Outcome | Required? |
+| Sidebar | Lab | Outcome | Required? |
 | --- | --- | --- | --- |
-| 1 | gcp-started | Link Google Cloud Marketplace and OCI | Yes |
-| 2 | adb-provisioning-databases | Create private Autonomous Database and wallet | Yes |
-| 3 | gcp-get-started | Create VM, clone source, seed Oracle data | Yes |
-| 4 | gemini-cli | Validate SQLcl MCP locally | Optional |
-| 5 | gemini-enterprise-agent | Register Marketplace Oracle AI Database Agent | Yes |
-| 6 | a2a-agents | Expose private Oracle A2A through Cloud Run | Yes for private A2A |
-| 7 | a2ui-mcpapps | Add graph/spatial MCP Apps and transfer A2UI | Yes for UI demo |
-| 8 | mcp-options | Compare SQLcl, Java Toolkit, Toolbox, and MCP Apps | Optional |
-| 9 | agent-memory | Add actor-bound, expiring memory | Optional |
-| 10 | deep-data-security | Apply regional row filtering | Optional |
-| 11 | lakehouse | Add governed analytical context | Optional |
+| Get Started | [Oracle Database@Google Cloud](../gcp-started/gcp-started.md) | Link Google Cloud Marketplace and OCI | Yes |
+| Lab 1 | [Provision Autonomous Database](../adb-provisioning-databases/adb-provisioning-databases.md) | Create private database and wallet | Yes |
+| Lab 2 | [GCP networking and VM setup](../gcp-get-started/gcp-get-started.md) | Create VM, clone source, seed Oracle data | Yes |
+| Lab 3 | [Gemini CLI](../gemini-cli/gemini-cli.md) | Validate SQLcl MCP from the workshop environment | Optional |
+| Lab 4 | [Oracle AI Database Agent](../gemini-enterprise-agent/gemini-enterprise-agent.md) | Configure and register the managed Oracle agent | Yes |
+| Lab 5 | [Develop and deploy A2A, A2UI, MCP Server, and MCPApps (graph, spatial, form actions, ...)](../a2a-agents/a2a-agents.md) | Prepare the GCP services and connector | Yes |
+| Lab 6 | [Test A2A, A2UI, MCP Server, and MCPApps (graph, spatial, form actions, ...)](../a2ui-mcpapps/a2ui-mcpapps.md) | Verify risk table, graph, map and transfer review | Yes |
 
 ## 3. Provision network, database, and wallet
 
@@ -134,36 +133,23 @@ https://vertexaisearch.cloud.google.com/oauth-redirect
 5. Add the Marketplace Oracle AI Database Agent in Gemini Enterprise and test:
 
 ~~~text
-Which products are at risk of stockouts next quarter? Include stockout probability, projected revenue impact, and primary region.
+List products with stockout risk. Include the database's stockout probability, quarter and primary region. Return only database results.
 ~~~
 
 Expect database-backed values for the seeded products. If the response is
 generic, fix database/A2A authentication before continuing.
 
-## 6. Deploy and verify custom A2A agents
+## 6. Develop and deploy the GCP services
 
-On the VM:
+Follow [Lab 5](../a2a-agents/a2a-agents.md) to deploy or inspect the private
+A2A relay, prepare server-side OAuth, and deploy the Java gateway and MCP
+server. Use the existing **Oracle AI Database Agent** and
+**Oracle Supply-Chain A2UI** registrations. Graph and spatial exploration
+use MCP Apps; do not register the older standalone graph/spatial agents
+for this workflow.
 
-~~~bash
-cd "$APP_REPO/oracle_agent_java"
-./build.sh
-~~~
-
-Configure the ignored .env with database, wallet, public host, OAuth, and model
-values. Start locally first, then enable HTTPS/systemd from
-$APP_REPO/deploy/gcp/.
-
-Verify every card before importing it:
-
-~~~bash
-for path in agent-card-graph.json agent-card-spatial.json agent-card-select-ai.json agent-card-inventory-system.json agent-card-action.json; do
-  curl -fsS "https://YOUR_PUBLIC_AGENT_HOST/$path" | jq .name
-done
-~~~
-
-Register the inventory-system, graph, spatial, and action cards. Test one
-read-only graph request and one action recommendation. The action must remain a
-draft until the governed write path is explicitly enabled.
+The A2UI review service is a separate GCP deployment. Confirm it is available
+before the test lab; the gateway/MCP deployment script does not create it.
 
 ## 7. Prepare the deployed MCP Apps
 
@@ -184,7 +170,7 @@ or create a second connector.
 
 ### Explore with MCP Apps
 
-Follow [Develop A2UI and MCPApps (graph, spatial, …)](../a2ui-mcpapps/a2ui-mcpapps.md)
+Follow [Test A2A, A2UI, MCP Server, and MCPApps (graph, spatial, form actions, ...)](../a2ui-mcpapps/a2ui-mcpapps.md)
 for the GCP-hosted walkthrough, screenshots and verification steps. Ask:
 
 ```text
@@ -219,24 +205,7 @@ when an actual inventory change is intended, review the exact transfer and
 click **Approve this exact transfer**. The October 4 verification tested
 recommendation rendering, not a database write.
 
-## 9. Optional labs
-
-- Gemini CLI: start SQLcl with sql -mcp, add the local MCP server, list tools,
-  run a read-only query, and verify writes are not exposed.
-- MCP options: inspect the Java Toolkit catalog and compare SQLcl MCP with
-  Google MCP Toolbox. Keep only named, bounded tools.
-- Agent memory: bind records to actor, session, authorization scope, and expiry;
-  query current Oracle data again instead of trusting memory.
-- Deep Data Security: run the regional setup script, test NA/APAC users, and
-  verify identical prompts return only authorized rows.
-- Lakehouse: load approved signals, create a governed view, join bounded recent
-  data, and keep operational inventory authoritative.
-
-Every optional lab must end with a negative test: wrong actor, expired data,
-malformed input, or unauthorized region must fail without leaking data or
-creating a write.
-
-## 10. Cleanup and troubleshooting
+## 9. Cleanup and troubleshooting
 
 Remove Gemini Enterprise agents/OAuth resources, disable temporary Cloud Run
 relays, stop or delete the VM if it is not shared, revoke temporary database
@@ -244,7 +213,7 @@ users and credentials, and remove only workshop-owned database/bucket objects.
 
 - Private connection fails: check TNS_ADMIN, wallet alias, VM subnet, firewall,
   and that the client is inside the VPC.
-- Card returns 404: check service path/port and local card discovery before
+- Card returns 404: check the deployed service URL and card path before
   checking Gemini Enterprise.
 - MCP App does not render: confirm the host supports MCP Apps and the MCP server
   advertises the matching ui:// resource; the toolkit dashboard alone is not an

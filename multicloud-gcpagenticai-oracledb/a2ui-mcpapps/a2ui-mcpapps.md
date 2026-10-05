@@ -1,4 +1,4 @@
-# Develop A2UI and MCPApps (graph, spatial, …)
+# Test A2A, A2UI, MCP Server, and MCPApps (graph, spatial, form actions, ...)
 
 ## Introduction
 
@@ -18,7 +18,7 @@ Estimated time: 20 minutes.
 
 ### Prerequisites
 
-- Complete the Oracle AI Database Agent and A2A setup labs.
+- Complete Lab 5's [development and deployment setup](../a2a-agents/a2a-agents.md).
 - Use the workshop's Gemini Enterprise application and Google Cloud account.
 - Deploy the Java gateway and MCP App server in GCP, with the private Oracle
   A2A relay and server-side OAuth grant configured. Operator setup is in the
@@ -58,7 +58,7 @@ not the browser, iframe or model arguments. Initial Oracle consent uses a
 browser; repeated reads normally reuse the valid grant. A revoked or expired
 grant requires reauthorization, not a different data source.
 
-## Task 2: Explore the Oracle property graph
+## Task 2: List stockout risks without opening a visualization
 
 Start with a plain risk list in the main chat; do not select a separate agent:
 
@@ -71,6 +71,7 @@ queries the managed Oracle agent once and returns product-level
 `STOCKOUT_PROBABILITY` (0–1), database risk level, quarter and primary region.
 It has no visual resource. Do not substitute spatial `HOTSPOT_SCORE` or infer
 transfers. For names/IDs without risk, use **List-inventory-items** instead.
+
 ![Compact risk table in Gemini main chat; no maps are opened by the basic question.](images/gemini-stockout-risk-list.jpg)
 
 This exact main-chat question was tested with Google Search enabled: the trace
@@ -79,7 +80,9 @@ tools. Its deployed request was independently matched to a successful Oracle
 SQL_TOOL execution. See the source runbook's
 [dated verification record](https://github.com/paulparkinson/oracle-ai-database-gcp-gemini/blob/main/docs/MCP_APP_ORACLE_AGENT_SPATIAL.md#plain-stockout-risk-list).
 
-Then ask:
+## Task 3: Explore the Oracle property graph
+
+In the same chat, ask:
 
 ```text
 Show the supply chain graph for SKU-500.
@@ -111,7 +114,7 @@ The examples query **seeded Oracle demo data at request time**, not production
 telemetry or frontend fixtures. Catalog membership does not guarantee a
 complete graph path. NO_DATA means unknown in this view, not a safe supply chain.
 
-## Task 3: Explore warehouse hotspots
+## Task 4: Explore warehouse hotspots
 
 Ask:
 
@@ -137,9 +140,10 @@ Map tiles come from the configured basemap provider; **warehouse evidence
 comes from the Oracle agent**. A tile request is not Google Search or a
 database query. Hotspot scores are 0–1 scores, not stockout probabilities.
 
-## Task 4: Verify the data source
+## Task 5: Verify the data source
 
-1. Expand Gemini's trace. Expect **Show-supply-chain-graph** or
+1. Expand Gemini's trace. Expect **List-inventory-stockout-risks** for the
+   plain risk list, and **Show-supply-chain-graph** or
    **Show-inventory-spatial-hotspots**. **Load Skill** loads instructions;
    Google Search and host narration are not evidence of an Oracle query.
 2. Inspect the result's SKU, scope, database IDs and A2A task ID. The Oracle
@@ -162,7 +166,7 @@ documents these checks. Report any missing audit correlation. Authentication, qu
 validation errors must remain errors: no Google Search, Toolkit, direct-JDBC,
 static-data or model-payload fallback is permitted for these reads.
 
-## Task 5: Review an inventory decision with A2UI
+## Task 6: Review an inventory decision with A2UI
 
 Select **Agents → Oracle Supply-Chain A2UI** in Gemini Enterprise and ask:
 
@@ -203,7 +207,9 @@ For architecture and reusable ChatGPT/Claude guidance, provide the
 [`inventory-ui-architecture` skill](https://github.com/paulparkinson/oracle-ai-database-gcp-gemini/blob/main/.agents/skills/inventory-ui-architecture/SKILL.md)
 and its linked runbooks. The skill is development guidance, not a database query.
 
-You may proceed to the next lab.
+You have completed the workshop. Use the runbook's
+[cleanup and troubleshooting checklist](../workshop-runbook/workshop-runbook.md#9-cleanup-and-troubleshooting)
+when you finish; preserve shared workshop resources.
 
 ## Acknowledgements
 
