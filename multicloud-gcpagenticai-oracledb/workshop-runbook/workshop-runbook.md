@@ -176,7 +176,7 @@ covers setup and deployment; the
 covers the property graph and active Select AI profile.
 
 In Gemini Enterprise, reload the existing **Oracle Supply-Chain MCP App**
-connector and enable **List-inventory-items**, **Show-supply-chain-graph** and
+connector and enable **List-inventory-items**, **List-inventory-stockout-risks**, **Show-supply-chain-graph** and
 **Show-inventory-spatial-hotspots**. Do not enable the old transfer dashboard
 or create a second connector.
 
@@ -188,12 +188,13 @@ Follow [Develop A2UI and MCPApps (graph, spatial, …)](../a2ui-mcpapps/a2ui-mcp
 for the GCP-hosted walkthrough, screenshots and verification steps. Ask:
 
 ```text
-Use List-inventory-items to list the managed Oracle inventory catalog and its scope.
-Use Show-supply-chain-graph for SKU-700.
-Show the spatial hotspot map for SKU-APAC-210.
+List SKUs with risk of stock outages.
+Show the supply chain graph for SKU-500.
+Show the spatial hotspot map for SKU-500.
 ```
 
-Both visualizations fetch evidence server-side through the managed Oracle AI
+The first question returns a compact probability/quarter table without opening
+maps or graphs. Both explicitly requested visualizations fetch evidence server-side through the managed Oracle AI
 Database Agent. The graph uses `GRAPH_TABLE`/`MATCH` on the Oracle property
 graph and Cytoscape.js; the map uses validated warehouse rows and MapLibre.
 Neither read path accepts model-passed evidence or falls back to the Toolkit.
@@ -204,10 +205,12 @@ The toolkit dashboard is not part of this deployed visualization lab.
 In Gemini Enterprise select **Agents → Oracle Supply-Chain A2UI**, then ask:
 
 ~~~text
-Show inventory transfers with a minimum stockout risk of 70, limited to 3 recommendations. Review only; do not approve or execute a transfer.
+Suggest inventory transfers with a minimum stockout risk of 70, limited to 3 recommendations.
 ~~~
 
 Confirm the native A2UI cards show the exact SKU, route, quantity and risk.
+Ordinary text requests only create a review; execution requires the explicit
+approval control, not special protective wording in the prompt.
 This is the existing GCP Toolkit-backed review service, not the older VM
 inventory-action coordinator. It queries its own governed recommendation
 dataset; the preceding map/graph conversation is not automatically forwarded.

@@ -33,14 +33,14 @@ Estimated time: 20 minutes.
 1. In the Google Cloud console, open **Gemini Enterprise → Data stores →
    Oracle Supply-Chain MCP App → Actions**.
 2. After a deployment changes the tool definitions, choose **Reload custom
-   actions**. Enable these three actions on the **same connector**:
-   **List-inventory-items**, **Show-supply-chain-graph**, and
+   actions**. Enable these four actions on the **same connector**:
+   **List-inventory-items**, **List-inventory-stockout-risks**, **Show-supply-chain-graph**, and
    **Show-inventory-spatial-hotspots**.
 3. Open a new Gemini Enterprise conversation. Enable the Oracle connector in
    the prompt's connector menu. For an isolated provenance test, turn off
    Google Search for this conversation.
 
-![The existing Oracle connector with its catalog, spatial and graph actions enabled.](images/managed-agent-three-actions.jpg)
+![The existing Oracle connector with catalog, stockout-risk, spatial and graph actions enabled.](images/managed-agent-four-actions.jpg)
 
 The read path is:
 
@@ -60,16 +60,29 @@ grant requires reauthorization, not a different data source.
 
 ## Task 2: Explore the Oracle property graph
 
-First discover the current catalog:
+Start with a plain risk list in the main chat; do not select a separate agent:
 
 ```text
-Use List-inventory-items to list the managed Oracle inventory catalog and its scope.
+List SKUs with risk of stock outages.
 ```
+
+Expect one short table, not maps for every product. **List-inventory-stockout-risks**
+queries the managed Oracle agent once and returns product-level
+`STOCKOUT_PROBABILITY` (0–1), database risk level, quarter and primary region.
+It has no visual resource. Do not substitute spatial `HOTSPOT_SCORE` or infer
+transfers. For names/IDs without risk, use **List-inventory-items** instead.
+![Compact risk table in Gemini main chat; no maps are opened by the basic question.](images/gemini-stockout-risk-list.jpg)
+
+This exact main-chat question was tested with Google Search enabled: the trace
+called **List-inventory-stockout-risks**, not Google Search or the visualization
+tools. Its deployed request was independently matched to a successful Oracle
+SQL_TOOL execution. See the source runbook's
+[dated verification record](https://github.com/paulparkinson/oracle-ai-database-gcp-gemini/blob/main/docs/MCP_APP_ORACLE_AGENT_SPATIAL.md#plain-stockout-risk-list).
 
 Then ask:
 
 ```text
-Use Show-supply-chain-graph for SKU-700. Explain only the returned nodes and relationships.
+Show the supply chain graph for SKU-500.
 ```
 
 The managed agent queries `SC_SUPPLY_CHAIN_GRAPH_V`, whose definition uses
@@ -103,7 +116,7 @@ complete graph path. NO_DATA means unknown in this view, not a safe supply chain
 Ask:
 
 ```text
-Show the spatial hotspot map for SKU-700.
+Show the spatial hotspot map for SKU-500.
 ```
 
 ![SKU-700 warehouse evidence displayed in the MapLibre MCP App inside Gemini Enterprise.](images/managed-agent-sku700-v6.jpg)
@@ -154,16 +167,18 @@ static-data or model-payload fallback is permitted for these reads.
 Select **Agents → Oracle Supply-Chain A2UI** in Gemini Enterprise and ask:
 
 ```text
-Show inventory transfers with a minimum stockout risk of 70, limited to 3 recommendations. Review only; do not approve or execute a transfer.
+Suggest inventory transfers with a minimum stockout risk of 70, limited to 3 recommendations.
 ```
 
 Inspect the SKU, proposed route, quantity and risk on the native A2UI cards.
+Review is the default for ordinary text requests; no “review only” suffix is
+required. A separate explicit approval action is necessary to execute a transfer.
 The existing GCP A2A/A2UI service queries governed Toolkit recommendations;
 it is not the older VM `oracle_inventory_action_agent`. It independently reads
 its recommendation dataset; the previous map/graph conversation is not an
 automatic handoff, and spatial scores do not establish transfer quantities.
 
-![Native A2UI transfer review in Gemini Enterprise, before any approval.](images/gemini-a2ui-transfer-review.jpg)
+![Native A2UI review from the exact recommendation prompt, before any approval.](images/gemini-four-step-a2ui-review.jpg)
 
 For a read-only demo, select **Cancel review without writing**. Only if you
 intend to change inventory, verify the exact recommendation and click
