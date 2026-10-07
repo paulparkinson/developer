@@ -1,5 +1,11 @@
 # Test A2A, A2UI, MCP Server, and MCPApps (graph, spatial, form actions, ...)
 
+Watch the demonstration: **Oracle AI Database Agent in Gemini Enterprise with A2UI, MCP Apps, A2A, and MCP**.
+
+[](youtube:oqQpabC2kxo)
+
+[Open the video on YouTube](https://www.youtube.com/watch?v=oqQpabC2kxo) if the embedded player is unavailable.
+
 ## Introduction
 
 Explore Oracle supply-chain dependencies with an interactive **Cytoscape.js
@@ -18,7 +24,7 @@ Estimated time: 20 minutes.
 
 ### Prerequisites
 
-- Complete Lab 5's [development and deployment setup](../a2a-agents/a2a-agents.md).
+- Complete Lab 5's [development and deployment setup](?lab=a2a-agents).
 - Use the workshop's Gemini Enterprise application and Google Cloud account.
 - Deploy the Java gateway and MCP App server in GCP, with the private Oracle
   A2A relay and server-side OAuth grant configured. Operator setup is in the
@@ -31,32 +37,32 @@ Estimated time: 20 minutes.
 ## Task 1: Enable the existing connector
 
 1. In the Google Cloud console, open **Gemini Enterprise → Data stores →
-   Oracle Supply-Chain MCP App → Actions**.
+    Oracle Supply-Chain MCP App → Actions**.
 2. After a deployment changes the tool definitions, choose **Reload custom
-   actions**. Enable these four actions on the **same connector**:
-   **List-inventory-items**, **List-inventory-stockout-risks**, **Show-supply-chain-graph**, and
-   **Show-inventory-spatial-hotspots**.
+    actions**. Enable these four actions on the **same connector**:
+    **List-inventory-items**, **List-inventory-stockout-risks**, **Show-supply-chain-graph**, and
+    **Show-inventory-spatial-hotspots**.
 3. Open a new Gemini Enterprise conversation. Enable the Oracle connector in
-   the prompt's connector menu. For an isolated provenance test, turn off
-   Google Search for this conversation.
+    the prompt's connector menu. For an isolated provenance test, turn off
+    Google Search for this conversation.
 
-![The existing Oracle connector with catalog, stockout-risk, spatial and graph actions enabled.](images/managed-agent-four-actions.jpg)
+    ![The existing Oracle connector with catalog, stockout-risk, spatial and graph actions enabled.](images/managed-agent-four-actions.jpg)
 
-The read path is:
+    The read path is:
 
-```text
-Gemini Enterprise → MCP App server → Java gateway
-  → OAuth token exchange/cache → Oracle AI Database Agent via A2A
-    → Oracle query → validated result
-      → Cytoscape.js graph / MapLibre map MCP App
-```
+    ```text
+    Gemini Enterprise → MCP App server → Java gateway
+      → OAuth token exchange/cache → Oracle AI Database Agent via A2A
+        → Oracle query → validated result
+          → Cytoscape.js graph / MapLibre map MCP App
+    ```
 
-The **Java gateway** is an adapter in the application's existing Spring Boot
-service. It centralizes token renewal, bounded requests and result validation.
-OAuth client secrets and refresh grants stay in GCP server configuration,
-not the browser, iframe or model arguments. Initial Oracle consent uses a
-browser; repeated reads normally reuse the valid grant. A revoked or expired
-grant requires reauthorization, not a different data source.
+    The **Java gateway** is an adapter in the application's existing Spring Boot
+    service. It centralizes token renewal, bounded requests and result validation.
+    OAuth client secrets and refresh grants stay in GCP server configuration,
+    not the browser, iframe or model arguments. Initial Oracle consent uses a
+    browser; repeated reads normally reuse the valid grant. A revoked or expired
+    grant requires reauthorization, not a different data source.
 
 ## Task 2: List stockout risks without opening a visualization
 
@@ -100,19 +106,19 @@ edges invented or passed in by Gemini.
 1. Click a node to inspect its database ID, name, type and adjacent relationships.
 2. Click an edge to inspect its relationship and endpoints.
 3. Drag a node, pan and zoom, search by name or ID, change the layout, then
-   choose **Fit graph**. These operations inspect the result; they do not
-   query Oracle again or change inventory.
+    choose **Fit graph**. These operations inspect the result; they do not
+    query Oracle again or change inventory.
 4. Try another product and an empty-result case:
 
-| Prompt | What to verify |
-| --- | --- |
-| `Use Show-supply-chain-graph for SKU-500.` | Product-specific dependencies and a fresh agent task ID. |
-| `Show the dependency graph for SKU-900 using Show-supply-chain-graph.` | Another product's returned path, not reused SKU-700 nodes. |
-| `Use Show-supply-chain-graph for SKU-501. Do not substitute another product.` | Explicit NO_DATA if no complete active path exists. |
+    | Prompt | What to verify |
+    | --- | --- |
+    | `Use Show-supply-chain-graph for SKU-500.` | Product-specific dependencies and a fresh agent task ID. |
+    | `Show the dependency graph for SKU-900 using Show-supply-chain-graph.` | Another product's returned path, not reused SKU-700 nodes. |
+    | `Use Show-supply-chain-graph for SKU-501. Do not substitute another product.` | Explicit NO_DATA if no complete active path exists. |
 
-The examples query **seeded Oracle demo data at request time**, not production
-telemetry or frontend fixtures. Catalog membership does not guarantee a
-complete graph path. NO_DATA means unknown in this view, not a safe supply chain.
+    The examples query **seeded Oracle demo data at request time**, not production
+    telemetry or frontend fixtures. Catalog membership does not guarantee a
+    complete graph path. NO_DATA means unknown in this view, not a safe supply chain.
 
 ## Task 4: Explore warehouse hotspots
 
@@ -126,45 +132,45 @@ Show the spatial hotspot map for SKU-500.
 
 1. Click a warehouse for its returned ID, role and hotspot score.
 2. Pan and zoom. Markers and schematic connections must remain geographically
-   anchored. A connection is not a road route or an approved inventory transfer.
+    anchored. A connection is not a road route or an approved inventory transfer.
 3. Compare other live reads:
 
-| Prompt | What to verify |
-| --- | --- |
-| `Show the spatial hotspot map for SKU-APAC-210.` | Singapore/Sydney warehouse evidence rather than SKU-700's US warehouses. Both are seeded Oracle data. |
-| `Use Show-inventory-spatial-hotspots for SKU-900. Summarize only returned roles and scores.` | Every warehouse row belongs to the requested product. |
-| `Show SKU-700 with maximumRows set to 2.` | A display limit; check the total and truncation indicator. |
-| `Show the spatial hotspot map for SKU-501.` | NO_DATA, not invented warehouses or a claim of safety. |
+    | Prompt | What to verify |
+    | --- | --- |
+    | `Show the spatial hotspot map for SKU-APAC-210.` | Singapore/Sydney warehouse evidence rather than SKU-700's US warehouses. Both are seeded Oracle data. |
+    | `Use Show-inventory-spatial-hotspots for SKU-900. Summarize only returned roles and scores.` | Every warehouse row belongs to the requested product. |
+    | `Show the spatial hotspot map for SKU-700 with maximumRows set to 2.` | A display limit; check the total and truncation indicator. |
+    | `Show the spatial hotspot map for SKU-501.` | NO_DATA, not invented warehouses or a claim of safety. |
 
-Map tiles come from the configured basemap provider; **warehouse evidence
-comes from the Oracle agent**. A tile request is not Google Search or a
-database query. Hotspot scores are 0–1 scores, not stockout probabilities.
+    Map tiles come from the configured basemap provider; **warehouse evidence
+    comes from the Oracle agent**. A tile request is not Google Search or a
+    database query. Hotspot scores are 0–1 scores, not stockout probabilities.
 
 ## Task 5: Verify the data source
 
 1. Expand Gemini's trace. Expect **List-inventory-stockout-risks** for the
-   plain risk list, and **Show-supply-chain-graph** or
-   **Show-inventory-spatial-hotspots**. **Load Skill** loads instructions;
-   Google Search and host narration are not evidence of an Oracle query.
+    plain risk list, and **Show-supply-chain-graph** or
+    **Show-inventory-spatial-hotspots**. **Load Skill** loads instructions;
+    Google Search and host narration are not evidence of an Oracle query.
 2. Inspect the result's SKU, scope, database IDs and A2A task ID. The Oracle
-   call happens behind the MCP action, so Gemini need not show a separate
-   Oracle agent card. Ask for another SKU to test product isolation.
+    call happens behind the MCP action, so Gemini need not show a separate
+    Oracle agent card. Ask for another SKU to test product isolation.
 3. For operator verification, use the
-   [graph runbook](https://github.com/paulparkinson/oracle-ai-database-gcp-gemini/blob/main/docs/MCP_APP_ORACLE_AGENT_GRAPH.md)
-   to test the deployed HTTPS endpoint and correlate the request with Oracle
-   diagnostics. For a graph query, inspect `GRAPH_TABLE`/`MATCH` and the
-   intended property graph, not merely a source label.
+    [graph runbook](https://github.com/paulparkinson/oracle-ai-database-gcp-gemini/blob/main/docs/MCP_APP_ORACLE_AGENT_GRAPH.md)
+    to test the deployed HTTPS endpoint and correlate the request with Oracle
+    diagnostics. For a graph query, inspect `GRAPH_TABLE`/`MATCH` and the
+    intended property graph, not merely a source label.
 
-A task ID and requested SQL are not signed proof of database execution.
-Independent Oracle-side query records provide stronger evidence than matching
-rows alone. For graph reads, match the returned `contextId` to Oracle's
-`USER_AI_AGENT_TEAM_HISTORY.CONVERSATION_ID`, then inspect the matching
-`TEAM_EXEC_ID` in `USER_AI_AGENT_TOOL_HISTORY` for successful `SQL_TOOL`
-output and returned rows. Verify the view definition uses `GRAPH_TABLE/MATCH`.
-The [read-only verification script](https://github.com/paulparkinson/oracle-ai-database-gcp-gemini/blob/main/sql/verify_managed_graph_read.sql)
-documents these checks. Report any missing audit correlation. Authentication, query or
-validation errors must remain errors: no Google Search, Toolkit, direct-JDBC,
-static-data or model-payload fallback is permitted for these reads.
+    A task ID and requested SQL are not signed proof of database execution.
+    Independent Oracle-side query records provide stronger evidence than matching
+    rows alone. For graph reads, match the returned `contextId` to Oracle's
+    `USER_AI_AGENT_TEAM_HISTORY.CONVERSATION_ID`, then inspect the matching
+    `TEAM_EXEC_ID` in `USER_AI_AGENT_TOOL_HISTORY` for successful `SQL_TOOL`
+    output and returned rows. Verify the view definition uses `GRAPH_TABLE/MATCH`.
+    The [read-only verification script](https://github.com/paulparkinson/oracle-ai-database-gcp-gemini/blob/main/sql/verify_managed_graph_read.sql)
+    documents these checks. Report any missing audit correlation. Authentication, query or
+    validation errors must remain errors: no Google Search, Toolkit, direct-JDBC,
+    static-data or model-payload fallback is permitted for these reads.
 
 ## Task 6: Review an inventory decision with A2UI
 
@@ -208,7 +214,7 @@ For architecture and reusable ChatGPT/Claude guidance, provide the
 and its linked runbooks. The skill is development guidance, not a database query.
 
 You have completed the workshop. Use the runbook's
-[cleanup and troubleshooting checklist](../workshop-runbook/workshop-runbook.md#9-cleanup-and-troubleshooting)
+[cleanup and troubleshooting checklist](?lab=workshop-runbook#9cleanupandtroubleshooting)
 when you finish; preserve shared workshop resources.
 
 ## Acknowledgements

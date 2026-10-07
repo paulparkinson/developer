@@ -4,6 +4,8 @@
 
 Use Gemini CLI as a terminal-based client for Oracle AI Database. You will authenticate with Google Cloud, connect the Oracle SQLcl MCP server, discover its tools, and ask Gemini to inspect database-backed supply-chain data. This optional lab is useful before publishing the same capabilities to Gemini Enterprise.
 
+Estimated Time: 20 minutes.
+
 ### Objectives
 
 - Authenticate the local Gemini CLI with Application Default Credentials.

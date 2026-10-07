@@ -6,7 +6,7 @@ prerequisites and lab order. The workshop ends with two complementary labs:
 - [Lab 5: Develop and deploy A2A, A2UI, MCP Server, and MCPApps (graph, spatial, form actions, ...)](a2a-agents/a2a-agents.md)
 - [Lab 6: Test A2A, A2UI, MCP Server, and MCPApps (graph, spatial, form actions, ...)](a2ui-mcpapps/a2ui-mcpapps.md)
 
-Lab 6 includes Gemini Enterprise screenshots, dynamic prompts, provenance
+Lab 6 includes an [embedded demo video](https://www.youtube.com/watch?v=oqQpabC2kxo), Gemini Enterprise screenshots, dynamic prompts, provenance
 verification and the Java gateway/server-side OAuth rationale.
 
 The application lives in

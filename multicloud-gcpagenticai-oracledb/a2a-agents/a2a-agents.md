@@ -8,6 +8,8 @@ and spatial MCP Apps, and the separate A2UI transfer-review service. Use the
 existing workshop services when they are already provisioned; do not create
 duplicate agents or connectors. Lab 6 tests the complete user experience.
 
+Estimated Time: 45 minutes (allow additional time for initial authorization and deployment).
+
 ### Objectives
 
 - Understand the Gemini Enterprise -> Cloud Run -> Oracle A2A route.
@@ -135,13 +137,13 @@ Expected results:
 3. Associate the dedicated Oracle OAuth authorization resource described in the Oracle Developers guide.
 4. Start a chat with the relay agent and authenticate as a permitted database user.
 5. Ask for a scoped inventory risk summary and verify the returned database
-   metric and period. Do not assume region filtering that has not been configured.
+    metric and period. Do not assume region filtering that has not been configured.
 
-Use this prompt:
+    Use this prompt:
 
-```text
-List products with stockout risk. Include the database's stockout probability, quarter and primary region. Return only database results.
-```
+    ```text
+    List products with stockout risk. Include the database's stockout probability, quarter and primary region. Return only database results.
+    ```
 
 ## Task 5: Deploy the Java gateway, MCP server and MCP Apps
 
@@ -203,9 +205,9 @@ substitute the older VM inventory-action, graph or spatial agents.
 1. Confirm the relay never logs bearer tokens, OAuth secrets or database passwords.
 2. Check the four MCP actions and both UI resource types in the deployed server.
 3. Correlate managed-agent requests with Oracle team/tool history using the
-   [provenance checks](https://github.com/paulparkinson/oracle-ai-database-gcp-gemini/blob/main/docs/MCP_APP_ORACLE_AGENT_SPATIAL.md#verify-provenance-not-just-a-working-map).
+    [provenance checks](https://github.com/paulparkinson/oracle-ai-database-gcp-gemini/blob/main/docs/MCP_APP_ORACLE_AGENT_SPATIAL.md#verify-provenance-not-just-a-working-map).
 4. Confirm the A2UI agent is available; do not execute a transfer as a health check.
-5. Continue to [Lab 6](../a2ui-mcpapps/a2ui-mcpapps.md) for the prompt-by-prompt tests.
+5. Continue to [Lab 6](?lab=a2ui-mcpapps) for the prompt-by-prompt tests.
 
 ## Conclusion
 

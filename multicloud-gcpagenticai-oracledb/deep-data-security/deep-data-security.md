@@ -2,6 +2,10 @@
 
 ## Introduction
 
+This draft lab is retained for future use and is not part of the active workshop sidebar.
+
+Estimated Time: 30 minutes (planning estimate).
+
 Apply region-level authorization to the same inventory-risk view. Two database users receive different region roles and see different rows through Oracle Deep Data Security policies. No cloud identity or model prompt is trusted as the authorization mechanism.
 
 ### Objectives
@@ -13,7 +17,7 @@ Apply region-level authorization to the same inventory-risk view. Two database u
 
 ### Prerequisites
 
-- Completed Labs 1 through 8.
+- Completed the active workshop's database and managed-agent setup labs.
 - Run SQLcl or SQL*Plus as `ADMIN`.
 - Use the source project script `sql/run_inventory_risk_deepsec_regions.sh` as the reference implementation.
 - Use unique passwords supplied interactively or through an ignored environment file.

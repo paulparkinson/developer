@@ -5,6 +5,14 @@ Cloud/Oracle Database@Google Cloud environment. The individual labs explain the
 concepts; this page makes the order, repositories, commands, verification
 points, screenshots, and cleanup explicit.
 
+Estimated Workshop Time: 3–4 hours.
+
+### Objectives
+
+- Follow the required lab order and prepare the GCP-hosted services.
+- Verify database-backed reads and the separate A2UI review flow.
+- Keep credentials private and clean up only workshop-owned resources.
+
 ## 0. What you will build
 
 ~~~text
@@ -56,13 +64,13 @@ git clone https://github.com/paulparkinson/oracle-ai-database-fullstack-toolkit.
 
 | Sidebar | Lab | Outcome | Required? |
 | --- | --- | --- | --- |
-| Get Started | [Oracle Database@Google Cloud](../gcp-started/gcp-started.md) | Link Google Cloud Marketplace and OCI | Yes |
-| Lab 1 | [Provision Autonomous Database](../adb-provisioning-databases/adb-provisioning-databases.md) | Create private database and wallet | Yes |
-| Lab 2 | [GCP networking and VM setup](../gcp-get-started/gcp-get-started.md) | Create VM, clone source, seed Oracle data | Yes |
-| Lab 3 | [Gemini CLI](../gemini-cli/gemini-cli.md) | Validate SQLcl MCP from the workshop environment | Optional |
-| Lab 4 | [Oracle AI Database Agent](../gemini-enterprise-agent/gemini-enterprise-agent.md) | Configure and register the managed Oracle agent | Yes |
-| Lab 5 | [Develop and deploy A2A, A2UI, MCP Server, and MCPApps (graph, spatial, form actions, ...)](../a2a-agents/a2a-agents.md) | Prepare the GCP services and connector | Yes |
-| Lab 6 | [Test A2A, A2UI, MCP Server, and MCPApps (graph, spatial, form actions, ...)](../a2ui-mcpapps/a2ui-mcpapps.md) | Verify risk table, graph, map and transfer review | Yes |
+| Get Started | [Oracle Database@Google Cloud](?lab=gcp-started) | Link Google Cloud Marketplace and OCI | Yes |
+| Lab 1 | [Provision Autonomous Database](?lab=adb-provisioning-databases) | Create private database and wallet | Yes |
+| Lab 2 | [GCP networking and VM setup](?lab=gcp-get-started) | Create VM, clone source, seed Oracle data | Yes |
+| Lab 3 | [Gemini CLI](?lab=gemini-cli) | Validate SQLcl MCP from the workshop environment | Optional |
+| Lab 4 | [Oracle AI Database Agent](?lab=gemini-enterprise-agent) | Configure and register the managed Oracle agent | Yes |
+| Lab 5 | [Develop and deploy A2A, A2UI, MCP Server, and MCPApps (graph, spatial, form actions, ...)](?lab=a2a-agents) | Prepare the GCP services and connector | Yes |
+| Lab 6 | [Test A2A, A2UI, MCP Server, and MCPApps (graph, spatial, form actions, ...)](?lab=a2ui-mcpapps) | Verify risk table, graph, map and transfer review | Yes |
 
 ## 3. Provision network, database, and wallet
 
@@ -71,12 +79,22 @@ git clone https://github.com/paulparkinson/oracle-ai-database-fullstack-toolkit.
 3. Create ODBG network odbg-network in us-east4.
 4. Create client subnet db-subnet with 10.2.0.0/24.
 5. Create the Autonomous Database with private endpoint access only.
-6. Download the wallet and copy it to the VM:
+6. Download the wallet, then create the VM using Lab 2, Task 2. From the machine where the wallet was downloaded, set the following values and copy that specific archive to the VM:
 
 ~~~bash
-scp -i "$SSH_KEY" Wallet_*.zip "$VM_USER@$VM_HOST:$HOME/wallet/"
+export SSH_KEY="/path/to/private_key"
+export VM_USER="YOUR_VM_USER"
+export VM_HOST="YOUR_VM_HOST"
+ssh -i "$SSH_KEY" "$VM_USER@$VM_HOST" 'mkdir -p "$HOME/wallet" && chmod 700 "$HOME/wallet"'
+scp -i "$SSH_KEY" /path/to/Wallet_YOUR_DATABASE.zip "$VM_USER@$VM_HOST:wallet/"
 ssh -i "$SSH_KEY" "$VM_USER@$VM_HOST"
-unzip -o "$HOME/wallet/Wallet_*.zip" -d "$HOME/wallet"
+~~~
+
+On the VM, extract the archive using its actual filename (install `unzip` if needed):
+
+~~~bash
+unzip "$HOME/wallet/Wallet_YOUR_DATABASE.zip" -d "$HOME/wallet"
+chmod -R go-rwx "$HOME/wallet"
 export TNS_ADMIN="$HOME/wallet"
 ~~~
 
@@ -141,7 +159,7 @@ generic, fix database/A2A authentication before continuing.
 
 ## 6. Develop and deploy the GCP services
 
-Follow [Lab 5](../a2a-agents/a2a-agents.md) to deploy or inspect the private
+Follow [Lab 5](?lab=a2a-agents) to deploy or inspect the private
 A2A relay, prepare server-side OAuth, and deploy the Java gateway and MCP
 server. Use the existing **Oracle AI Database Agent** and
 **Oracle Supply-Chain A2UI** registrations. Graph and spatial exploration
@@ -170,8 +188,8 @@ or create a second connector.
 
 ### Explore with MCP Apps
 
-Follow [Test A2A, A2UI, MCP Server, and MCPApps (graph, spatial, form actions, ...)](../a2ui-mcpapps/a2ui-mcpapps.md)
-for the GCP-hosted walkthrough, screenshots and verification steps. Ask:
+Follow [Test A2A, A2UI, MCP Server, and MCPApps (graph, spatial, form actions, ...)](?lab=a2ui-mcpapps)
+for the GCP-hosted walkthrough, video, screenshots and verification steps. Send these prompts **one at a time**, inspecting each result before continuing:
 
 ```text
 List SKUs with risk of stock outages.
@@ -224,3 +242,8 @@ users and credentials, and remove only workshop-owned database/bucket objects.
 When this runbook and a lab differ, treat checked-in source scripts and current
 agent cards as authoritative, then update both documents. Never add a command
 that requires a credential, wallet, or generated artifact to be committed.
+
+## Acknowledgements
+
+- **Author** — Paul Parkinson, Architect and Developer Advocate, Oracle AI Database
+- **Last updated** — October 2026

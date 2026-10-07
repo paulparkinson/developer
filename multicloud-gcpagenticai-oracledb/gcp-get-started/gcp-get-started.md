@@ -1,4 +1,3 @@
-
 # GCP networking and VM setup and populate database tables
 
 ## Introduction
@@ -17,21 +16,21 @@ As a database user, DBA, or application developer:
 
 ## Task 1: Create a Virtual Private Cloud (VPC)
 
-In this section, you will create a VPC which will have two subnets: 
+In this section, you will create a VPC which will have two subnets:
 
-* A private subnet where you Autonomous Database is deployed (this will be created as part of your ADB deployment). A private subnet will protect your database endpoint from internet access.
+* A private subnet where your Autonomous Database is deployed (created as part of your ADB deployment). A private subnet will protect your database endpoint from internet access.
 * A public subnet where you will deploy a virtual machine. You will use this VM to access Autonomous Database.
 
-1.  Login to Google Cloud Console (console.cloud.google.com) and click on the **Navigation Menu**. Then click on **VPC Networks** under **VPC Network**..
+1. Sign in to Google Cloud Console (console.cloud.google.com) and click on the **Navigation Menu**. Then click on **VPC Networks** under **VPC Network**.
 
     ![Navigation](./images/navigation-menu2.png "Navigation")
 
-2.	On the **VPC networks** page, click on the **CREATE VPC NETWORK** button.
+2. On the **VPC networks** page, click on the **CREATE VPC NETWORK** button.
 
     ![Create VPC](./images/create-vpc.png "Create VPC")
 
-3.	On **Create a VPC Network** provide details as mentioned below. 
-    
+3. On **Create a VPC Network** provide details as mentioned below.
+
     * **VPC Name** - app-network
     * **Description** - Application Database Network
 
@@ -55,14 +54,14 @@ In this section, you will create a VPC which will have two subnets:
 
     ![VPC Create](./images/vpc-create.png "VPC Create")
 
-4.	The created VPC will show up on the **VPC networks** page -
+4. The created VPC will show up on the **VPC networks** page -
 
     ![App Network](./images/vpc-app-network.png "App Network")
 
 ## Task 2:  Provision Google Cloud Compute VM Instance
 
-1.  Generating ssh key pairs
-    
+1. Generating ssh key pairs
+
     SSH keys are required to access a running compute VM instance securely. You can use an existing SSH-2 RSA key pair or create a new one. Instructions for creating SSH keys can also be found on the [OCI documentation page](https://docs.cloud.oracle.com/iaas/Content/GSG/Tasks/creatingkeys.htm). For Linux instances you can generate SSH keys [here](https://docs.oracle.com/en-us/iaas/Content/Compute/Tasks/managingkeypairs.htm#Managing_Key_Pairs_on_Linux_Instances).
 
 2. From the Google Cloud Console (console.cloud.google.com), click on the **Navigation Menu**. Then click on **VM instances** under **Compute Engine**.
@@ -81,11 +80,11 @@ In this section, you will create a VPC which will have two subnets:
 
     ![VM Config](./images/compute-vm-machine-config.png "VM Config")
 
-5.  Under **OS and storage**, click **Change** to update the **Storage** from 10 GB to 20 GB.
+5. Under **OS and storage**, click **Change** to update the **Storage** from 10 GB to 20 GB.
 
     ![Create VM](./images/compute-storage.png "Create VM")
 
-6.  Click **Networking** on the left tab and enter the following -
+6. Click **Networking** on the left tab and enter the following -
 
     * **Allow HTTP traffic** - Checkmark
     * **Allow HTTPS traffic** - Checkmark
@@ -103,15 +102,17 @@ In this section, you will create a VPC which will have two subnets:
 
     ![VM Network Config](./images/compute-vm-network-config.png "VM Network Config")
 
-7.  Click **Security** on the left tab and enter the following. Click **MANAGE ACCESS** and click **ADD ITEM** under **Add manually generated SSH keys**. Enter the public ssh key. Click **CREATE** to create the VM instance.
+7. Click **Security** on the left tab and enter the following. Click **MANAGE ACCESS** and click **ADD ITEM** under **Add manually generated SSH keys**. Enter the public ssh key. Click **CREATE** to create the VM instance.
 
     ![VM ssh create](./images/compute-vm-ssh-create.png "VM ssh create")
 
-8.	The created VM instance will show up on the **VM instances** page -
+8. The created VM instance will show up on the **VM instances** page -
 
     ![VM instance create](./images/compute-vm-instance.png "VM instance create")
 
 ## Task 3: Clone the sample repository
+
+Before connecting to Oracle, complete the runbook's [wallet transfer instructions](?lab=workshop-runbook#3provisionnetworkdatabaseandwallet) using the wallet downloaded in Lab 1 and the VM just created.
 
 Run these commands on this VM. If the repository was already cloned, reuse the existing checkout.
 

@@ -6,6 +6,8 @@ This lab configures database-side Select AI and installs Oracle's managed Oracle
 
 Follow the [Oracle Developers guide to unlocking data insights with the Oracle AI Database Agent in Gemini Enterprise](https://blogs.oracle.com/developers/unlocking-data-insights-with-the-oracle-ai-database-agent-in-gemini-enterprise-part-1) to complete the Gemini Enterprise registration and Oracle installer steps in this lab.
 
+Estimated Time: 30 minutes (allow additional time for initial authorization).
+
 ### Objectives
 
 As a database user, DBA, or application developer:
@@ -76,7 +78,7 @@ Do not put API keys, wallet files, passwords, or installer credentials in the wo
 ## Conclusion
 
 The Oracle AI Database Agent is now configured in the database and connected
-to Gemini Enterprise. Continue to [Lab 5](../a2a-agents/a2a-agents.md) to
+to Gemini Enterprise. Continue to [Lab 5](?lab=a2a-agents) to
 prepare A2A connectivity, the MCP server, MCP Apps and the separate A2UI service.
 
 ## Acknowledgements

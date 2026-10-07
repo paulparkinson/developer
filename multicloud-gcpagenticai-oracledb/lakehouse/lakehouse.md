@@ -2,6 +2,10 @@
 
 ## Introduction
 
+This draft lab is retained for future use and is not part of the active workshop sidebar.
+
+Estimated Time: 30 minutes (planning estimate).
+
 Extend the Oracle AI Database supply-chain demo with analytical data that remains queryable alongside operational inventory data. This lab establishes a lakehouse boundary: raw or historical files remain in object storage, while governed external tables and curated views make the data available to the agent and recommendation workflow.
 
 ### Objectives
@@ -13,7 +17,7 @@ Extend the Oracle AI Database supply-chain demo with analytical data that remain
 
 ### Prerequisites
 
-- Completed Labs 1 through 8. Lab 9 is optional; complete it if lakehouse results need region-level filtering.
+- Completed the active workshop's database and managed-agent setup labs. The retained Deep Data Security lab is an optional reference for region-level filtering.
 - An object-storage bucket containing workshop-approved CSV or Parquet files.
 - Oracle AI Database credentials with least-privileged external-table and query grants.
 - Cloud credentials configured through the supported database credential mechanism.
@@ -36,7 +40,7 @@ Do not place credentials in object URLs. Keep raw data immutable and create a cu
 4. Create the supported external table or lakehouse connection for the selected Oracle AI Database release.
 5. Query the external data directly and verify row counts, timestamps, and region values.
 
-Use the release-specific Oracle documentation for the exact external-table syntax; do not substitute a public bucket or a hard-coded access key.
+    Use the release-specific Oracle documentation for the exact external-table syntax; do not substitute a public bucket or a hard-coded access key.
 
 ## Task 3: Curate a governed view
 

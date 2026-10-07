@@ -2,6 +2,10 @@
 
 ## Introduction
 
+This draft lab is retained for future use and is not part of the active workshop sidebar.
+
+Estimated Time: 30 minutes (planning estimate).
+
 Add durable conversational context to the Oracle agent while keeping authorization and business state in the database. Memory should help an agent remember user preferences, prior questions, and approved summaries; it must never become a source of truth for current inventory or a substitute for Deep Data Security.
 
 ### Objectives
@@ -13,7 +17,7 @@ Add durable conversational context to the Oracle agent while keeping authorizati
 
 ### Prerequisites
 
-- Completed Labs 4 through 7.
+- Completed the active workshop's managed-agent setup and deployment labs.
 - An Oracle schema or supported memory store available to the agent service.
 - A stable actor identifier from OAuth; do not use an email supplied only in a prompt.
 - A cleanup plan for workshop memory records.
@@ -36,11 +40,11 @@ Store short summaries and preferences, not raw bearer tokens, passwords, wallet 
 3. Save only a concise, time-bounded summary with its source and expiry.
 4. Start a new turn and ask:
 
-```text
-Recall my preferred summary format, then fetch the current inventory risk again for my authorized region. Clearly distinguish remembered preferences from current database values.
-```
+    ```text
+    Recall my preferred summary format, then fetch the current inventory risk again for my authorized region. Clearly distinguish remembered preferences from current database values.
+    ```
 
-The agent should retrieve the preference but query current Oracle data again.
+    The agent should retrieve the preference but query current Oracle data again.
 
 ## Task 3: Test the security boundary
 
@@ -50,7 +54,7 @@ The agent should retrieve the preference but query current Oracle data again.
 4. Change the remembered preference to request a transfer and confirm it does not create or approve a transfer.
 5. Expire or delete the memory record and verify it is no longer available.
 
-Deep Data Security must execute on the current database query even when memory contains a region, product, or prior answer.
+    Deep Data Security must execute on the current database query even when memory contains a region, product, or prior answer.
 
 ## Task 4: Apply retention and operations controls
 

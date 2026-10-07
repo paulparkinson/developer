@@ -29,7 +29,7 @@ Estimated Workshop Time: 3-4 hours
 * Deploy private A2A connectivity, the Java gateway and read-only MCP server
 * Test graph and spatial MCP Apps and separate A2UI form actions
 * Verify Oracle-side evidence and preserve explicit approval boundaries
- 
+
 ### Prerequisites
 
 - This workshop requires an Oracle Cloud account as well as a Google Cloud Platform account with access to Vertex AI
@@ -43,8 +43,8 @@ You may now **proceed to the next lab.**
 ## Want to Learn More?
 
 * [Oracle AI Vector Search Documentation](https://docs.oracle.com/en/database/oracle/oracle-database/23/vecse/)
-* [Google Vertex AI Agent Builder](https://cloud.google.com/vertex-ai/docs/agent-builder)
-* [Oracle Select AI](https://docs.oracle.com/en/database/oracle/oracle-database/23/arpls/dbms_cloud_ai.html)
+* [Google Vertex AI Agent Builder](https://docs.cloud.google.com/agent-builder)
+* [Oracle Select AI](https://docs.oracle.com/en/cloud/paas/autonomous-database/serverless/adbsb/dbms-cloud-ai-package.html)
 * [Building AI Agents with Vertex AI](https://codelabs.developers.google.com/devsite/codelabs/building-ai-agents-vertexai)
 
 ## Acknowledgements
