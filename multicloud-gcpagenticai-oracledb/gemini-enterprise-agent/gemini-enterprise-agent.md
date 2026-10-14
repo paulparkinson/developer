@@ -55,6 +55,16 @@ Connect as `FINANCIAL` and run the following scripts. The credential script prom
 
 This creates `GOOGLE_AI_CRED` and `PAULPARK_SUPPLY_CHAIN_DEMO`.
 
+The profile uses `gemini-3.7-flash`, an 8,192-token output ceiling, and domain
+guidance for the inventory schema and calendar quarters. Its initial check
+generates SQL for “List SKUs with risk of stock outages, highest risk first.”
+Review the generated SELECT and run it to inspect the returned rows.
+
+Without a requested quarter, the default is the latest stored quarter, included
+in the result. “Next quarter” means the next calendar quarter relative to the
+database date. No matching estimates means no data for that period, not zero
+risk. These queries retrieve seeded estimates; they do not calculate a new forecast.
+
 ## Task 2: Install and verify the managed Oracle AI Database Agent
 
 Use the Oracle Developers guide linked above for official installer acquisition and Gemini Enterprise setup. After the installer files are available on the SQLcl VM, connect as `FINANCIAL` and run the scripts in this order, supplying `FINANCIAL` and the selected narrow profile when prompted:
